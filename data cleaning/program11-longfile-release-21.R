@@ -6,24 +6,27 @@
 # Updated by: Mossamet Nesa
 # Date: 3/11/2022 
 
+rm(list = ls())
 
 library(haven)
 library(tidyverse)
 
-wave <- 5      #  Number of wave data files to extract. Here uses wave=5 as an example.
+first_wave <- 3 # first wave to analyze
+last_wave <- 21 #  last wave to analyze
 maxwave <- 21  # Update to the latest wave.
 rls <- 210     # Update to the latest release.
-origdatdir <- paste0("H:/HILDA/Release ",rls,"/files/STATA ",rls,"c") # Location of original HILDA data files
-newdatadir <- "H:/new-data" # Location of writing new data files
+origdatdir <- "/home/sean/Code/honours/hons-project/hilda_data/stata_combined" #paste0("H:/HILDA/Release ",rls,"/files/STATA ",rls,"c") # Location of original HILDA data files
+newdatadir <- "/home/sean/Code/honours/hons-project/cleaned_data/v1" # Location of writing new data files
 
 # SECTION 1: Creating an unbalanced dataset (long-format)
 
 setwd(origdatdir)
 # Could adjust for personal needs.
-var <- c("hwhmhl", "hhrhid", "hhrpid", "hhpxid", "hhresp", "hhstate", "hhsos", "ancob", "losathl", "wsce",
-         "wscei", "wscef", "wscme", "wscmei", "wscmef", "wscoe", "wscoei", "wscoef")
+#var <- c("hwhmhl", "hhrhid", "hhrpid", "hhpxid", "hhresp", "hhstate", "hhsos", "ancob", "losathl", "wsce",
+         #"wscei", "wscef", "wscme", "wscmei", "wscmef", "wscoe", "wscoei", "wscoef")
+var <- c("jbmmply","hhrhid")
 
-for( i in 1:wave) {
+for( i in first_wave:last_wave) {
   file_list <- paste0("Combined_", letters[i], rls, "c.dta")
   temp <- read_dta(file_list)
   var_add <- paste0(letters[i], var) # Add wave letter onto the variable names
@@ -31,7 +34,7 @@ for( i in 1:wave) {
   # any_of() lets the program avoid selecting the variable not included in a specific wave and set NA to that variable. eg: "hwhmhl" not included in wave 1
   names(temp)[-1] <-substring(names(temp)[-1], 2) # Remove wave letter from variable names except for xwaveid
   temp$wave <- i
-  if (i == 1 ){
+  if (i == first_wave ){
     longfile <- temp
   } else {
     longfile <- bind_rows(longfile, temp) # Append the data file from each wave
@@ -52,8 +55,8 @@ master_file <- paste0("Master_", letters[maxwave], rls,"c.dta")
 master <- read_dta(master_file)
 master <- master[c("xwaveid", "ivwptn")] # Can keep more variables 
 
-intvw_pattern <- paste(rep("X", wave), collapse = "") # Create the pattern that people have been interviewed in each of the first 5 waves
-master_long = master[substr(master$ivwptn, 1, wave) == intvw_pattern, ] # Keep people that have been interviewed in each of the first 5 waves
+intvw_pattern <- paste(rep("X", last_wave-first_wave), collapse = "") # Create the pattern that people have been interviewed in each of the first 5 waves
+master_long = master[substr(master$ivwptn, 1, last_wave-first_wave) == intvw_pattern, ] # Keep people that have been interviewed in each of the first 5 waves
 final_data <- merge(master_long, longfile, by = "xwaveid", all.x = TRUE)
 final_data <- final_data[order(final_data$xwaveid, final_data$wave), ] # Sort the dataset by xwaveid and wave
 
@@ -62,4 +65,6 @@ setwd(newdatadir)
 save(final_data, file = "long-file-balanced.Rdata")
 # write.table(final_data, file = "long-file-balanced.txt", sep = ",", row.names = FALSE) # Can also save as a txt file
 
+#rm(list = ls())
 
+# wide <- spread(final_data, xwaveid, 
