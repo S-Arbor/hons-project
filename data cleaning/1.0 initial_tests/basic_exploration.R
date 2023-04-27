@@ -1,3 +1,5 @@
+## used this script for getting feasibility data for presentation
+
 library(haven)
 
 rm(list = ls())
