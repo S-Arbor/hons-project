@@ -33,10 +33,10 @@ var <- c("jbmhruc", "wscmei", "jbhruc", "wscei", # income variables
          "aneab", "hgeab",                       # English proficiency
          "jbmsch", "jbmday",                     # shiftwork and day worked
          "jbmemz",                               # firm size
-         "jbmtuea", "jbmtabs",                   # union, trade union membership
+         "jbmtuea", #"jbmtabs",                   # union, trade union membership (left out since non comprehensive, review later)
          "tcr",                                  # number of children
          "edfts", "esbrd", "esdtl",              # full time student, employed, ft/pt
-         "alpd", "alsk",                         # paid annual and sick leave in last 12 months
+         #"alpd", "alsk",                         # paid annual and sick leave in last 12 months (left out since non comprehensive)
          "jbempt"                                # tenure
         )
 
@@ -48,14 +48,42 @@ for( i in 1:last_wave) {
   # any_of() lets the program avoid selecting the variable not included in a specific wave and set NA to that variable. eg: "hwhmhl" not included in wave 1
   names(temp)[-1] <-substring(names(temp)[-1], 2) # Remove wave letter from variable names except for xwaveid
   temp$wave <- i
-  if (i == 1 ){
-    longfile <- temp
+  
+  # add restrictions to the data:
+  #  1. Only those are employed
+  #  2. Only those who are 22-64
+  #  3. No full time students
+  #  4. Has data on sector
+  #  5. Has data on wage (i.e. hours and pay for main job)
+  employed = temp$esbrd == 1
+  over21 = temp$hgage > 21
+  under65 = temp$hgage < 65
+  not_fulltimestudent = temp$edfts == 0
+  wage_data = temp$jbmhruc >= 0 & temp$wscmei >=0
+  
+  if (i == 1) {
+    sector_data = temp$jbmmpl > 0
+  } else if (i == 2) {
+    sector_data = temp$jbmmplr > 0
   } else {
-    longfile <- bind_rows(longfile, temp) # Append the data file from each wave
+    sector_data = temp$jbmmply > 0
+  }
+  
+  reduced_temp <- temp[employed & over21 & under65 & not_fulltimestudent & sector_data & wage_data,]
+  
+
+  
+  
+  if (i == 1 ){
+    longfile <- reduced_temp
+  } else {
+    longfile <- bind_rows(longfile, reduced_temp) # Append the data file from each wave
   }
 }
 
+
+
 # Save new data set
 setwd(newdatdir)
-save(longfile, file = "long_reducedvariableset_data.Rdata")
-# write_dta(longfile, "long-file-unbalanced.dta") # Could save as a stata data file
+#save(longfile, file = "long_reducedvariableset_data.Rdata")
+write_dta(longfile, "base_longfile.dta") # Could save as a stata data file
