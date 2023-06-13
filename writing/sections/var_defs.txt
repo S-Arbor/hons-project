@@ -1,4 +1,0 @@
-
-
-married = legally or defacto married
-large_capital = greater Sydney, Melbourne, Brisbane, Perth or Adelaide
