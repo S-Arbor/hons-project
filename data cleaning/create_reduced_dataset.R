@@ -15,7 +15,7 @@ rls <- 210      # Update to the latest release.
 # to set current dir can use dirname(rstudioapi::getActiveDocumentContext()$path) but varies based on whether in Rstudio
 current_dir <- "/home/sean/Code/honours/hons-project/data cleaning"
 rel_origdatdir <- "../hilda_data/stata_combined"
-rel_newdatdir <- "../cleaned_data/v2" # Location of writing new data files
+rel_newdatdir <- "../cleaned_data/v3" # Location of writing new data files
 
 
 # SECTION 1: Creating an unbalanced dataset (long-format)
