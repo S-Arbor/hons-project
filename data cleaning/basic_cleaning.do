@@ -1,21 +1,25 @@
 *summarize
 clear
-use "/Users/arbor/Documents/github repos/hons/dummyvar_longfile.dta"
+use "/home/sean/Code/honours/hons-project/cleaned_data/v3/vars_combined.dta"
 
 keep if main_hours >= 1
 
-
+*experience
 keep if experience >= 0
 
 generate experience_sq = 0
 replace experience_sq = experience*experience
 
+
+*sex
 generate male = 0
 replace male = 1 if sex == 1
 
 generate female = 0
 replace female = 1 if sex == 2
 
+
+*children
 generate children_0 = 0
 replace children_0 = 1 if n_resident_children == 0
 
@@ -33,96 +37,68 @@ replace children_4_plus = 1 if n_resident_children >= 4
 
 summarize children_0 children_1 children_2 children_3 children_4_plus
 
-keep if ed_unknown == 0
+*education
+generate ed_uni = 0
+replace ed_uni = 1 if edhigh1 == 1 | edhigh1 == 3
 
-keep if helth_cond_unknown == 0
+generate ed_diploma_cert = 0
+replace ed_diploma_cert = 1 if edhigh1 == 2 | edhigh1 == 4 | edhigh1 == 5
 
-generate no_health_cond = 0
-replace no_health_cond = 1 if health_cond == 0
+generate ed_y12_or_less = 0
+replace ed_y12_or_less = 1 if edhigh1 == 8 | edhigh1 == 9
+
+keep if ed_uni == 1 | ed_diploma_cert == 1 | ed_y12_or_less == 1
+
+
+*health
+generate health_good = 0
+replace health_good = 1 if helth == 2
+
+generate health_poor = 0
+replace health_poor = 1 if helth == 1
+
+keep if health_good == 1 | health_poor == 1
+
 
 * poor English
-drop if poor_english_unknown == 0
-
-generate english_poor = 0
-replace english_poor = 1 if poor_english == 1
-
-generate english_good = 0
-replace english_good = 1 if english_poor == 0
+drop if english_unknown == 0
 
 *country of birth
-drop if birth_unknown == 1
+generate birth_aus = 0
+replace birth_aus = 1 if anbcob == 1
 
-*temporary
-generate p_sec = 0
-replace p_sec = 1 if sector_public == 1
+generate birth_eng = 0
+replace birth_eng = 1 if anbcob == 2
 
-// generate industry = 0
-// replace industry = 1 if ind_1 == 1
-// replace industry = 2 if ind_2 == 1
-// replace industry = 3 if ind_3 == 1
-// replace industry = 4 if ind_4 == 1
-// replace industry = 5 if ind_5 == 1
-// replace industry = 6 if ind_6 == 1
-// replace industry = 7 if ind_7 == 1
-// replace industry = 8 if ind_8 == 1
-// replace industry = 9 if ind_9 == 1
-// replace industry = 10 if ind_10 == 1
-// replace industry = 11 if ind_11 == 1
-// replace industry = 12 if ind_12 == 1
-// replace industry = 13 if ind_13 == 1
-// replace industry = 14 if ind_14 == 1
-// replace industry = 15 if ind_15 == 1
-// replace industry = 16 if ind_16 == 1
-// replace industry = 17 if ind_17== 1
-// replace industry = 18 if ind_18 == 1
-// replace industry = 19 if ind_19 == 1
-//
-// tabulate industry, summarize(p_sec)
+generate birth_neng = 0
+replace birth_neng = 1 if anbcob == 3
 
+keep if birth_aus == 1 | birth_eng == 1 | birth_neng == 1
 
-// tabulate p_sec ind_1
-// tabulate p_sec ind_2
-// tabulate p_sec ind_3
-// tabulate p_sec ind_4
-// tabulate p_sec ind_5
-// tabulate p_sec ind_6
-// tabulate p_sec ind_7
-// tabulate p_sec ind_8
-// tabulate p_sec ind_9
-// tabulate p_sec ind_10
-// tabulate p_sec ind_11
-// tabulate p_sec ind_12
-// tabulate p_sec ind_13
-// tabulate p_sec ind_14
-// tabulate p_sec ind_15
-// tabulate p_sec ind_16
-// tabulate p_sec ind_17
-// tabulate p_sec ind_18
-// tabulate p_sec ind_19
+*industry
+replace jbmi61 = 19 if jbmi61 < 0
+gen ind_agri = 1.jbmi61
+gen ind_mine = 2.jbmi61
+gen ind_manufact = 3.jbmi61
+gen ind__utilities = 4.jbmi61
+gen ind_construct = 5.jbmi61
+gen ind_wholesale = 6.jbmi61
+gen ind_retail = 7.jbmi61
+gen ind_accomo_food = 8.jbmi61
+gen ind_logistics = 9.jbmi61
+gen ind_it = 10.jbmi61
+gen ind_finance = 11.jbmi61
+gen ind_rent_and_real_estate = 12.jbmi61
+gen ind_prof_sci_technical = 13.jbmi61
+gen ind_admin = 14.jbmi61
+gen ind_public_admin = 15.jbmi61
+gen ind_education = 16.jbmi61
+gen ind_health = 17.jbmi61
+gen ind_arts_rec = 18.jbmi61
+gen ind_other_unknown = 19.jbmi61
 
-rename ind_1 ind_agri
-rename ind_2 ind_mine
-rename ind_3 ind_manufact
-rename ind_4 ind_utilities
-rename ind_5 ind_construct
-rename ind_6 ind_wholesale
-rename ind_7 ind_retail
-rename ind_8 ind_accomo_food
-rename ind_9 ind_logistics
-rename ind_10 int_it
-rename ind_11 ind_finance
-rename ind_12 ind_rent_and_real_estate
-rename ind_13 ind_prof_sci_technical
-rename ind_14 ind_admin
-rename ind_15 ind_public_admin
-rename ind_16 ind_education
-rename ind_17 ind_health
-rename ind_18 ind_arts_rec
-rename ind_19 ind_other_unknown
-replace ind_other_unknown = 1 if ind_unknown == 1
 
 *occupation
-
 // generate occ = 0
 // replace occ = 1 if occupation_1 == 1
 // replace occ = 2 if occupation_2 == 1
@@ -135,27 +111,59 @@ replace ind_other_unknown = 1 if ind_unknown == 1
 //
 // tabulate occ, summarize(p_sec)
 
-keep if occupation_unknown == 0
+keep if jbmo61 > 0
+gen occ_manage = 1.jbmo61
+gen occ_prof = 2.jbmi61
+gen occ_tech_trade = 3.jbmi61
+gen occ_community_personal_service = 4.jbmi61
+gen occ_clerical_admin = 5.jbmi61
+gen occ_sales = 6.jbmi61
+gen occ_machinery = 7.jbmi61
+gen occ_labourer = 8.jbmi61
 
-rename occupation_1 occ_manage
-rename occupation_2 occ_prof
-rename occupation_3 occ_tech_trade
-rename occupation_4 occ_community_personal_service
-rename occupation_5 occ_clerical_admin
-rename occupation_6 occ_sales
-rename occupation_7 occ_machinery
-rename occupation_8 occ_labourer
-*summarize
 
-*shifwork
-keep if shiftwork_unknown == 0
+*marriage
+gen married_yes = 0
+replace married_yes = 1 if mrcurr == 1 | mrcurr == 2
+
+gen married_no = 0
+replace married_no = 1 if mrcurr > 2
+
+
+*large capital
+generate large_capital = 0
+replace large_capital = 1 if hhsgcc == 11 | hhsgcc == 21 | hhsgcc == 31 | hhsgcc == 41 | hhsgcc == 51
+
+generate large_capital_unknown = 0
+replace large_capital_unknown = 1 if hhsgcc < 0
+
+
+*state
+keep if hhstate > 0
+gen state_NSW = 1.hhstate
+gen state_VIC = 2.hhstate
+gen state_QLD = 3.hhstate
+gen state_SA = 4.hhstate
+gen state_WA = 5.hhstate
+gen state_TAS = 6.hhstate
+gen state_NT = 7.hhstate
+gen state_ACT = 8.hhstate
+
+
+*shiftwork
+keep if jbmsch > 0
+generate shiftwork_yes = 1
+replace shiftwork_yes = 1 if jbmsch == 1
 generate shiftwork_no = 0
-replace shiftwork_no = 1 if shiftwork == 0
+replace shiftwork_no = 1 if shiftwork_yes == 0
 
 *union
-keep if union_unknown == 0
+keep if jbmtuea > 0
+generate union_yes = 0
+replace union_yes = 1 if jbmtuea == 1
+
 generate union_no = 0
-replace union_no = 1 if union == 0
+replace union_no = 1 if union_yes == 0
 
 keep if main_income >= 1
 
