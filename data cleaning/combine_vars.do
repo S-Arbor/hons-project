@@ -18,13 +18,20 @@ generate sector_other_unknown = 0
 replace sector_other_unknown = 1 if sector_private == 0 & sector_public == 0
 
 *generate english speaking data
+*aneab is missing data for wave 1, but hgeab also has some data in wave 11
 generate english_poor = 0
-replace english_poor = 1 if aneab > 2 | hgeab > 2
+replace english_poor = 1 if wave==1 & hgeab > 2
+replace english_poor = 1 if wave!=1 & aneab > 2
 
 generate english_unknown = 0
-replace english_unknown = 1 if aneab < 0 | hgeab < 0
+replace english_unknown = 1 if wave==1 & hgeab < 0
+replace english_unknown = 1 if wave!=1 & aneab < 0
 
 generate english_good = 0
 replace english_good = 1 if english_poor == 0 & english_unknown == 0
+
+*** SOMETHING IS WRONG HERE
+gen c = aneab > 0 & wave==1
+summarize c
 
 save "/home/sean/Code/honours/hons-project/cleaned_data/v3/vars_combined.dta"

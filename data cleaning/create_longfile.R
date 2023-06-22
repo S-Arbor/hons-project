@@ -29,6 +29,7 @@ var <- c("jbmhruc", "wscmei", "jbhruc", "wscei", # income variables
          "hgage", "ehtjb",                       # age and experience
          "hgsex", "edhigh1", "mrcurr", "helth",  # sex, education, marriage, long term health condition
          "ancob", "anbcob", "hhsgcc", "hhstate", # birth and locality
+         "hhssos",                               # urban
          "jbmi61", "jbmo61",                     # industry and occupation
          "aneab", "hgeab",                       # English proficiency
          "jbmsch", "jbmday",                     # shiftwork and day worked

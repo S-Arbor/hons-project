@@ -61,7 +61,8 @@ keep if health_good == 1 | health_poor == 1
 
 
 * poor English
-drop if english_unknown == 0
+**** EDIT HERE ***
+*replace english_good = 1 if english_unknown == 0
 
 *country of birth
 generate birth_aus = 0
@@ -123,6 +124,7 @@ gen occ_labourer = 8.jbmi61
 
 
 *marriage
+** Review here!
 gen married_yes = 0
 replace married_yes = 1 if mrcurr == 1 | mrcurr == 2
 
@@ -136,6 +138,12 @@ replace large_capital = 1 if hhsgcc == 11 | hhsgcc == 21 | hhsgcc == 31 | hhsgcc
 
 generate large_capital_unknown = 0
 replace large_capital_unknown = 1 if hhsgcc < 0
+
+
+* urban to be reviewed
+
+generate urban = 0
+replace urban = 1 if hhssos == 0 | hhssos == 1
 
 
 *state
@@ -152,8 +160,10 @@ gen state_ACT = 8.hhstate
 
 *shiftwork
 keep if jbmsch > 0
+
 generate shiftwork_yes = 1
 replace shiftwork_yes = 1 if jbmsch == 1
+
 generate shiftwork_no = 0
 replace shiftwork_no = 1 if shiftwork_yes == 0
 
