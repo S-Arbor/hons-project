@@ -13,16 +13,27 @@ last_wave <- 21 # Last wave to analyse
 maxwave <- 21   # Update to the latest wave.
 rls <- 210      # Update to the latest release.
 # to set current dir can use dirname(rstudioapi::getActiveDocumentContext()$path) but varies based on whether in Rstudio
-current_dir <- "/home/sean/Code/honours/hons-project/data cleaning"
 rel_origdatdir <- "../hilda_data/stata_combined"
+rel_xtradatdir <- "../supplementary_data"
 rel_newdatdir <- "../cleaned_data/v3" # Location of writing new data files
 
 
 # SECTION 1: Creating an unbalanced dataset (long-format)
 doc_dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
 origdatdir <- paste(doc_dir, "/", rel_origdatdir, sep="")
+xtradatdir <- paste(doc_dir, "/", rel_xtradatdir, sep="")
 newdatdir <- paste(doc_dir, "/", rel_newdatdir, sep="")
 
+# Load CPI data
+setwd(xtradatdir)
+aus_cpi <- read.csv("aus_cpi.csv")
+aus_cpi$year <- sub("^[^-]+-", "", aus_cpi$Quarter)
+annual_cpi <- aus_cpi %>%
+  group_by(year) %>%
+  summarise(annual_cpi = mean(CPI))
+
+
+# Load main data
 setwd(origdatdir)
 var <- c("jbmhruc", "wscmei", "jbhruc", "wscei", # income variables
          "jbmmply", "jbmmpl", "jbmmplr",         # sector
@@ -34,10 +45,10 @@ var <- c("jbmhruc", "wscmei", "jbhruc", "wscei", # income variables
          "aneab", "hgeab",                       # English proficiency
          "jbmsch", "jbmday",                     # shiftwork and day worked
          "jbmemz",                               # firm size
-         "jbmtuea", #"jbmtabs",                   # union, trade union membership (left out since non comprehensive, review later)
+         "jbmtuea", #"jbmtabs",                  # union, trade union membership (left out since non comprehensive, review later)
          "tcr",                                  # number of children
-         "edfts", "esbrd", "esdtl",              # full time student, employed, ft/pt
-         #"alpd", "alsk",                         # paid annual and sick leave in last 12 months (left out since non comprehensive)
+         "edfts", "esbrd", "esdtl", "esempst",   # full time student, employed, ft/pt, self employed / own business
+         #"alpd", "alsk",                        # paid annual and sick leave in last 12 months (left out since non comprehensive)
          "jbempt"                                # tenure
         )
 
@@ -49,6 +60,7 @@ for( i in 1:last_wave) {
   # any_of() lets the program avoid selecting the variable not included in a specific wave and set NA to that variable. eg: "hwhmhl" not included in wave 1
   names(temp)[-1] <-substring(names(temp)[-1], 2) # Remove wave letter from variable names except for xwaveid
   temp$wave <- i
+  temp$cpi <- annual_cpi$annual_cpi[annual_cpi$year == 2000+i]
   
   # add restrictions to the data:
   #  1. Only those are employed
@@ -71,9 +83,6 @@ for( i in 1:last_wave) {
   }
   
   reduced_temp <- temp[employed & over21 & under65 & not_fulltimestudent & sector_data & wage_data,]
-  
-
-  
   
   if (i == 1 ){
     longfile <- reduced_temp

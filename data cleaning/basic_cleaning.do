@@ -59,11 +59,6 @@ replace health_poor = 1 if helth == 1
 
 keep if health_good == 1 | health_poor == 1
 
-
-* poor English
-**** EDIT HERE ***
-*replace english_good = 1 if english_unknown == 0
-
 *country of birth
 generate birth_aus = 0
 replace birth_aus = 1 if anbcob == 1
