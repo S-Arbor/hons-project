@@ -1,22 +1,60 @@
-*summarize
-clear
-use "/home/sean/Code/honours/hons-project/cleaned_data/v3/vars_combined.dta"
+* File does the essential cleaning of combining seperate instances of sector and English speaking ability
+* It then drops missing observations, codes dummies and cleans up categorical variables to have the correct levels
 
-keep if main_hours >= 1
+clear
+*use "/Users/arbor/Documents/github repos/hons/dummyvar_longfile.dta"
+use "/home/sean/Code/honours/hons-project/cleaned_data/v3/base_longfile.dta"
+
+*rename variables
+rename (jbmhruc wscmei hgage ehtjb hgsex tcr jbempt) (main_hours main_income age experience sex n_resident_children tenure)
+
+
+*generate sector data
+generate sector_public = 0
+replace sector_public = 1 if jbmmpl == 3 | jbmmplr == 3 | jbmmply == 2 | jbmmpl == 5 | jbmmplr == 5 | jbmmply == 5
+* Government business enterprise or commercial statutory authority x3 | other government organisation x3
+
+generate sector_private = 0
+replace sector_private = 1 if jbmmpl == 1 | jbmmplr == 1 | jbmmply == 1 | jbmmpl == 2 | jbmmplr == 2 | jbmmply == 4
+* Private sector for profit x3 | private sector not for profit x3
+
+generate sector_other_unknown = 0
+replace sector_other_unknown = 1 if sector_private == 0 & sector_public == 0
+* Other commercial, other non-commercial, NA
+
+generate sector = .
+replace sector = "public" if sector_public == 1
+replace sector = "private" if sector_private == 1
+
+
+*generate english speaking data
+*aneab is missing data for wave 1, but hgeab also has some data in wave 11
+generate english_poor = 0
+replace english_poor = 1 if wave==1 & (hgeab == 3 | hgeab == 4)
+replace english_poor = 1 if wave!=1 & (aneab == 3 | aneab == 4)
+
+*only ESL people were asked if their English was good
+generate english_good = 0
+replace english_good = 1 if english_poor == 0
+
+generate english = "good"
+replace english = "poor" if english_poor == 1
+
 
 *experience
-keep if experience >= 0
-
-generate experience_sq = 0
-replace experience_sq = experience*experience
+generate experience_sq = experience^2
 
 
 *sex
-generate male = 0
-replace male = 1 if sex == 1
+generate sex_male = 0
+replace sex_male = 1 if sex == 1
 
-generate female = 0
-replace female = 1 if sex == 2
+generate sex_female = 0
+replace sex_female = 1 if sex == 2
+
+drop sex
+generate sex = "male"
+replace sex = "female" if female == 1
 
 
 *children
@@ -35,7 +73,7 @@ replace children_3 = 1 if n_resident_children == 3
 generate children_4_plus = 0
 replace children_4_plus = 1 if n_resident_children >= 4
 
-summarize children_0 children_1 children_2 children_3 children_4_plus
+
 
 *education
 generate ed_uni = 0
@@ -179,3 +217,5 @@ generate log_wage = 0
 replace log_wage = log(wage)
 
 summarize
+
+drop jbmmpl jbmmplr jbmmply
