@@ -44,12 +44,13 @@ var <- c("jbmhruc", "wscmei", "jbhruc", "wscei", # income variables
          "jbmi61", "jbmo61",                     # industry and occupation
          "aneab", "hgeab",                       # English proficiency
          "jbmsch", "jbmday",                     # shiftwork and day worked
-         "jbmemsz",                               # firm size
          "jbmtuea", #"jbmtabs",                  # union, trade union membership (left out since non comprehensive, review later)
          "tcr",                                  # number of children
          "edfts", "esbrd", "esdtl", "esempst",   # full time student, employed, ft/pt, self employed / own business
          #"alpd", "alsk",                        # paid annual and sick leave in last 12 months (left out since non comprehensive)
-         "jbempt"                                # tenure
+         "jbempt",                               # tenure
+         "jbmwpsz", "jbmwps", "jbmemsz"          # firm size
+         # "jbcasab"                               # casual
         )
 
 for( i in 1:last_wave) {
@@ -96,4 +97,4 @@ for( i in 1:last_wave) {
 # Save new data set
 setwd(newdatdir)
 #save(longfile, file = "long_reducedvariableset_data.Rdata")
-write_dta(longfile, "base_longfile.dta") # Could save as a stata data file
+write_dta(longfile, "base_longfile_v4.dta") # Could save as a stata data file

@@ -2,8 +2,8 @@
 * It then drops missing observations, codes dummies and cleans up categorical variables to have the correct levels
 
 clear
-*use "/Users/arbor/Documents/github repos/hons/dummyvar_longfile.dta"
-use "/home/sean/Code/honours/hons-project/cleaned_data/v3/base_longfile.dta"
+use "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v3/base_longfile_v4.dta"
+*use "/home/sean/Code/honours/hons-project/cleaned_data/v3/base_longfile.dta"
 
 *rename variables
 rename (jbmhruc wscmei hgage ehtjb hgsex tcr jbempt) (main_hours main_income age experience sex n_resident_children tenure)
@@ -206,8 +206,6 @@ gen state_ACT = 8.hhstate
 
 
 *shiftwork
-***FIX***
-*https://hildaodd.app.unimelb.edu.au/VariableDetails.aspx?varn=jbmsch&&varw=1
 keep if jbmsch > 0
 
 generate shiftwork_yes = 1
@@ -218,12 +216,37 @@ replace shiftwork_no = 1 if shiftwork_yes == 0
 
 
 *firm size
-*generate firm_size = "small"
-*https://hildaodd.app.unimelb.edu.au/VariableDetails.aspx?varn=jbmemsz&&varw=1
+*jbmwpsz for waves 1-4
+*jbmwps for waves 5-21
+generate firm_size = "unknown"
+replace firm_size = "1-20" if jbmwpsz >= 1 & jbmwpsz <= 3 
+replace firm_size = "1-20" if jbmwps >= 1 & jbmwps <= 4 
+
+replace firm_size = "20-99" if jbmwpsz == 4 | jbmwpsz == 5
+replace firm_size = "20-99" if jbmwps == 5 | jbmwps == 6
+
+replace firm_size = "100-199" if jbmwpsz == 6
+replace firm_size = "100-199" if jbmwps == 7
+
+replace firm_size = "200-499" if jbmwpsz == 7
+replace firm_size = "200-499" if jbmwps == 8
+
+replace firm_size = "500+" if jbmwpsz == 8
+replace firm_size = "500+" if jbmwps == 9
+
+generate firm_size_1_20 = firm_size == "1-20"
+generate firm_size_20_99 = firm_size == "20-99"
+generate firm_size_100_199 = firm_size == "100-199"
+generate firm_size_200_499 = firm_size == "200-499"
+generate firm_size_500 = firm_size == "500+"
+generate firm_size_unknown = firm_size == "unknown"
+
+*drop if firm_size == "unknown"
+*<20, 20-99, 100-199, 200-499, 500+, unknown
 
 
 *self employed
-tab esempst sector
+keep if esempst == 1
 
 
 *union
@@ -247,4 +270,5 @@ generate log_real_wage = log(real_wage)
 
 summarize
 
-save "/home/sean/Code/honours/hons-project/cleaned_data/v3/basic_cleaned.dta"
+*save "/home/sean/Code/honours/hons-project/cleaned_data/v3/basic_cleaned.dta"
+save "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v3/basic_cleaned.dta"
