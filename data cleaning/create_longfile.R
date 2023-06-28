@@ -44,7 +44,7 @@ var <- c("jbmhruc", "wscmei", "jbhruc", "wscei", # income variables
          "jbmi61", "jbmo61",                     # industry and occupation
          "aneab", "hgeab",                       # English proficiency
          "jbmsch", "jbmday",                     # shiftwork and day worked
-         "jbmemz",                               # firm size
+         "jbmemsz",                               # firm size
          "jbmtuea", #"jbmtabs",                  # union, trade union membership (left out since non comprehensive, review later)
          "tcr",                                  # number of children
          "edfts", "esbrd", "esdtl", "esempst",   # full time student, employed, ft/pt, self employed / own business
