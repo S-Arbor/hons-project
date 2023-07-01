@@ -1,0 +1,938 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/Users/arbor/Downloads/attempted_log.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}29 Jun 2023, 12:10:20
+
+{com}. do "/Users/arbor/Documents/github repos/hons-project/data analysis/initial exploration/first_regression.do"
+{txt}
+{com}. clear
+{txt}
+{com}. 
+. *use "/home/sean/Code/honours/hons-project/cleaned_data/v3/basic_cleaned.dta"
+. use "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v3/basic_cleaned.dta"
+{txt}
+{com}. 
+. *human capital
+. regress log_wage sector_public experience experience_sq edu_uni edu_diploma  if sex_male == 1, vce(robust)
+
+{txt}Linear regression                               Number of obs     = {res}    64,858
+                                                {txt}F(5, 64852)       =  {res}  2265.26
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.1501
+                                                {txt}Root MSE          =    {res} .47075
+
+{txt}{hline 17}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 18}{c |}{col 30}    Robust
+{col 1}        log_wage{col 18}{c |} Coefficient{col 30}  std. err.{col 42}      t{col 50}   P>|t|{col 58}     [95% con{col 71}f. interval]
+{hline 17}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}sector_public {c |}{col 18}{res}{space 2} .0627814{col 30}{space 2} .0043193{col 41}{space 1}   14.54{col 50}{space 3}0.000{col 58}{space 4} .0543155{col 71}{space 3} .0712473
+{txt}{space 6}experience {c |}{col 18}{res}{space 2} .0274097{col 30}{space 2} .0006383{col 41}{space 1}   42.94{col 50}{space 3}0.000{col 58}{space 4} .0261586{col 71}{space 3} .0286609
+{txt}{space 3}experience_sq {c |}{col 18}{res}{space 2} -.000439{col 30}{space 2} .0000137{col 41}{space 1}  -31.94{col 50}{space 3}0.000{col 58}{space 4} -.000466{col 71}{space 3}-.0004121
+{txt}{space 9}edu_uni {c |}{col 18}{res}{space 2} .4445308{col 30}{space 2} .0053942{col 41}{space 1}   82.41{col 50}{space 3}0.000{col 58}{space 4} .4339581{col 71}{space 3} .4551036
+{txt}edu_diploma_cert {c |}{col 18}{res}{space 2} .1808066{col 30}{space 2} .0043258{col 41}{space 1}   41.80{col 50}{space 3}0.000{col 58}{space 4}  .172328{col 71}{space 3} .1892853
+{txt}{space 11}_cons {c |}{col 18}{res}{space 2} 2.862391{col 30}{space 2} .0065023{col 41}{space 1}  440.22{col 50}{space 3}0.000{col 58}{space 4} 2.849647{col 71}{space 3} 2.875136
+{txt}{hline 17}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. regress log_wage sector_public experience experience_sq edu_uni edu_diploma  if sex_female == 1, vce(robust)
+
+{txt}Linear regression                               Number of obs     = {res}    66,949
+                                                {txt}F(5, 66943)       =  {res}  2753.30
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.1711
+                                                {txt}Root MSE          =    {res} .43283
+
+{txt}{hline 17}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 18}{c |}{col 30}    Robust
+{col 1}        log_wage{col 18}{c |} Coefficient{col 30}  std. err.{col 42}      t{col 50}   P>|t|{col 58}     [95% con{col 71}f. interval]
+{hline 17}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}sector_public {c |}{col 18}{res}{space 2} .1303177{col 30}{space 2} .0036565{col 41}{space 1}   35.64{col 50}{space 3}0.000{col 58}{space 4}  .123151{col 71}{space 3} .1374843
+{txt}{space 6}experience {c |}{col 18}{res}{space 2} .0174164{col 30}{space 2} .0006256{col 41}{space 1}   27.84{col 50}{space 3}0.000{col 58}{space 4} .0161902{col 71}{space 3} .0186425
+{txt}{space 3}experience_sq {c |}{col 18}{res}{space 2}-.0002443{col 30}{space 2} .0000143{col 41}{space 1}  -17.10{col 50}{space 3}0.000{col 58}{space 4}-.0002723{col 71}{space 3}-.0002163
+{txt}{space 9}edu_uni {c |}{col 18}{res}{space 2} .4117474{col 30}{space 2}  .004593{col 41}{space 1}   89.65{col 50}{space 3}0.000{col 58}{space 4}  .402745{col 71}{space 3} .4207497
+{txt}edu_diploma_cert {c |}{col 18}{res}{space 2} .1945678{col 30}{space 2} .0040664{col 41}{space 1}   47.85{col 50}{space 3}0.000{col 58}{space 4} .1865977{col 71}{space 3}  .202538
+{txt}{space 11}_cons {c |}{col 18}{res}{space 2} 2.806717{col 30}{space 2} .0064722{col 41}{space 1}  433.66{col 50}{space 3}0.000{col 58}{space 4} 2.794031{col 71}{space 3} 2.819402
+{txt}{hline 17}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. *human capital + demographic
+. regress log_wage sector_public experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT if sex_male == 1, vce(robust)
+
+{txt}Linear regression                               Number of obs     = {res}    64,858
+                                                {txt}F(22, 64835)      =  {res}   634.71
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.1865
+                                                {txt}Root MSE          =    {res} .46064
+
+{txt}{hline 17}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 18}{c |}{col 30}    Robust
+{col 1}        log_wage{col 18}{c |} Coefficient{col 30}  std. err.{col 42}      t{col 50}   P>|t|{col 58}     [95% con{col 71}f. interval]
+{hline 17}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}sector_public {c |}{col 18}{res}{space 2} .0490918{col 30}{space 2} .0043433{col 41}{space 1}   11.30{col 50}{space 3}0.000{col 58}{space 4}  .040579{col 71}{space 3} .0576046
+{txt}{space 6}experience {c |}{col 18}{res}{space 2} .0197677{col 30}{space 2} .0007025{col 41}{space 1}   28.14{col 50}{space 3}0.000{col 58}{space 4} .0183907{col 71}{space 3} .0211447
+{txt}{space 3}experience_sq {c |}{col 18}{res}{space 2}-.0002897{col 30}{space 2} .0000148{col 41}{space 1}  -19.61{col 50}{space 3}0.000{col 58}{space 4}-.0003187{col 71}{space 3}-.0002608
+{txt}{space 9}edu_uni {c |}{col 18}{res}{space 2}    .4179{col 30}{space 2} .0053381{col 41}{space 1}   78.29{col 50}{space 3}0.000{col 58}{space 4} .4074373{col 71}{space 3} .4283627
+{txt}edu_diploma_cert {c |}{col 18}{res}{space 2} .1625205{col 30}{space 2} .0042169{col 41}{space 1}   38.54{col 50}{space 3}0.000{col 58}{space 4} .1542554{col 71}{space 3} .1707856
+{txt}{space 6}children_1 {c |}{col 18}{res}{space 2} .0265185{col 30}{space 2} .0052735{col 41}{space 1}    5.03{col 50}{space 3}0.000{col 58}{space 4} .0161824{col 71}{space 3} .0368546
+{txt}{space 6}children_2 {c |}{col 18}{res}{space 2} .0831493{col 30}{space 2} .0054621{col 41}{space 1}   15.22{col 50}{space 3}0.000{col 58}{space 4} .0724436{col 71}{space 3}  .093855
+{txt}{space 6}children_3 {c |}{col 18}{res}{space 2} .0909405{col 30}{space 2} .0079024{col 41}{space 1}   11.51{col 50}{space 3}0.000{col 58}{space 4} .0754519{col 71}{space 3} .1064292
+{txt}{space 1}children_4_plus {c |}{col 18}{res}{space 2}-.0114527{col 30}{space 2} .0138067{col 41}{space 1}   -0.83{col 50}{space 3}0.407{col 58}{space 4}-.0385138{col 71}{space 3} .0156085
+{txt}{space 5}health_poor {c |}{col 18}{res}{space 2}-.0996266{col 30}{space 2} .0054471{col 41}{space 1}  -18.29{col 50}{space 3}0.000{col 58}{space 4} -.110303{col 71}{space 3}-.0889503
+{txt}{space 7}birth_eng {c |}{col 18}{res}{space 2} .0184389{col 30}{space 2}  .006451{col 41}{space 1}    2.86{col 50}{space 3}0.004{col 58}{space 4} .0057949{col 71}{space 3} .0310829
+{txt}{space 6}birth_neng {c |}{col 18}{res}{space 2}-.1049336{col 30}{space 2} .0060853{col 41}{space 1}  -17.24{col 50}{space 3}0.000{col 58}{space 4}-.1168607{col 71}{space 3}-.0930065
+{txt}{space 5}married_yes {c |}{col 18}{res}{space 2} .1163143{col 30}{space 2} .0054011{col 41}{space 1}   21.54{col 50}{space 3}0.000{col 58}{space 4}  .105728{col 71}{space 3} .1269005
+{txt}{space 5}married_sep {c |}{col 18}{res}{space 2} .0288233{col 30}{space 2} .0089624{col 41}{space 1}    3.22{col 50}{space 3}0.001{col 58}{space 4} .0112571{col 71}{space 3} .0463896
+{txt}{space 8}urban_no {c |}{col 18}{res}{space 2}-.0796726{col 30}{space 2} .0060847{col 41}{space 1}  -13.09{col 50}{space 3}0.000{col 58}{space 4}-.0915986{col 71}{space 3}-.0677465
+{txt}{space 7}state_VIC {c |}{col 18}{res}{space 2}-.0243926{col 30}{space 2} .0049123{col 41}{space 1}   -4.97{col 50}{space 3}0.000{col 58}{space 4}-.0340207{col 71}{space 3}-.0147645
+{txt}{space 8}state_WA {c |}{col 18}{res}{space 2} .0297972{col 30}{space 2} .0077159{col 41}{space 1}    3.86{col 50}{space 3}0.000{col 58}{space 4}  .014674{col 71}{space 3} .0449204
+{txt}{space 7}state_QLD {c |}{col 18}{res}{space 2}-.0370959{col 30}{space 2}  .005109{col 41}{space 1}   -7.26{col 50}{space 3}0.000{col 58}{space 4}-.0471096{col 71}{space 3}-.0270822
+{txt}{space 8}state_SA {c |}{col 18}{res}{space 2}-.1195562{col 30}{space 2} .0070516{col 41}{space 1}  -16.95{col 50}{space 3}0.000{col 58}{space 4}-.1333774{col 71}{space 3} -.105735
+{txt}{space 8}state_NT {c |}{col 18}{res}{space 2} .0434523{col 30}{space 2} .0186227{col 41}{space 1}    2.33{col 50}{space 3}0.020{col 58}{space 4} .0069517{col 71}{space 3} .0799528
+{txt}{space 7}state_TAS {c |}{col 18}{res}{space 2}-.1145482{col 30}{space 2} .0094332{col 41}{space 1}  -12.14{col 50}{space 3}0.000{col 58}{space 4}-.1330372{col 71}{space 3}-.0960591
+{txt}{space 7}state_ACT {c |}{col 18}{res}{space 2} .1552804{col 30}{space 2}  .011784{col 41}{space 1}   13.18{col 50}{space 3}0.000{col 58}{space 4} .1321838{col 71}{space 3}  .178377
+{txt}{space 11}_cons {c |}{col 18}{res}{space 2} 2.891667{col 30}{space 2} .0075288{col 41}{space 1}  384.08{col 50}{space 3}0.000{col 58}{space 4}  2.87691{col 71}{space 3} 2.906423
+{txt}{hline 17}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. regress log_wage sector_public experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT if sex_female == 1, vce(robust)
+
+{txt}Linear regression                               Number of obs     = {res}    66,949
+                                                {txt}F(22, 66926)      =  {res}   682.59
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.1846
+                                                {txt}Root MSE          =    {res} .42935
+
+{txt}{hline 17}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 18}{c |}{col 30}    Robust
+{col 1}        log_wage{col 18}{c |} Coefficient{col 30}  std. err.{col 42}      t{col 50}   P>|t|{col 58}     [95% con{col 71}f. interval]
+{hline 17}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}sector_public {c |}{col 18}{res}{space 2} .1226746{col 30}{space 2} .0036794{col 41}{space 1}   33.34{col 50}{space 3}0.000{col 58}{space 4} .1154629{col 71}{space 3} .1298862
+{txt}{space 6}experience {c |}{col 18}{res}{space 2} .0148853{col 30}{space 2} .0006828{col 41}{space 1}   21.80{col 50}{space 3}0.000{col 58}{space 4} .0135469{col 71}{space 3} .0162237
+{txt}{space 3}experience_sq {c |}{col 18}{res}{space 2}-.0001804{col 30}{space 2} .0000155{col 41}{space 1}  -11.67{col 50}{space 3}0.000{col 58}{space 4}-.0002107{col 71}{space 3}-.0001501
+{txt}{space 9}edu_uni {c |}{col 18}{res}{space 2} .4074788{col 30}{space 2} .0046188{col 41}{space 1}   88.22{col 50}{space 3}0.000{col 58}{space 4}  .398426{col 71}{space 3} .4165316
+{txt}edu_diploma_cert {c |}{col 18}{res}{space 2}  .194337{col 30}{space 2} .0040462{col 41}{space 1}   48.03{col 50}{space 3}0.000{col 58}{space 4} .1864064{col 71}{space 3} .2022677
+{txt}{space 6}children_1 {c |}{col 18}{res}{space 2} .0100218{col 30}{space 2}  .004693{col 41}{space 1}    2.14{col 50}{space 3}0.033{col 58}{space 4} .0008235{col 71}{space 3} .0192201
+{txt}{space 6}children_2 {c |}{col 18}{res}{space 2} .0308233{col 30}{space 2} .0045856{col 41}{space 1}    6.72{col 50}{space 3}0.000{col 58}{space 4} .0218356{col 71}{space 3} .0398111
+{txt}{space 6}children_3 {c |}{col 18}{res}{space 2} .0283539{col 30}{space 2} .0068987{col 41}{space 1}    4.11{col 50}{space 3}0.000{col 58}{space 4} .0148325{col 71}{space 3} .0418753
+{txt}{space 1}children_4_plus {c |}{col 18}{res}{space 2}-.0382193{col 30}{space 2} .0131711{col 41}{space 1}   -2.90{col 50}{space 3}0.004{col 58}{space 4}-.0640347{col 71}{space 3}-.0124038
+{txt}{space 5}health_poor {c |}{col 18}{res}{space 2}-.0385575{col 30}{space 2}  .004673{col 41}{space 1}   -8.25{col 50}{space 3}0.000{col 58}{space 4}-.0477166{col 71}{space 3}-.0293984
+{txt}{space 7}birth_eng {c |}{col 18}{res}{space 2} .0065881{col 30}{space 2} .0060817{col 41}{space 1}    1.08{col 50}{space 3}0.279{col 58}{space 4} -.005332{col 71}{space 3} .0185081
+{txt}{space 6}birth_neng {c |}{col 18}{res}{space 2}-.0464514{col 30}{space 2} .0057132{col 41}{space 1}   -8.13{col 50}{space 3}0.000{col 58}{space 4}-.0576492{col 71}{space 3}-.0352535
+{txt}{space 5}married_yes {c |}{col 18}{res}{space 2} .0616904{col 30}{space 2} .0049255{col 41}{space 1}   12.52{col 50}{space 3}0.000{col 58}{space 4} .0520364{col 71}{space 3} .0713444
+{txt}{space 5}married_sep {c |}{col 18}{res}{space 2} -.012203{col 30}{space 2} .0066103{col 41}{space 1}   -1.85{col 50}{space 3}0.065{col 58}{space 4}-.0251592{col 71}{space 3} .0007533
+{txt}{space 8}urban_no {c |}{col 18}{res}{space 2}-.0518999{col 30}{space 2} .0056168{col 41}{space 1}   -9.24{col 50}{space 3}0.000{col 58}{space 4}-.0629087{col 71}{space 3}-.0408911
+{txt}{space 7}state_VIC {c |}{col 18}{res}{space 2}-.0336152{col 30}{space 2} .0045625{col 41}{space 1}   -7.37{col 50}{space 3}0.000{col 58}{space 4}-.0425576{col 71}{space 3}-.0246727
+{txt}{space 8}state_WA {c |}{col 18}{res}{space 2} .0046851{col 30}{space 2} .0066201{col 41}{space 1}    0.71{col 50}{space 3}0.479{col 58}{space 4}-.0082902{col 71}{space 3} .0176604
+{txt}{space 7}state_QLD {c |}{col 18}{res}{space 2}-.0653347{col 30}{space 2} .0047613{col 41}{space 1}  -13.72{col 50}{space 3}0.000{col 58}{space 4}-.0746668{col 71}{space 3}-.0560026
+{txt}{space 8}state_SA {c |}{col 18}{res}{space 2} -.074592{col 30}{space 2} .0064878{col 41}{space 1}  -11.50{col 50}{space 3}0.000{col 58}{space 4}-.0873081{col 71}{space 3} -.061876
+{txt}{space 8}state_NT {c |}{col 18}{res}{space 2}-.0210647{col 30}{space 2} .0170675{col 41}{space 1}   -1.23{col 50}{space 3}0.217{col 58}{space 4}-.0545171{col 71}{space 3} .0123876
+{txt}{space 7}state_TAS {c |}{col 18}{res}{space 2}-.0698738{col 30}{space 2} .0087771{col 41}{space 1}   -7.96{col 50}{space 3}0.000{col 58}{space 4}-.0870769{col 71}{space 3}-.0526708
+{txt}{space 7}state_ACT {c |}{col 18}{res}{space 2} .0952092{col 30}{space 2} .0110839{col 41}{space 1}    8.59{col 50}{space 3}0.000{col 58}{space 4} .0734847{col 71}{space 3} .1169336
+{txt}{space 11}_cons {c |}{col 18}{res}{space 2} 2.821221{col 30}{space 2} .0077003{col 41}{space 1}  366.38{col 50}{space 3}0.000{col 58}{space 4} 2.806128{col 71}{space 3} 2.836313
+{txt}{hline 17}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. *human capital + demographic + basic job char
+. regress log_wage sector_public experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT shiftwork_yes parttime long_hours casual if sex_male == 1, vce(robust)
+
+{txt}Linear regression                               Number of obs     = {res}    64,858
+                                                {txt}F(26, 64831)      =  {res}   550.23
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.1909
+                                                {txt}Root MSE          =    {res}  .4594
+
+{txt}{hline 17}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 18}{c |}{col 30}    Robust
+{col 1}        log_wage{col 18}{c |} Coefficient{col 30}  std. err.{col 42}      t{col 50}   P>|t|{col 58}     [95% con{col 71}f. interval]
+{hline 17}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}sector_public {c |}{col 18}{res}{space 2} .0373895{col 30}{space 2} .0044375{col 41}{space 1}    8.43{col 50}{space 3}0.000{col 58}{space 4}  .028692{col 71}{space 3}  .046087
+{txt}{space 6}experience {c |}{col 18}{res}{space 2} .0187738{col 30}{space 2} .0007041{col 41}{space 1}   26.66{col 50}{space 3}0.000{col 58}{space 4} .0173938{col 71}{space 3} .0201538
+{txt}{space 3}experience_sq {c |}{col 18}{res}{space 2} -.000269{col 30}{space 2} .0000148{col 41}{space 1}  -18.19{col 50}{space 3}0.000{col 58}{space 4}-.0002979{col 71}{space 3}  -.00024
+{txt}{space 9}edu_uni {c |}{col 18}{res}{space 2} .4183755{col 30}{space 2} .0054331{col 41}{space 1}   77.00{col 50}{space 3}0.000{col 58}{space 4} .4077266{col 71}{space 3} .4290243
+{txt}edu_diploma_cert {c |}{col 18}{res}{space 2}  .158323{col 30}{space 2} .0042073{col 41}{space 1}   37.63{col 50}{space 3}0.000{col 58}{space 4} .1500766{col 71}{space 3} .1665693
+{txt}{space 6}children_1 {c |}{col 18}{res}{space 2} .0265623{col 30}{space 2} .0052569{col 41}{space 1}    5.05{col 50}{space 3}0.000{col 58}{space 4} .0162587{col 71}{space 3} .0368658
+{txt}{space 6}children_2 {c |}{col 18}{res}{space 2} .0825083{col 30}{space 2} .0054486{col 41}{space 1}   15.14{col 50}{space 3}0.000{col 58}{space 4}  .071829{col 71}{space 3} .0931876
+{txt}{space 6}children_3 {c |}{col 18}{res}{space 2} .0900543{col 30}{space 2} .0078788{col 41}{space 1}   11.43{col 50}{space 3}0.000{col 58}{space 4} .0746119{col 71}{space 3} .1054966
+{txt}{space 1}children_4_plus {c |}{col 18}{res}{space 2}-.0041067{col 30}{space 2} .0137368{col 41}{space 1}   -0.30{col 50}{space 3}0.765{col 58}{space 4}-.0310309{col 71}{space 3} .0228175
+{txt}{space 5}health_poor {c |}{col 18}{res}{space 2}-.0937466{col 30}{space 2} .0054033{col 41}{space 1}  -17.35{col 50}{space 3}0.000{col 58}{space 4}-.1043372{col 71}{space 3}-.0831561
+{txt}{space 7}birth_eng {c |}{col 18}{res}{space 2} .0184105{col 30}{space 2} .0064459{col 41}{space 1}    2.86{col 50}{space 3}0.004{col 58}{space 4} .0057765{col 71}{space 3} .0310445
+{txt}{space 6}birth_neng {c |}{col 18}{res}{space 2}-.1063022{col 30}{space 2} .0061155{col 41}{space 1}  -17.38{col 50}{space 3}0.000{col 58}{space 4}-.1182886{col 71}{space 3}-.0943158
+{txt}{space 5}married_yes {c |}{col 18}{res}{space 2} .1127357{col 30}{space 2} .0053882{col 41}{space 1}   20.92{col 50}{space 3}0.000{col 58}{space 4} .1021748{col 71}{space 3} .1232966
+{txt}{space 5}married_sep {c |}{col 18}{res}{space 2} .0301339{col 30}{space 2}  .008932{col 41}{space 1}    3.37{col 50}{space 3}0.001{col 58}{space 4} .0126273{col 71}{space 3} .0476406
+{txt}{space 8}urban_no {c |}{col 18}{res}{space 2}-.0758865{col 30}{space 2} .0060385{col 41}{space 1}  -12.57{col 50}{space 3}0.000{col 58}{space 4}-.0877219{col 71}{space 3}-.0640512
+{txt}{space 7}state_VIC {c |}{col 18}{res}{space 2}-.0252258{col 30}{space 2} .0049149{col 41}{space 1}   -5.13{col 50}{space 3}0.000{col 58}{space 4}-.0348591{col 71}{space 3}-.0155926
+{txt}{space 8}state_WA {c |}{col 18}{res}{space 2} .0310398{col 30}{space 2} .0076751{col 41}{space 1}    4.04{col 50}{space 3}0.000{col 58}{space 4} .0159966{col 71}{space 3} .0460831
+{txt}{space 7}state_QLD {c |}{col 18}{res}{space 2}-.0360224{col 30}{space 2} .0050896{col 41}{space 1}   -7.08{col 50}{space 3}0.000{col 58}{space 4}-.0459979{col 71}{space 3}-.0260468
+{txt}{space 8}state_SA {c |}{col 18}{res}{space 2}-.1173298{col 30}{space 2} .0070262{col 41}{space 1}  -16.70{col 50}{space 3}0.000{col 58}{space 4}-.1311012{col 71}{space 3}-.1035585
+{txt}{space 8}state_NT {c |}{col 18}{res}{space 2} .0443089{col 30}{space 2} .0186478{col 41}{space 1}    2.38{col 50}{space 3}0.017{col 58}{space 4} .0077593{col 71}{space 3} .0808586
+{txt}{space 7}state_TAS {c |}{col 18}{res}{space 2}-.1140378{col 30}{space 2} .0094229{col 41}{space 1}  -12.10{col 50}{space 3}0.000{col 58}{space 4}-.1325067{col 71}{space 3}-.0955689
+{txt}{space 7}state_ACT {c |}{col 18}{res}{space 2} .1610758{col 30}{space 2} .0119246{col 41}{space 1}   13.51{col 50}{space 3}0.000{col 58}{space 4} .1377036{col 71}{space 3}  .184448
+{txt}{space 3}shiftwork_yes {c |}{col 18}{res}{space 2} .0425273{col 30}{space 2} .0049488{col 41}{space 1}    8.59{col 50}{space 3}0.000{col 58}{space 4} .0328277{col 71}{space 3} .0522269
+{txt}{space 8}parttime {c |}{col 18}{res}{space 2}-.0522929{col 30}{space 2} .0080965{col 41}{space 1}   -6.46{col 50}{space 3}0.000{col 58}{space 4} -.068162{col 71}{space 3}-.0364238
+{txt}{space 6}long_hours {c |}{col 18}{res}{space 2}-.0215977{col 30}{space 2} .0037683{col 41}{space 1}   -5.73{col 50}{space 3}0.000{col 58}{space 4}-.0289836{col 71}{space 3}-.0142119
+{txt}{space 10}casual {c |}{col 18}{res}{space 2}-.0689042{col 30}{space 2} .0065701{col 41}{space 1}  -10.49{col 50}{space 3}0.000{col 58}{space 4}-.0817816{col 71}{space 3}-.0560269
+{txt}{space 11}_cons {c |}{col 18}{res}{space 2}  2.92228{col 30}{space 2} .0079634{col 41}{space 1}  366.97{col 50}{space 3}0.000{col 58}{space 4} 2.906672{col 71}{space 3} 2.937888
+{txt}{hline 17}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. regress log_wage sector_public experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT shiftwork_yes parttime long_hours casual if sex_female == 1, vce(robust)
+
+{txt}Linear regression                               Number of obs     = {res}    66,949
+                                                {txt}F(26, 66922)      =  {res}   595.65
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.1911
+                                                {txt}Root MSE          =    {res} .42765
+
+{txt}{hline 17}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 18}{c |}{col 30}    Robust
+{col 1}        log_wage{col 18}{c |} Coefficient{col 30}  std. err.{col 42}      t{col 50}   P>|t|{col 58}     [95% con{col 71}f. interval]
+{hline 17}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}sector_public {c |}{col 18}{res}{space 2}  .109987{col 30}{space 2} .0037202{col 41}{space 1}   29.56{col 50}{space 3}0.000{col 58}{space 4} .1026954{col 71}{space 3} .1172785
+{txt}{space 6}experience {c |}{col 18}{res}{space 2} .0141095{col 30}{space 2} .0006822{col 41}{space 1}   20.68{col 50}{space 3}0.000{col 58}{space 4} .0127725{col 71}{space 3} .0154466
+{txt}{space 3}experience_sq {c |}{col 18}{res}{space 2}-.0001672{col 30}{space 2} .0000154{col 41}{space 1}  -10.85{col 50}{space 3}0.000{col 58}{space 4}-.0001974{col 71}{space 3} -.000137
+{txt}{space 9}edu_uni {c |}{col 18}{res}{space 2} .4002924{col 30}{space 2} .0046454{col 41}{space 1}   86.17{col 50}{space 3}0.000{col 58}{space 4} .3911873{col 71}{space 3} .4093975
+{txt}edu_diploma_cert {c |}{col 18}{res}{space 2} .1886231{col 30}{space 2} .0040507{col 41}{space 1}   46.57{col 50}{space 3}0.000{col 58}{space 4} .1806836{col 71}{space 3} .1965625
+{txt}{space 6}children_1 {c |}{col 18}{res}{space 2} .0163379{col 30}{space 2}  .004765{col 41}{space 1}    3.43{col 50}{space 3}0.001{col 58}{space 4} .0069985{col 71}{space 3} .0256774
+{txt}{space 6}children_2 {c |}{col 18}{res}{space 2}  .039612{col 30}{space 2} .0047187{col 41}{space 1}    8.39{col 50}{space 3}0.000{col 58}{space 4} .0303632{col 71}{space 3} .0488607
+{txt}{space 6}children_3 {c |}{col 18}{res}{space 2} .0407448{col 30}{space 2}     .007{col 41}{space 1}    5.82{col 50}{space 3}0.000{col 58}{space 4} .0270248{col 71}{space 3} .0544648
+{txt}{space 1}children_4_plus {c |}{col 18}{res}{space 2}-.0215264{col 30}{space 2} .0131439{col 41}{space 1}   -1.64{col 50}{space 3}0.101{col 58}{space 4}-.0472885{col 71}{space 3} .0042357
+{txt}{space 5}health_poor {c |}{col 18}{res}{space 2}-.0324918{col 30}{space 2} .0046464{col 41}{space 1}   -6.99{col 50}{space 3}0.000{col 58}{space 4}-.0415988{col 71}{space 3}-.0233848
+{txt}{space 7}birth_eng {c |}{col 18}{res}{space 2} .0074162{col 30}{space 2} .0060786{col 41}{space 1}    1.22{col 50}{space 3}0.222{col 58}{space 4}-.0044978{col 71}{space 3} .0193302
+{txt}{space 6}birth_neng {c |}{col 18}{res}{space 2}-.0475193{col 30}{space 2} .0057102{col 41}{space 1}   -8.32{col 50}{space 3}0.000{col 58}{space 4}-.0587113{col 71}{space 3}-.0363274
+{txt}{space 5}married_yes {c |}{col 18}{res}{space 2} .0612032{col 30}{space 2} .0049337{col 41}{space 1}   12.41{col 50}{space 3}0.000{col 58}{space 4}  .051533{col 71}{space 3} .0708733
+{txt}{space 5}married_sep {c |}{col 18}{res}{space 2}-.0135311{col 30}{space 2}  .006572{col 41}{space 1}   -2.06{col 50}{space 3}0.040{col 58}{space 4}-.0264122{col 71}{space 3}-.0006501
+{txt}{space 8}urban_no {c |}{col 18}{res}{space 2}-.0445602{col 30}{space 2} .0055905{col 41}{space 1}   -7.97{col 50}{space 3}0.000{col 58}{space 4}-.0555177{col 71}{space 3}-.0336027
+{txt}{space 7}state_VIC {c |}{col 18}{res}{space 2}-.0352911{col 30}{space 2} .0045645{col 41}{space 1}   -7.73{col 50}{space 3}0.000{col 58}{space 4}-.0442375{col 71}{space 3}-.0263448
+{txt}{space 8}state_WA {c |}{col 18}{res}{space 2} .0043789{col 30}{space 2} .0065851{col 41}{space 1}    0.66{col 50}{space 3}0.506{col 58}{space 4}-.0085278{col 71}{space 3} .0172856
+{txt}{space 7}state_QLD {c |}{col 18}{res}{space 2}-.0648755{col 30}{space 2} .0047486{col 41}{space 1}  -13.66{col 50}{space 3}0.000{col 58}{space 4}-.0741828{col 71}{space 3}-.0555682
+{txt}{space 8}state_SA {c |}{col 18}{res}{space 2}-.0712825{col 30}{space 2} .0064611{col 41}{space 1}  -11.03{col 50}{space 3}0.000{col 58}{space 4}-.0839463{col 71}{space 3}-.0586187
+{txt}{space 8}state_NT {c |}{col 18}{res}{space 2}-.0233378{col 30}{space 2}  .016934{col 41}{space 1}   -1.38{col 50}{space 3}0.168{col 58}{space 4}-.0565286{col 71}{space 3} .0098529
+{txt}{space 7}state_TAS {c |}{col 18}{res}{space 2}-.0691926{col 30}{space 2} .0087547{col 41}{space 1}   -7.90{col 50}{space 3}0.000{col 58}{space 4}-.0863519{col 71}{space 3}-.0520333
+{txt}{space 7}state_ACT {c |}{col 18}{res}{space 2} .0948351{col 30}{space 2} .0110672{col 41}{space 1}    8.57{col 50}{space 3}0.000{col 58}{space 4} .0731433{col 71}{space 3} .1165269
+{txt}{space 3}shiftwork_yes {c |}{col 18}{res}{space 2} .0195068{col 30}{space 2} .0045807{col 41}{space 1}    4.26{col 50}{space 3}0.000{col 58}{space 4} .0105287{col 71}{space 3}  .028485
+{txt}{space 8}parttime {c |}{col 18}{res}{space 2}-.0229861{col 30}{space 2} .0039823{col 41}{space 1}   -5.77{col 50}{space 3}0.000{col 58}{space 4}-.0307914{col 71}{space 3}-.0151808
+{txt}{space 6}long_hours {c |}{col 18}{res}{space 2}-.0361373{col 30}{space 2}  .004678{col 41}{space 1}   -7.72{col 50}{space 3}0.000{col 58}{space 4}-.0453062{col 71}{space 3}-.0269684
+{txt}{space 10}casual {c |}{col 18}{res}{space 2}-.0897058{col 30}{space 2} .0053438{col 41}{space 1}  -16.79{col 50}{space 3}0.000{col 58}{space 4}-.1001796{col 71}{space 3} -.079232
+{txt}{space 11}_cons {c |}{col 18}{res}{space 2} 2.862978{col 30}{space 2} .0079267{col 41}{space 1}  361.18{col 50}{space 3}0.000{col 58}{space 4} 2.847442{col 71}{space 3} 2.878514
+{txt}{hline 17}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. *human capital + demographic + basic job char + union
+. regress log_wage sector_public experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT shiftwork_yes parttime long_hours casual union_yes if sex_male == 1, vce(robust)
+
+{txt}Linear regression                               Number of obs     = {res}    64,858
+                                                {txt}F(27, 64830)      =  {res}   531.82
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.1913
+                                                {txt}Root MSE          =    {res} .45929
+
+{txt}{hline 17}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 18}{c |}{col 30}    Robust
+{col 1}        log_wage{col 18}{c |} Coefficient{col 30}  std. err.{col 42}      t{col 50}   P>|t|{col 58}     [95% con{col 71}f. interval]
+{hline 17}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}sector_public {c |}{col 18}{res}{space 2} .0297767{col 30}{space 2} .0046745{col 41}{space 1}    6.37{col 50}{space 3}0.000{col 58}{space 4} .0206145{col 71}{space 3} .0389388
+{txt}{space 6}experience {c |}{col 18}{res}{space 2} .0186174{col 30}{space 2} .0007056{col 41}{space 1}   26.39{col 50}{space 3}0.000{col 58}{space 4} .0172345{col 71}{space 3} .0200003
+{txt}{space 3}experience_sq {c |}{col 18}{res}{space 2} -.000268{col 30}{space 2} .0000148{col 41}{space 1}  -18.13{col 50}{space 3}0.000{col 58}{space 4} -.000297{col 71}{space 3} -.000239
+{txt}{space 9}edu_uni {c |}{col 18}{res}{space 2} .4188685{col 30}{space 2} .0054346{col 41}{space 1}   77.07{col 50}{space 3}0.000{col 58}{space 4} .4082166{col 71}{space 3} .4295204
+{txt}edu_diploma_cert {c |}{col 18}{res}{space 2} .1576817{col 30}{space 2} .0042035{col 41}{space 1}   37.51{col 50}{space 3}0.000{col 58}{space 4} .1494428{col 71}{space 3} .1659206
+{txt}{space 6}children_1 {c |}{col 18}{res}{space 2} .0261873{col 30}{space 2}  .005256{col 41}{space 1}    4.98{col 50}{space 3}0.000{col 58}{space 4} .0158855{col 71}{space 3}  .036489
+{txt}{space 6}children_2 {c |}{col 18}{res}{space 2} .0819408{col 30}{space 2} .0054469{col 41}{space 1}   15.04{col 50}{space 3}0.000{col 58}{space 4} .0712649{col 71}{space 3} .0926167
+{txt}{space 6}children_3 {c |}{col 18}{res}{space 2} .0893035{col 30}{space 2} .0078763{col 41}{space 1}   11.34{col 50}{space 3}0.000{col 58}{space 4}  .073866{col 71}{space 3} .1047411
+{txt}{space 1}children_4_plus {c |}{col 18}{res}{space 2}-.0045864{col 30}{space 2} .0137424{col 41}{space 1}   -0.33{col 50}{space 3}0.739{col 58}{space 4}-.0315214{col 71}{space 3} .0223486
+{txt}{space 5}health_poor {c |}{col 18}{res}{space 2}-.0938975{col 30}{space 2}  .005398{col 41}{space 1}  -17.39{col 50}{space 3}0.000{col 58}{space 4}-.1044777{col 71}{space 3}-.0833174
+{txt}{space 7}birth_eng {c |}{col 18}{res}{space 2} .0190794{col 30}{space 2} .0064497{col 41}{space 1}    2.96{col 50}{space 3}0.003{col 58}{space 4} .0064381{col 71}{space 3} .0317208
+{txt}{space 6}birth_neng {c |}{col 18}{res}{space 2}-.1058399{col 30}{space 2} .0061204{col 41}{space 1}  -17.29{col 50}{space 3}0.000{col 58}{space 4}-.1178359{col 71}{space 3}-.0938438
+{txt}{space 5}married_yes {c |}{col 18}{res}{space 2} .1130733{col 30}{space 2} .0053854{col 41}{space 1}   21.00{col 50}{space 3}0.000{col 58}{space 4}  .102518{col 71}{space 3} .1236287
+{txt}{space 5}married_sep {c |}{col 18}{res}{space 2} .0303963{col 30}{space 2} .0089286{col 41}{space 1}    3.40{col 50}{space 3}0.001{col 58}{space 4} .0128963{col 71}{space 3} .0478963
+{txt}{space 8}urban_no {c |}{col 18}{res}{space 2}-.0753625{col 30}{space 2} .0060311{col 41}{space 1}  -12.50{col 50}{space 3}0.000{col 58}{space 4}-.0871835{col 71}{space 3}-.0635415
+{txt}{space 7}state_VIC {c |}{col 18}{res}{space 2}-.0255251{col 30}{space 2} .0049153{col 41}{space 1}   -5.19{col 50}{space 3}0.000{col 58}{space 4} -.035159{col 71}{space 3}-.0158911
+{txt}{space 8}state_WA {c |}{col 18}{res}{space 2} .0320112{col 30}{space 2} .0076742{col 41}{space 1}    4.17{col 50}{space 3}0.000{col 58}{space 4} .0169698{col 71}{space 3} .0470526
+{txt}{space 7}state_QLD {c |}{col 18}{res}{space 2}-.0353563{col 30}{space 2} .0050899{col 41}{space 1}   -6.95{col 50}{space 3}0.000{col 58}{space 4}-.0453326{col 71}{space 3}  -.02538
+{txt}{space 8}state_SA {c |}{col 18}{res}{space 2}-.1170277{col 30}{space 2} .0070181{col 41}{space 1}  -16.68{col 50}{space 3}0.000{col 58}{space 4}-.1307832{col 71}{space 3}-.1032723
+{txt}{space 8}state_NT {c |}{col 18}{res}{space 2} .0473295{col 30}{space 2} .0187056{col 41}{space 1}    2.53{col 50}{space 3}0.011{col 58}{space 4} .0106665{col 71}{space 3} .0839924
+{txt}{space 7}state_TAS {c |}{col 18}{res}{space 2}-.1147321{col 30}{space 2} .0094297{col 41}{space 1}  -12.17{col 50}{space 3}0.000{col 58}{space 4}-.1332143{col 71}{space 3}-.0962498
+{txt}{space 7}state_ACT {c |}{col 18}{res}{space 2}  .163945{col 30}{space 2} .0119596{col 41}{space 1}   13.71{col 50}{space 3}0.000{col 58}{space 4} .1405041{col 71}{space 3} .1873859
+{txt}{space 3}shiftwork_yes {c |}{col 18}{res}{space 2} .0374056{col 30}{space 2} .0050212{col 41}{space 1}    7.45{col 50}{space 3}0.000{col 58}{space 4}  .027564{col 71}{space 3} .0472473
+{txt}{space 8}parttime {c |}{col 18}{res}{space 2}-.0508043{col 30}{space 2} .0080873{col 41}{space 1}   -6.28{col 50}{space 3}0.000{col 58}{space 4}-.0666554{col 71}{space 3}-.0349532
+{txt}{space 6}long_hours {c |}{col 18}{res}{space 2}-.0216253{col 30}{space 2}  .003768{col 41}{space 1}   -5.74{col 50}{space 3}0.000{col 58}{space 4}-.0290106{col 71}{space 3}  -.01424
+{txt}{space 10}casual {c |}{col 18}{res}{space 2}-.0658364{col 30}{space 2} .0065946{col 41}{space 1}   -9.98{col 50}{space 3}0.000{col 58}{space 4}-.0787618{col 71}{space 3} -.052911
+{txt}{space 7}union_yes {c |}{col 18}{res}{space 2} .0250525{col 30}{space 2} .0043638{col 41}{space 1}    5.74{col 50}{space 3}0.000{col 58}{space 4} .0164994{col 71}{space 3} .0336056
+{txt}{space 11}_cons {c |}{col 18}{res}{space 2} 2.920073{col 30}{space 2} .0079612{col 41}{space 1}  366.79{col 50}{space 3}0.000{col 58}{space 4} 2.904469{col 71}{space 3} 2.935677
+{txt}{hline 17}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. regress log_wage sector_public experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT shiftwork_yes parttime long_hours casual union_yes if sex_female == 1, vce(robust)
+
+{txt}Linear regression                               Number of obs     = {res}    66,949
+                                                {txt}F(27, 66921)      =  {res}   577.82
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.1918
+                                                {txt}Root MSE          =    {res} .42745
+
+{txt}{hline 17}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 18}{c |}{col 30}    Robust
+{col 1}        log_wage{col 18}{c |} Coefficient{col 30}  std. err.{col 42}      t{col 50}   P>|t|{col 58}     [95% con{col 71}f. interval]
+{hline 17}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}sector_public {c |}{col 18}{res}{space 2} .1010103{col 30}{space 2} .0039022{col 41}{space 1}   25.89{col 50}{space 3}0.000{col 58}{space 4} .0933621{col 71}{space 3} .1086586
+{txt}{space 6}experience {c |}{col 18}{res}{space 2} .0138517{col 30}{space 2}  .000683{col 41}{space 1}   20.28{col 50}{space 3}0.000{col 58}{space 4} .0125131{col 71}{space 3} .0151904
+{txt}{space 3}experience_sq {c |}{col 18}{res}{space 2}-.0001649{col 30}{space 2} .0000154{col 41}{space 1}  -10.70{col 50}{space 3}0.000{col 58}{space 4}-.0001951{col 71}{space 3}-.0001347
+{txt}{space 9}edu_uni {c |}{col 18}{res}{space 2} .3974603{col 30}{space 2} .0046587{col 41}{space 1}   85.32{col 50}{space 3}0.000{col 58}{space 4} .3883293{col 71}{space 3} .4065913
+{txt}edu_diploma_cert {c |}{col 18}{res}{space 2} .1865586{col 30}{space 2} .0040492{col 41}{space 1}   46.07{col 50}{space 3}0.000{col 58}{space 4} .1786223{col 71}{space 3}  .194495
+{txt}{space 6}children_1 {c |}{col 18}{res}{space 2} .0161994{col 30}{space 2} .0047623{col 41}{space 1}    3.40{col 50}{space 3}0.001{col 58}{space 4} .0068654{col 71}{space 3} .0255334
+{txt}{space 6}children_2 {c |}{col 18}{res}{space 2} .0392519{col 30}{space 2} .0047176{col 41}{space 1}    8.32{col 50}{space 3}0.000{col 58}{space 4} .0300055{col 71}{space 3} .0484983
+{txt}{space 6}children_3 {c |}{col 18}{res}{space 2} .0397658{col 30}{space 2}     .007{col 41}{space 1}    5.68{col 50}{space 3}0.000{col 58}{space 4} .0260458{col 71}{space 3} .0534858
+{txt}{space 1}children_4_plus {c |}{col 18}{res}{space 2}-.0223723{col 30}{space 2}  .013124{col 41}{space 1}   -1.70{col 50}{space 3}0.088{col 58}{space 4}-.0480953{col 71}{space 3} .0033506
+{txt}{space 5}health_poor {c |}{col 18}{res}{space 2}-.0335147{col 30}{space 2} .0046432{col 41}{space 1}   -7.22{col 50}{space 3}0.000{col 58}{space 4}-.0426153{col 71}{space 3}-.0244141
+{txt}{space 7}birth_eng {c |}{col 18}{res}{space 2} .0076085{col 30}{space 2} .0060766{col 41}{space 1}    1.25{col 50}{space 3}0.211{col 58}{space 4}-.0043016{col 71}{space 3} .0195187
+{txt}{space 6}birth_neng {c |}{col 18}{res}{space 2}-.0469457{col 30}{space 2} .0057055{col 41}{space 1}   -8.23{col 50}{space 3}0.000{col 58}{space 4}-.0581284{col 71}{space 3} -.035763
+{txt}{space 5}married_yes {c |}{col 18}{res}{space 2} .0614694{col 30}{space 2} .0049305{col 41}{space 1}   12.47{col 50}{space 3}0.000{col 58}{space 4} .0518057{col 71}{space 3} .0711331
+{txt}{space 5}married_sep {c |}{col 18}{res}{space 2}-.0127505{col 30}{space 2} .0065699{col 41}{space 1}   -1.94{col 50}{space 3}0.052{col 58}{space 4}-.0256275{col 71}{space 3} .0001265
+{txt}{space 8}urban_no {c |}{col 18}{res}{space 2}-.0442106{col 30}{space 2} .0055802{col 41}{space 1}   -7.92{col 50}{space 3}0.000{col 58}{space 4}-.0551477{col 71}{space 3}-.0332735
+{txt}{space 7}state_VIC {c |}{col 18}{res}{space 2}-.0338892{col 30}{space 2} .0045694{col 41}{space 1}   -7.42{col 50}{space 3}0.000{col 58}{space 4}-.0428453{col 71}{space 3}-.0249331
+{txt}{space 8}state_WA {c |}{col 18}{res}{space 2} .0065213{col 30}{space 2} .0065907{col 41}{space 1}    0.99{col 50}{space 3}0.322{col 58}{space 4}-.0063965{col 71}{space 3} .0194391
+{txt}{space 7}state_QLD {c |}{col 18}{res}{space 2}-.0640095{col 30}{space 2} .0047484{col 41}{space 1}  -13.48{col 50}{space 3}0.000{col 58}{space 4}-.0733164{col 71}{space 3}-.0547026
+{txt}{space 8}state_SA {c |}{col 18}{res}{space 2}-.0697309{col 30}{space 2}  .006467{col 41}{space 1}  -10.78{col 50}{space 3}0.000{col 58}{space 4}-.0824061{col 71}{space 3}-.0570556
+{txt}{space 8}state_NT {c |}{col 18}{res}{space 2}-.0196023{col 30}{space 2} .0169094{col 41}{space 1}   -1.16{col 50}{space 3}0.246{col 58}{space 4}-.0527448{col 71}{space 3} .0135402
+{txt}{space 7}state_TAS {c |}{col 18}{res}{space 2}-.0710365{col 30}{space 2} .0087366{col 41}{space 1}   -8.13{col 50}{space 3}0.000{col 58}{space 4}-.0881603{col 71}{space 3}-.0539127
+{txt}{space 7}state_ACT {c |}{col 18}{res}{space 2} .1005694{col 30}{space 2} .0111267{col 41}{space 1}    9.04{col 50}{space 3}0.000{col 58}{space 4}  .078761{col 71}{space 3} .1223778
+{txt}{space 3}shiftwork_yes {c |}{col 18}{res}{space 2} .0138375{col 30}{space 2} .0046329{col 41}{space 1}    2.99{col 50}{space 3}0.003{col 58}{space 4} .0047569{col 71}{space 3}  .022918
+{txt}{space 8}parttime {c |}{col 18}{res}{space 2}-.0235675{col 30}{space 2} .0039795{col 41}{space 1}   -5.92{col 50}{space 3}0.000{col 58}{space 4}-.0313673{col 71}{space 3}-.0157677
+{txt}{space 6}long_hours {c |}{col 18}{res}{space 2}-.0372596{col 30}{space 2} .0046914{col 41}{space 1}   -7.94{col 50}{space 3}0.000{col 58}{space 4}-.0464547{col 71}{space 3}-.0280645
+{txt}{space 10}casual {c |}{col 18}{res}{space 2}   -.0844{col 30}{space 2} .0053664{col 41}{space 1}  -15.73{col 50}{space 3}0.000{col 58}{space 4}-.0949181{col 71}{space 3}-.0738819
+{txt}{space 7}union_yes {c |}{col 18}{res}{space 2} .0318729{col 30}{space 2} .0039188{col 41}{space 1}    8.13{col 50}{space 3}0.000{col 58}{space 4} .0241921{col 71}{space 3} .0395538
+{txt}{space 11}_cons {c |}{col 18}{res}{space 2} 2.861585{col 30}{space 2} .0079219{col 41}{space 1}  361.23{col 50}{space 3}0.000{col 58}{space 4} 2.846058{col 71}{space 3} 2.877112
+{txt}{hline 17}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. *human capital + demographic + basic job char + union + WPS
+. regress log_wage sector_public experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT shiftwork_yes parttime long_hours casual union_yes firm_size_20_99 firm_size_100_199 firm_size_200_499 firm_size_500 firm_size_unknown if sex_male == 1, vce(robust)
+
+{txt}Linear regression                               Number of obs     = {res}    64,858
+                                                {txt}F(32, 64825)      =  {res}   591.94
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.2334
+                                                {txt}Root MSE          =    {res} .44719
+
+{txt}{hline 18}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 19}{c |}{col 31}    Robust
+{col 1}         log_wage{col 19}{c |} Coefficient{col 31}  std. err.{col 43}      t{col 51}   P>|t|{col 59}     [95% con{col 72}f. interval]
+{hline 18}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 4}sector_public {c |}{col 19}{res}{space 2}-.0223393{col 31}{space 2} .0046546{col 42}{space 1}   -4.80{col 51}{space 3}0.000{col 59}{space 4}-.0314623{col 72}{space 3}-.0132163
+{txt}{space 7}experience {c |}{col 19}{res}{space 2} .0174225{col 31}{space 2} .0006919{col 42}{space 1}   25.18{col 51}{space 3}0.000{col 59}{space 4} .0160664{col 72}{space 3} .0187786
+{txt}{space 4}experience_sq {c |}{col 19}{res}{space 2}-.0002436{col 31}{space 2} .0000145{col 42}{space 1}  -16.77{col 51}{space 3}0.000{col 59}{space 4}-.0002721{col 72}{space 3}-.0002151
+{txt}{space 10}edu_uni {c |}{col 19}{res}{space 2} .3855451{col 31}{space 2} .0053447{col 42}{space 1}   72.14{col 51}{space 3}0.000{col 59}{space 4} .3750696{col 72}{space 3} .3960207
+{txt}{space 1}edu_diploma_cert {c |}{col 19}{res}{space 2} .1519817{col 31}{space 2} .0041121{col 42}{space 1}   36.96{col 51}{space 3}0.000{col 59}{space 4}  .143922{col 72}{space 3} .1600414
+{txt}{space 7}children_1 {c |}{col 19}{res}{space 2} .0250283{col 31}{space 2} .0051027{col 42}{space 1}    4.90{col 51}{space 3}0.000{col 59}{space 4}  .015027{col 72}{space 3} .0350295
+{txt}{space 7}children_2 {c |}{col 19}{res}{space 2}  .080851{col 31}{space 2} .0052957{col 42}{space 1}   15.27{col 51}{space 3}0.000{col 59}{space 4} .0704715{col 72}{space 3} .0912305
+{txt}{space 7}children_3 {c |}{col 19}{res}{space 2} .0884596{col 31}{space 2} .0076242{col 42}{space 1}   11.60{col 51}{space 3}0.000{col 59}{space 4} .0735162{col 72}{space 3} .1034029
+{txt}{space 2}children_4_plus {c |}{col 19}{res}{space 2} -.009688{col 31}{space 2} .0132668{col 42}{space 1}   -0.73{col 51}{space 3}0.465{col 59}{space 4} -.035691{col 72}{space 3}  .016315
+{txt}{space 6}health_poor {c |}{col 19}{res}{space 2}-.0907886{col 31}{space 2} .0053122{col 42}{space 1}  -17.09{col 51}{space 3}0.000{col 59}{space 4}-.1012005{col 72}{space 3}-.0803768
+{txt}{space 8}birth_eng {c |}{col 19}{res}{space 2}  .007234{col 31}{space 2} .0062121{col 42}{space 1}    1.16{col 51}{space 3}0.244{col 59}{space 4}-.0049416{col 72}{space 3} .0194097
+{txt}{space 7}birth_neng {c |}{col 19}{res}{space 2}-.1208986{col 31}{space 2} .0059753{col 42}{space 1}  -20.23{col 51}{space 3}0.000{col 59}{space 4}-.1326103{col 72}{space 3} -.109187
+{txt}{space 6}married_yes {c |}{col 19}{res}{space 2} .1135178{col 31}{space 2} .0052702{col 42}{space 1}   21.54{col 51}{space 3}0.000{col 59}{space 4} .1031882{col 72}{space 3} .1238475
+{txt}{space 6}married_sep {c |}{col 19}{res}{space 2} .0395265{col 31}{space 2} .0087571{col 42}{space 1}    4.51{col 51}{space 3}0.000{col 59}{space 4} .0223626{col 72}{space 3} .0566905
+{txt}{space 9}urban_no {c |}{col 19}{res}{space 2}-.0493068{col 31}{space 2} .0058415{col 42}{space 1}   -8.44{col 51}{space 3}0.000{col 59}{space 4}-.0607561{col 72}{space 3}-.0378575
+{txt}{space 8}state_VIC {c |}{col 19}{res}{space 2}-.0292435{col 31}{space 2} .0047652{col 42}{space 1}   -6.14{col 51}{space 3}0.000{col 59}{space 4}-.0385833{col 72}{space 3}-.0199037
+{txt}{space 9}state_WA {c |}{col 19}{res}{space 2} .0284735{col 31}{space 2} .0073683{col 42}{space 1}    3.86{col 51}{space 3}0.000{col 59}{space 4} .0140317{col 72}{space 3} .0429153
+{txt}{space 8}state_QLD {c |}{col 19}{res}{space 2}-.0266309{col 31}{space 2} .0049492{col 42}{space 1}   -5.38{col 51}{space 3}0.000{col 59}{space 4}-.0363313{col 72}{space 3}-.0169306
+{txt}{space 9}state_SA {c |}{col 19}{res}{space 2}-.1167383{col 31}{space 2}  .006952{col 42}{space 1}  -16.79{col 51}{space 3}0.000{col 59}{space 4}-.1303642{col 72}{space 3}-.1031124
+{txt}{space 9}state_NT {c |}{col 19}{res}{space 2} .0578379{col 31}{space 2} .0178323{col 42}{space 1}    3.24{col 51}{space 3}0.001{col 59}{space 4} .0228866{col 72}{space 3} .0927892
+{txt}{space 8}state_TAS {c |}{col 19}{res}{space 2}-.1031135{col 31}{space 2} .0093109{col 42}{space 1}  -11.07{col 51}{space 3}0.000{col 59}{space 4}-.1213629{col 72}{space 3}-.0848641
+{txt}{space 8}state_ACT {c |}{col 19}{res}{space 2} .1275868{col 31}{space 2}  .011856{col 42}{space 1}   10.76{col 51}{space 3}0.000{col 59}{space 4}  .104349{col 72}{space 3} .1508246
+{txt}{space 4}shiftwork_yes {c |}{col 19}{res}{space 2} .0059094{col 31}{space 2} .0049214{col 42}{space 1}    1.20{col 51}{space 3}0.230{col 59}{space 4}-.0037366{col 72}{space 3} .0155555
+{txt}{space 9}parttime {c |}{col 19}{res}{space 2} -.029558{col 31}{space 2} .0080101{col 42}{space 1}   -3.69{col 51}{space 3}0.000{col 59}{space 4}-.0452579{col 72}{space 3}-.0138581
+{txt}{space 7}long_hours {c |}{col 19}{res}{space 2}-.0255075{col 31}{space 2} .0036553{col 42}{space 1}   -6.98{col 51}{space 3}0.000{col 59}{space 4}-.0326718{col 72}{space 3}-.0183431
+{txt}{space 11}casual {c |}{col 19}{res}{space 2}-.0331641{col 31}{space 2} .0064447{col 42}{space 1}   -5.15{col 51}{space 3}0.000{col 59}{space 4}-.0457957{col 72}{space 3}-.0205325
+{txt}{space 8}union_yes {c |}{col 19}{res}{space 2}  .003037{col 31}{space 2} .0043102{col 42}{space 1}    0.70{col 51}{space 3}0.481{col 59}{space 4} -.005411{col 72}{space 3} .0114851
+{txt}{space 2}firm_size_20_99 {c |}{col 19}{res}{space 2} .0958516{col 31}{space 2} .0044827{col 42}{space 1}   21.38{col 51}{space 3}0.000{col 59}{space 4} .0870656{col 72}{space 3} .1046377
+{txt}firm_size_100_199 {c |}{col 19}{res}{space 2} .1575049{col 31}{space 2}  .006265{col 42}{space 1}   25.14{col 51}{space 3}0.000{col 59}{space 4} .1452255{col 72}{space 3} .1697843
+{txt}firm_size_200_499 {c |}{col 19}{res}{space 2} .2519758{col 31}{space 2} .0064422{col 42}{space 1}   39.11{col 51}{space 3}0.000{col 59}{space 4} .2393491{col 72}{space 3} .2646025
+{txt}{space 4}firm_size_500 {c |}{col 19}{res}{space 2} .3189098{col 31}{space 2} .0060314{col 42}{space 1}   52.88{col 51}{space 3}0.000{col 59}{space 4} .3070883{col 72}{space 3} .3307313
+{txt}firm_size_unknown {c |}{col 19}{res}{space 2}-.0164252{col 31}{space 2} .0310505{col 42}{space 1}   -0.53{col 51}{space 3}0.597{col 59}{space 4}-.0772841{col 72}{space 3} .0444337
+{txt}{space 12}_cons {c |}{col 19}{res}{space 2} 2.840745{col 31}{space 2} .0079874{col 42}{space 1}  355.65{col 51}{space 3}0.000{col 59}{space 4}  2.82509{col 72}{space 3} 2.856401
+{txt}{hline 18}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. regress log_wage sector_public experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT shiftwork_yes parttime long_hours casual union_yes firm_size_20_99 firm_size_100_199 firm_size_200_499 firm_size_500 firm_size_unknown if sex_female == 1, vce(robust)
+
+{txt}Linear regression                               Number of obs     = {res}    66,949
+                                                {txt}F(32, 66916)      =  {res}   555.13
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.2131
+                                                {txt}Root MSE          =    {res} .42181
+
+{txt}{hline 18}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 19}{c |}{col 31}    Robust
+{col 1}         log_wage{col 19}{c |} Coefficient{col 31}  std. err.{col 43}      t{col 51}   P>|t|{col 59}     [95% con{col 72}f. interval]
+{hline 18}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 4}sector_public {c |}{col 19}{res}{space 2} .0576911{col 31}{space 2} .0040003{col 42}{space 1}   14.42{col 51}{space 3}0.000{col 59}{space 4} .0498505{col 72}{space 3} .0655316
+{txt}{space 7}experience {c |}{col 19}{res}{space 2} .0130771{col 31}{space 2} .0006767{col 42}{space 1}   19.33{col 51}{space 3}0.000{col 59}{space 4} .0117508{col 72}{space 3} .0144034
+{txt}{space 4}experience_sq {c |}{col 19}{res}{space 2}-.0001501{col 31}{space 2} .0000153{col 42}{space 1}   -9.83{col 51}{space 3}0.000{col 59}{space 4}  -.00018{col 72}{space 3}-.0001202
+{txt}{space 10}edu_uni {c |}{col 19}{res}{space 2} .3800379{col 31}{space 2} .0046103{col 42}{space 1}   82.43{col 51}{space 3}0.000{col 59}{space 4} .3710017{col 72}{space 3} .3890742
+{txt}{space 1}edu_diploma_cert {c |}{col 19}{res}{space 2} .1875551{col 31}{space 2} .0040087{col 42}{space 1}   46.79{col 51}{space 3}0.000{col 59}{space 4}  .179698{col 72}{space 3} .1954122
+{txt}{space 7}children_1 {c |}{col 19}{res}{space 2} .0166317{col 31}{space 2} .0047053{col 42}{space 1}    3.53{col 51}{space 3}0.000{col 59}{space 4} .0074093{col 72}{space 3} .0258542
+{txt}{space 7}children_2 {c |}{col 19}{res}{space 2} .0397536{col 31}{space 2} .0046511{col 42}{space 1}    8.55{col 51}{space 3}0.000{col 59}{space 4} .0306374{col 72}{space 3} .0488698
+{txt}{space 7}children_3 {c |}{col 19}{res}{space 2} .0420319{col 31}{space 2} .0068835{col 42}{space 1}    6.11{col 51}{space 3}0.000{col 59}{space 4} .0285402{col 72}{space 3} .0555236
+{txt}{space 2}children_4_plus {c |}{col 19}{res}{space 2}-.0116589{col 31}{space 2} .0130263{col 42}{space 1}   -0.90{col 51}{space 3}0.371{col 59}{space 4}-.0371905{col 72}{space 3} .0138727
+{txt}{space 6}health_poor {c |}{col 19}{res}{space 2}-.0331292{col 31}{space 2} .0046015{col 42}{space 1}   -7.20{col 51}{space 3}0.000{col 59}{space 4}-.0421482{col 72}{space 3}-.0241102
+{txt}{space 8}birth_eng {c |}{col 19}{res}{space 2}-.0039527{col 31}{space 2} .0060189{col 42}{space 1}   -0.66{col 51}{space 3}0.511{col 59}{space 4}-.0157498{col 72}{space 3} .0078443
+{txt}{space 7}birth_neng {c |}{col 19}{res}{space 2}-.0582721{col 31}{space 2} .0056192{col 42}{space 1}  -10.37{col 51}{space 3}0.000{col 59}{space 4}-.0692858{col 72}{space 3}-.0472584
+{txt}{space 6}married_yes {c |}{col 19}{res}{space 2} .0635888{col 31}{space 2}  .004896{col 42}{space 1}   12.99{col 51}{space 3}0.000{col 59}{space 4} .0539926{col 72}{space 3} .0731849
+{txt}{space 6}married_sep {c |}{col 19}{res}{space 2} -.007853{col 31}{space 2} .0065119{col 42}{space 1}   -1.21{col 51}{space 3}0.228{col 59}{space 4}-.0206164{col 72}{space 3} .0049104
+{txt}{space 9}urban_no {c |}{col 19}{res}{space 2}-.0259007{col 31}{space 2} .0055484{col 42}{space 1}   -4.67{col 51}{space 3}0.000{col 59}{space 4}-.0367755{col 72}{space 3}-.0150259
+{txt}{space 8}state_VIC {c |}{col 19}{res}{space 2}-.0408513{col 31}{space 2} .0044972{col 42}{space 1}   -9.08{col 51}{space 3}0.000{col 59}{space 4}-.0496658{col 72}{space 3}-.0320367
+{txt}{space 9}state_WA {c |}{col 19}{res}{space 2} .0026809{col 31}{space 2} .0064813{col 42}{space 1}    0.41{col 51}{space 3}0.679{col 59}{space 4}-.0100225{col 72}{space 3} .0153842
+{txt}{space 8}state_QLD {c |}{col 19}{res}{space 2} -.061201{col 31}{space 2} .0046878{col 42}{space 1}  -13.06{col 51}{space 3}0.000{col 59}{space 4}-.0703891{col 72}{space 3} -.052013
+{txt}{space 9}state_SA {c |}{col 19}{res}{space 2}-.0712245{col 31}{space 2} .0064354{col 42}{space 1}  -11.07{col 51}{space 3}0.000{col 59}{space 4}-.0838379{col 72}{space 3}-.0586111
+{txt}{space 9}state_NT {c |}{col 19}{res}{space 2}-.0038184{col 31}{space 2} .0166976{col 42}{space 1}   -0.23{col 51}{space 3}0.819{col 59}{space 4}-.0365456{col 72}{space 3} .0289089
+{txt}{space 8}state_TAS {c |}{col 19}{res}{space 2}-.0716334{col 31}{space 2} .0086811{col 42}{space 1}   -8.25{col 51}{space 3}0.000{col 59}{space 4}-.0886483{col 72}{space 3}-.0546185
+{txt}{space 8}state_ACT {c |}{col 19}{res}{space 2} .0695923{col 31}{space 2} .0109159{col 42}{space 1}    6.38{col 51}{space 3}0.000{col 59}{space 4} .0481971{col 72}{space 3} .0909875
+{txt}{space 4}shiftwork_yes {c |}{col 19}{res}{space 2}-.0147182{col 31}{space 2} .0046602{col 42}{space 1}   -3.16{col 51}{space 3}0.002{col 59}{space 4}-.0238522{col 72}{space 3}-.0055843
+{txt}{space 9}parttime {c |}{col 19}{res}{space 2}-.0118865{col 31}{space 2} .0039376{col 42}{space 1}   -3.02{col 51}{space 3}0.003{col 59}{space 4}-.0196041{col 72}{space 3}-.0041689
+{txt}{space 7}long_hours {c |}{col 19}{res}{space 2}-.0400485{col 31}{space 2} .0045859{col 42}{space 1}   -8.73{col 51}{space 3}0.000{col 59}{space 4}-.0490369{col 72}{space 3}-.0310601
+{txt}{space 11}casual {c |}{col 19}{res}{space 2}-.0621893{col 31}{space 2} .0053579{col 42}{space 1}  -11.61{col 51}{space 3}0.000{col 59}{space 4}-.0726907{col 72}{space 3}-.0516878
+{txt}{space 8}union_yes {c |}{col 19}{res}{space 2} .0266886{col 31}{space 2} .0039222{col 42}{space 1}    6.80{col 51}{space 3}0.000{col 59}{space 4} .0190011{col 72}{space 3} .0343761
+{txt}{space 2}firm_size_20_99 {c |}{col 19}{res}{space 2} .0519306{col 31}{space 2} .0042182{col 42}{space 1}   12.31{col 51}{space 3}0.000{col 59}{space 4} .0436628{col 72}{space 3} .0601983
+{txt}firm_size_100_199 {c |}{col 19}{res}{space 2} .0923969{col 31}{space 2} .0058613{col 42}{space 1}   15.76{col 51}{space 3}0.000{col 59}{space 4} .0809088{col 72}{space 3}  .103885
+{txt}firm_size_200_499 {c |}{col 19}{res}{space 2} .1268506{col 31}{space 2} .0062993{col 42}{space 1}   20.14{col 51}{space 3}0.000{col 59}{space 4} .1145039{col 72}{space 3} .1391973
+{txt}{space 4}firm_size_500 {c |}{col 19}{res}{space 2} .2282708{col 31}{space 2} .0057118{col 42}{space 1}   39.96{col 51}{space 3}0.000{col 59}{space 4} .2170756{col 72}{space 3}  .239466
+{txt}firm_size_unknown {c |}{col 19}{res}{space 2}-.0021016{col 31}{space 2} .0211471{col 42}{space 1}   -0.10{col 51}{space 3}0.921{col 59}{space 4}  -.04355{col 72}{space 3} .0393467
+{txt}{space 12}_cons {c |}{col 19}{res}{space 2} 2.813586{col 31}{space 2} .0080722{col 42}{space 1}  348.55{col 51}{space 3}0.000{col 59}{space 4} 2.797765{col 72}{space 3} 2.829408
+{txt}{hline 18}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. *human capital + demographic + basic job char + union + WPS + ind
+. *ind_agri ind_wholesale ind_finance ind_education ind_mine ind_retail ind_housing ind_health ind_manufact ind_accomo_food ind_prof_sci_technical ind_arts_rec ind_utilities ind_logistics ind_admin ind_other_unknown ind_construct ind_it ind_public_admin
+. regress log_wage sector_public experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT shiftwork_yes parttime long_hours casual union_yes firm_size_20_99 firm_size_100_199 firm_size_200_499 firm_size_500 firm_size_unknown ind_wholesale ind_finance ind_education ind_mine ind_retail ind_housing ind_health ind_manufact ind_accomo_food ind_prof_sci_technical ind_arts_rec ind_utilities ind_logistics ind_admin ind_other_unknown ind_construct ind_it ind_public_admin if sex_male == 1, vce(robust)
+
+{txt}Linear regression                               Number of obs     = {res}    64,858
+                                                {txt}F(50, 64807)      =  {res}   518.13
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.2861
+                                                {txt}Root MSE          =    {res} .43162
+
+{txt}{hline 23}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 24}{c |}{col 36}    Robust
+{col 1}              log_wage{col 24}{c |} Coefficient{col 36}  std. err.{col 48}      t{col 56}   P>|t|{col 64}     [95% con{col 77}f. interval]
+{hline 23}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}sector_public {c |}{col 24}{res}{space 2}-.0140805{col 36}{space 2} .0061978{col 47}{space 1}   -2.27{col 56}{space 3}0.023{col 64}{space 4}-.0262281{col 77}{space 3}-.0019329
+{txt}{space 12}experience {c |}{col 24}{res}{space 2} .0180515{col 36}{space 2} .0006747{col 47}{space 1}   26.75{col 56}{space 3}0.000{col 64}{space 4}  .016729{col 77}{space 3}  .019374
+{txt}{space 9}experience_sq {c |}{col 24}{res}{space 2}-.0002531{col 36}{space 2} .0000141{col 47}{space 1}  -17.93{col 56}{space 3}0.000{col 64}{space 4}-.0002808{col 77}{space 3}-.0002255
+{txt}{space 15}edu_uni {c |}{col 24}{res}{space 2} .3523945{col 36}{space 2} .0055119{col 47}{space 1}   63.93{col 56}{space 3}0.000{col 64}{space 4} .3415912{col 77}{space 3} .3631977
+{txt}{space 6}edu_diploma_cert {c |}{col 24}{res}{space 2}  .136159{col 36}{space 2} .0040346{col 47}{space 1}   33.75{col 56}{space 3}0.000{col 64}{space 4} .1282512{col 77}{space 3} .1440669
+{txt}{space 12}children_1 {c |}{col 24}{res}{space 2} .0260271{col 36}{space 2}  .004894{col 47}{space 1}    5.32{col 56}{space 3}0.000{col 64}{space 4} .0164349{col 77}{space 3} .0356193
+{txt}{space 12}children_2 {c |}{col 24}{res}{space 2} .0744287{col 36}{space 2} .0051165{col 47}{space 1}   14.55{col 56}{space 3}0.000{col 64}{space 4} .0644004{col 77}{space 3} .0844571
+{txt}{space 12}children_3 {c |}{col 24}{res}{space 2} .0881578{col 36}{space 2} .0072863{col 47}{space 1}   12.10{col 56}{space 3}0.000{col 64}{space 4} .0738767{col 77}{space 3} .1024389
+{txt}{space 7}children_4_plus {c |}{col 24}{res}{space 2}-.0132707{col 36}{space 2} .0127381{col 47}{space 1}   -1.04{col 56}{space 3}0.298{col 64}{space 4}-.0382374{col 77}{space 3} .0116961
+{txt}{space 11}health_poor {c |}{col 24}{res}{space 2}-.0824243{col 36}{space 2} .0051579{col 47}{space 1}  -15.98{col 56}{space 3}0.000{col 64}{space 4}-.0925338{col 77}{space 3}-.0723148
+{txt}{space 13}birth_eng {c |}{col 24}{res}{space 2} .0061852{col 36}{space 2} .0059547{col 47}{space 1}    1.04{col 56}{space 3}0.299{col 64}{space 4} -.005486{col 77}{space 3} .0178564
+{txt}{space 12}birth_neng {c |}{col 24}{res}{space 2}-.1033041{col 36}{space 2} .0058304{col 47}{space 1}  -17.72{col 56}{space 3}0.000{col 64}{space 4}-.1147316{col 77}{space 3}-.0918765
+{txt}{space 11}married_yes {c |}{col 24}{res}{space 2} .1007396{col 36}{space 2} .0051233{col 47}{space 1}   19.66{col 56}{space 3}0.000{col 64}{space 4} .0906979{col 77}{space 3} .1107813
+{txt}{space 11}married_sep {c |}{col 24}{res}{space 2} .0348753{col 36}{space 2} .0084745{col 47}{space 1}    4.12{col 56}{space 3}0.000{col 64}{space 4} .0182654{col 77}{space 3} .0514853
+{txt}{space 14}urban_no {c |}{col 24}{res}{space 2}-.0356288{col 36}{space 2} .0057108{col 47}{space 1}   -6.24{col 56}{space 3}0.000{col 64}{space 4} -.046822{col 77}{space 3}-.0244355
+{txt}{space 13}state_VIC {c |}{col 24}{res}{space 2}-.0146498{col 36}{space 2} .0046509{col 47}{space 1}   -3.15{col 56}{space 3}0.002{col 64}{space 4}-.0237656{col 77}{space 3}-.0055341
+{txt}{space 14}state_WA {c |}{col 24}{res}{space 2} .0079913{col 36}{space 2} .0071412{col 47}{space 1}    1.12{col 56}{space 3}0.263{col 64}{space 4}-.0060054{col 77}{space 3}  .021988
+{txt}{space 13}state_QLD {c |}{col 24}{res}{space 2}-.0226841{col 36}{space 2} .0047532{col 47}{space 1}   -4.77{col 56}{space 3}0.000{col 64}{space 4}-.0320004{col 77}{space 3}-.0133679
+{txt}{space 14}state_SA {c |}{col 24}{res}{space 2}-.0969875{col 36}{space 2} .0068212{col 47}{space 1}  -14.22{col 56}{space 3}0.000{col 64}{space 4} -.110357{col 77}{space 3}-.0836179
+{txt}{space 14}state_NT {c |}{col 24}{res}{space 2} .0566085{col 36}{space 2} .0168603{col 47}{space 1}    3.36{col 56}{space 3}0.001{col 64}{space 4} .0235623{col 77}{space 3} .0896547
+{txt}{space 13}state_TAS {c |}{col 24}{res}{space 2}-.0864662{col 36}{space 2} .0092959{col 47}{space 1}   -9.30{col 56}{space 3}0.000{col 64}{space 4}-.1046861{col 77}{space 3}-.0682463
+{txt}{space 13}state_ACT {c |}{col 24}{res}{space 2} .1206789{col 36}{space 2} .0114956{col 47}{space 1}   10.50{col 56}{space 3}0.000{col 64}{space 4} .0981476{col 77}{space 3} .1432102
+{txt}{space 9}shiftwork_yes {c |}{col 24}{res}{space 2} .0316061{col 36}{space 2} .0050152{col 47}{space 1}    6.30{col 56}{space 3}0.000{col 64}{space 4} .0217763{col 77}{space 3} .0414358
+{txt}{space 14}parttime {c |}{col 24}{res}{space 2} .0113747{col 36}{space 2} .0080269{col 47}{space 1}    1.42{col 56}{space 3}0.156{col 64}{space 4} -.004358{col 77}{space 3} .0271075
+{txt}{space 12}long_hours {c |}{col 24}{res}{space 2}-.0393615{col 36}{space 2} .0035465{col 47}{space 1}  -11.10{col 56}{space 3}0.000{col 64}{space 4}-.0463125{col 77}{space 3}-.0324104
+{txt}{space 16}casual {c |}{col 24}{res}{space 2}-.0381198{col 36}{space 2} .0063496{col 47}{space 1}   -6.00{col 56}{space 3}0.000{col 64}{space 4} -.050565{col 77}{space 3}-.0256747
+{txt}{space 13}union_yes {c |}{col 24}{res}{space 2}-.0070924{col 36}{space 2} .0042093{col 47}{space 1}   -1.68{col 56}{space 3}0.092{col 64}{space 4}-.0153427{col 77}{space 3} .0011578
+{txt}{space 7}firm_size_20_99 {c |}{col 24}{res}{space 2} .0941707{col 36}{space 2} .0043703{col 47}{space 1}   21.55{col 56}{space 3}0.000{col 64}{space 4} .0856048{col 77}{space 3} .1027365
+{txt}{space 5}firm_size_100_199 {c |}{col 24}{res}{space 2} .1518713{col 36}{space 2} .0061118{col 47}{space 1}   24.85{col 56}{space 3}0.000{col 64}{space 4} .1398921{col 77}{space 3} .1638505
+{txt}{space 5}firm_size_200_499 {c |}{col 24}{res}{space 2}  .210674{col 36}{space 2} .0063221{col 47}{space 1}   33.32{col 56}{space 3}0.000{col 64}{space 4} .1982826{col 77}{space 3} .2230655
+{txt}{space 9}firm_size_500 {c |}{col 24}{res}{space 2} .2730654{col 36}{space 2} .0060276{col 47}{space 1}   45.30{col 56}{space 3}0.000{col 64}{space 4} .2612513{col 77}{space 3} .2848794
+{txt}{space 5}firm_size_unknown {c |}{col 24}{res}{space 2}-.0404305{col 36}{space 2} .0307894{col 47}{space 1}   -1.31{col 56}{space 3}0.189{col 64}{space 4}-.1007778{col 77}{space 3} .0199168
+{txt}{space 9}ind_wholesale {c |}{col 24}{res}{space 2}  .176201{col 36}{space 2}  .014253{col 47}{space 1}   12.36{col 56}{space 3}0.000{col 64}{space 4} .1482651{col 77}{space 3}  .204137
+{txt}{space 11}ind_finance {c |}{col 24}{res}{space 2} .4233332{col 36}{space 2}  .015456{col 47}{space 1}   27.39{col 56}{space 3}0.000{col 64}{space 4} .3930395{col 77}{space 3} .4536269
+{txt}{space 9}ind_education {c |}{col 24}{res}{space 2}  .157028{col 36}{space 2} .0145008{col 47}{space 1}   10.83{col 56}{space 3}0.000{col 64}{space 4} .1286064{col 77}{space 3} .1854496
+{txt}{space 14}ind_mine {c |}{col 24}{res}{space 2} .5415557{col 36}{space 2} .0153457{col 47}{space 1}   35.29{col 56}{space 3}0.000{col 64}{space 4} .5114781{col 77}{space 3} .5716334
+{txt}{space 12}ind_retail {c |}{col 24}{res}{space 2} .0383224{col 36}{space 2} .0134209{col 47}{space 1}    2.86{col 56}{space 3}0.004{col 64}{space 4} .0120174{col 77}{space 3} .0646274
+{txt}{space 11}ind_housing {c |}{col 24}{res}{space 2} .1860412{col 36}{space 2} .0222915{col 47}{space 1}    8.35{col 56}{space 3}0.000{col 64}{space 4}   .14235{col 77}{space 3} .2297325
+{txt}{space 12}ind_health {c |}{col 24}{res}{space 2} .1612795{col 36}{space 2} .0151379{col 47}{space 1}   10.65{col 56}{space 3}0.000{col 64}{space 4} .1316092{col 77}{space 3} .1909498
+{txt}{space 10}ind_manufact {c |}{col 24}{res}{space 2} .1372821{col 36}{space 2} .0128138{col 47}{space 1}   10.71{col 56}{space 3}0.000{col 64}{space 4} .1121671{col 77}{space 3} .1623971
+{txt}{space 7}ind_accomo_food {c |}{col 24}{res}{space 2} .0117109{col 36}{space 2}  .015406{col 47}{space 1}    0.76{col 56}{space 3}0.447{col 64}{space 4}-.0184849{col 77}{space 3} .0419067
+{txt}ind_prof_sci_technical {c |}{col 24}{res}{space 2} .3649018{col 36}{space 2} .0139089{col 47}{space 1}   26.24{col 56}{space 3}0.000{col 64}{space 4} .3376404{col 77}{space 3} .3921631
+{txt}{space 10}ind_arts_rec {c |}{col 24}{res}{space 2} .0522849{col 36}{space 2} .0186939{col 47}{space 1}    2.80{col 56}{space 3}0.005{col 64}{space 4} .0156448{col 77}{space 3}  .088925
+{txt}{space 9}ind_utilities {c |}{col 24}{res}{space 2} .3540789{col 36}{space 2} .0173809{col 47}{space 1}   20.37{col 56}{space 3}0.000{col 64}{space 4} .3200123{col 77}{space 3} .3881455
+{txt}{space 9}ind_logistics {c |}{col 24}{res}{space 2} .1813295{col 36}{space 2} .0137631{col 47}{space 1}   13.18{col 56}{space 3}0.000{col 64}{space 4} .1543539{col 77}{space 3} .2083052
+{txt}{space 13}ind_admin {c |}{col 24}{res}{space 2} .1296983{col 36}{space 2} .0166135{col 47}{space 1}    7.81{col 56}{space 3}0.000{col 64}{space 4} .0971358{col 77}{space 3} .1622608
+{txt}{space 5}ind_other_unknown {c |}{col 24}{res}{space 2} .1462506{col 36}{space 2} .0149253{col 47}{space 1}    9.80{col 56}{space 3}0.000{col 64}{space 4}  .116997{col 77}{space 3} .1755042
+{txt}{space 9}ind_construct {c |}{col 24}{res}{space 2} .3144456{col 36}{space 2} .0130414{col 47}{space 1}   24.11{col 56}{space 3}0.000{col 64}{space 4} .2888845{col 77}{space 3} .3400068
+{txt}{space 16}ind_it {c |}{col 24}{res}{space 2} .2475625{col 36}{space 2} .0163525{col 47}{space 1}   15.14{col 56}{space 3}0.000{col 64}{space 4} .2155116{col 77}{space 3} .2796135
+{txt}{space 6}ind_public_admin {c |}{col 24}{res}{space 2} .2430427{col 36}{space 2} .0140113{col 47}{space 1}   17.35{col 56}{space 3}0.000{col 64}{space 4} .2155806{col 77}{space 3} .2705048
+{txt}{space 17}_cons {c |}{col 24}{res}{space 2} 2.651101{col 36}{space 2} .0142206{col 47}{space 1}  186.43{col 56}{space 3}0.000{col 64}{space 4} 2.623229{col 77}{space 3} 2.678973
+{txt}{hline 23}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. regress log_wage sector_public experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT shiftwork_yes parttime long_hours casual union_yes firm_size_20_99 firm_size_100_199 firm_size_200_499 firm_size_500 firm_size_unknown ind_wholesale ind_finance ind_education ind_mine ind_retail ind_housing ind_health ind_manufact ind_accomo_food ind_prof_sci_technical ind_arts_rec ind_utilities ind_logistics ind_admin ind_other_unknown ind_construct ind_it ind_public_admin if sex_female == 1, vce(robust)
+
+{txt}Linear regression                               Number of obs     = {res}    66,949
+                                                {txt}F(50, 66898)      =  {res}   408.93
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.2331
+                                                {txt}Root MSE          =    {res} .41647
+
+{txt}{hline 23}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 24}{c |}{col 36}    Robust
+{col 1}              log_wage{col 24}{c |} Coefficient{col 36}  std. err.{col 48}      t{col 56}   P>|t|{col 64}     [95% con{col 77}f. interval]
+{hline 23}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}sector_public {c |}{col 24}{res}{space 2} .0257094{col 36}{space 2} .0047705{col 47}{space 1}    5.39{col 56}{space 3}0.000{col 64}{space 4} .0163593{col 77}{space 3} .0350595
+{txt}{space 12}experience {c |}{col 24}{res}{space 2} .0120228{col 36}{space 2} .0006737{col 47}{space 1}   17.85{col 56}{space 3}0.000{col 64}{space 4} .0107024{col 77}{space 3} .0133432
+{txt}{space 9}experience_sq {c |}{col 24}{res}{space 2}-.0001304{col 36}{space 2} .0000152{col 47}{space 1}   -8.57{col 56}{space 3}0.000{col 64}{space 4}-.0001602{col 77}{space 3}-.0001005
+{txt}{space 15}edu_uni {c |}{col 24}{res}{space 2} .3567307{col 36}{space 2} .0047548{col 47}{space 1}   75.03{col 56}{space 3}0.000{col 64}{space 4} .3474114{col 77}{space 3} .3660501
+{txt}{space 6}edu_diploma_cert {c |}{col 24}{res}{space 2} .1722659{col 36}{space 2} .0040785{col 47}{space 1}   42.24{col 56}{space 3}0.000{col 64}{space 4} .1642721{col 77}{space 3} .1802597
+{txt}{space 12}children_1 {c |}{col 24}{res}{space 2}   .02015{col 36}{space 2} .0046591{col 47}{space 1}    4.32{col 56}{space 3}0.000{col 64}{space 4} .0110182{col 77}{space 3} .0292818
+{txt}{space 12}children_2 {c |}{col 24}{res}{space 2} .0385468{col 36}{space 2} .0046027{col 47}{space 1}    8.37{col 56}{space 3}0.000{col 64}{space 4} .0295255{col 77}{space 3}  .047568
+{txt}{space 12}children_3 {c |}{col 24}{res}{space 2} .0427099{col 36}{space 2} .0068227{col 47}{space 1}    6.26{col 56}{space 3}0.000{col 64}{space 4} .0293375{col 77}{space 3} .0560823
+{txt}{space 7}children_4_plus {c |}{col 24}{res}{space 2}-.0073873{col 36}{space 2}  .012976{col 47}{space 1}   -0.57{col 56}{space 3}0.569{col 64}{space 4}-.0328202{col 77}{space 3} .0180456
+{txt}{space 11}health_poor {c |}{col 24}{res}{space 2}-.0314987{col 36}{space 2} .0045585{col 47}{space 1}   -6.91{col 56}{space 3}0.000{col 64}{space 4}-.0404333{col 77}{space 3} -.022564
+{txt}{space 13}birth_eng {c |}{col 24}{res}{space 2}-.0047797{col 36}{space 2} .0059432{col 47}{space 1}   -0.80{col 56}{space 3}0.421{col 64}{space 4}-.0164284{col 77}{space 3} .0068689
+{txt}{space 12}birth_neng {c |}{col 24}{res}{space 2}-.0554038{col 36}{space 2} .0055644{col 47}{space 1}   -9.96{col 56}{space 3}0.000{col 64}{space 4}-.0663099{col 77}{space 3}-.0444976
+{txt}{space 11}married_yes {c |}{col 24}{res}{space 2} .0605125{col 36}{space 2} .0048654{col 47}{space 1}   12.44{col 56}{space 3}0.000{col 64}{space 4} .0509764{col 77}{space 3} .0700486
+{txt}{space 11}married_sep {c |}{col 24}{res}{space 2}-.0088382{col 36}{space 2} .0064769{col 47}{space 1}   -1.36{col 56}{space 3}0.172{col 64}{space 4} -.021533{col 77}{space 3} .0038565
+{txt}{space 14}urban_no {c |}{col 24}{res}{space 2}-.0185481{col 36}{space 2} .0054565{col 47}{space 1}   -3.40{col 56}{space 3}0.001{col 64}{space 4}-.0292428{col 77}{space 3}-.0078533
+{txt}{space 13}state_VIC {c |}{col 24}{res}{space 2}-.0399004{col 36}{space 2} .0044409{col 47}{space 1}   -8.98{col 56}{space 3}0.000{col 64}{space 4}-.0486045{col 77}{space 3}-.0311963
+{txt}{space 14}state_WA {c |}{col 24}{res}{space 2}-.0039441{col 36}{space 2}  .006361{col 47}{space 1}   -0.62{col 56}{space 3}0.535{col 64}{space 4}-.0164116{col 77}{space 3} .0085234
+{txt}{space 13}state_QLD {c |}{col 24}{res}{space 2}-.0597369{col 36}{space 2} .0046414{col 47}{space 1}  -12.87{col 56}{space 3}0.000{col 64}{space 4}-.0688341{col 77}{space 3}-.0506398
+{txt}{space 14}state_SA {c |}{col 24}{res}{space 2}-.0760928{col 36}{space 2} .0064027{col 47}{space 1}  -11.88{col 56}{space 3}0.000{col 64}{space 4}-.0886422{col 77}{space 3}-.0635435
+{txt}{space 14}state_NT {c |}{col 24}{res}{space 2}-.0019448{col 36}{space 2}  .016342{col 47}{space 1}   -0.12{col 56}{space 3}0.905{col 64}{space 4}-.0339751{col 77}{space 3} .0300856
+{txt}{space 13}state_TAS {c |}{col 24}{res}{space 2}-.0697878{col 36}{space 2} .0086053{col 47}{space 1}   -8.11{col 56}{space 3}0.000{col 64}{space 4}-.0866543{col 77}{space 3}-.0529214
+{txt}{space 13}state_ACT {c |}{col 24}{res}{space 2} .0477818{col 36}{space 2} .0108882{col 47}{space 1}    4.39{col 56}{space 3}0.000{col 64}{space 4}  .026441{col 77}{space 3} .0691226
+{txt}{space 9}shiftwork_yes {c |}{col 24}{res}{space 2} .0066665{col 36}{space 2}  .004862{col 47}{space 1}    1.37{col 56}{space 3}0.170{col 64}{space 4}-.0028631{col 77}{space 3} .0161961
+{txt}{space 14}parttime {c |}{col 24}{res}{space 2}-.0010457{col 36}{space 2}  .003932{col 47}{space 1}   -0.27{col 56}{space 3}0.790{col 64}{space 4}-.0087525{col 77}{space 3} .0066611
+{txt}{space 12}long_hours {c |}{col 24}{res}{space 2}-.0394993{col 36}{space 2} .0045666{col 47}{space 1}   -8.65{col 56}{space 3}0.000{col 64}{space 4}-.0484498{col 77}{space 3}-.0305487
+{txt}{space 16}casual {c |}{col 24}{res}{space 2}-.0376032{col 36}{space 2} .0054585{col 47}{space 1}   -6.89{col 56}{space 3}0.000{col 64}{space 4}-.0483017{col 77}{space 3}-.0269046
+{txt}{space 13}union_yes {c |}{col 24}{res}{space 2} .0380513{col 36}{space 2} .0039712{col 47}{space 1}    9.58{col 56}{space 3}0.000{col 64}{space 4} .0302677{col 77}{space 3} .0458349
+{txt}{space 7}firm_size_20_99 {c |}{col 24}{res}{space 2} .0521896{col 36}{space 2} .0042297{col 47}{space 1}   12.34{col 56}{space 3}0.000{col 64}{space 4} .0438995{col 77}{space 3} .0604797
+{txt}{space 5}firm_size_100_199 {c |}{col 24}{res}{space 2} .0893295{col 36}{space 2} .0058209{col 47}{space 1}   15.35{col 56}{space 3}0.000{col 64}{space 4} .0779206{col 77}{space 3} .1007385
+{txt}{space 5}firm_size_200_499 {c |}{col 24}{res}{space 2} .1093686{col 36}{space 2} .0062601{col 47}{space 1}   17.47{col 56}{space 3}0.000{col 64}{space 4} .0970989{col 77}{space 3} .1216384
+{txt}{space 9}firm_size_500 {c |}{col 24}{res}{space 2}  .208672{col 36}{space 2}  .005747{col 47}{space 1}   36.31{col 56}{space 3}0.000{col 64}{space 4} .1974079{col 77}{space 3} .2199361
+{txt}{space 5}firm_size_unknown {c |}{col 24}{res}{space 2}-.0204462{col 36}{space 2} .0210311{col 47}{space 1}   -0.97{col 56}{space 3}0.331{col 64}{space 4}-.0616671{col 77}{space 3} .0207747
+{txt}{space 9}ind_wholesale {c |}{col 24}{res}{space 2} .2010035{col 36}{space 2}  .025802{col 47}{space 1}    7.79{col 56}{space 3}0.000{col 64}{space 4} .1504316{col 77}{space 3} .2515755
+{txt}{space 11}ind_finance {c |}{col 24}{res}{space 2} .3184941{col 36}{space 2} .0250979{col 47}{space 1}   12.69{col 56}{space 3}0.000{col 64}{space 4} .2693022{col 77}{space 3} .3676861
+{txt}{space 9}ind_education {c |}{col 24}{res}{space 2} .2294106{col 36}{space 2} .0244132{col 47}{space 1}    9.40{col 56}{space 3}0.000{col 64}{space 4} .1815606{col 77}{space 3} .2772605
+{txt}{space 14}ind_mine {c |}{col 24}{res}{space 2} .4597617{col 36}{space 2}  .031239{col 47}{space 1}   14.72{col 56}{space 3}0.000{col 64}{space 4} .3985332{col 77}{space 3} .5209901
+{txt}{space 12}ind_retail {c |}{col 24}{res}{space 2} .0997019{col 36}{space 2} .0242295{col 47}{space 1}    4.11{col 56}{space 3}0.000{col 64}{space 4} .0522122{col 77}{space 3} .1471916
+{txt}{space 11}ind_housing {c |}{col 24}{res}{space 2} .2553218{col 36}{space 2} .0273581{col 47}{space 1}    9.33{col 56}{space 3}0.000{col 64}{space 4}    .2017{col 77}{space 3} .3089436
+{txt}{space 12}ind_health {c |}{col 24}{res}{space 2} .2225443{col 36}{space 2} .0241732{col 47}{space 1}    9.21{col 56}{space 3}0.000{col 64}{space 4} .1751648{col 77}{space 3} .2699238
+{txt}{space 10}ind_manufact {c |}{col 24}{res}{space 2} .1604745{col 36}{space 2} .0250415{col 47}{space 1}    6.41{col 56}{space 3}0.000{col 64}{space 4} .1113931{col 77}{space 3} .2095559
+{txt}{space 7}ind_accomo_food {c |}{col 24}{res}{space 2} .0827157{col 36}{space 2} .0248351{col 47}{space 1}    3.33{col 56}{space 3}0.001{col 64}{space 4} .0340389{col 77}{space 3} .1313925
+{txt}ind_prof_sci_technical {c |}{col 24}{res}{space 2} .3048754{col 36}{space 2} .0248285{col 47}{space 1}   12.28{col 56}{space 3}0.000{col 64}{space 4} .2562115{col 77}{space 3} .3535392
+{txt}{space 10}ind_arts_rec {c |}{col 24}{res}{space 2} .1684882{col 36}{space 2} .0276579{col 47}{space 1}    6.09{col 56}{space 3}0.000{col 64}{space 4} .1142787{col 77}{space 3} .2226977
+{txt}{space 9}ind_utilities {c |}{col 24}{res}{space 2}  .413325{col 36}{space 2} .0303426{col 47}{space 1}   13.62{col 56}{space 3}0.000{col 64}{space 4} .3538535{col 77}{space 3} .4727965
+{txt}{space 9}ind_logistics {c |}{col 24}{res}{space 2} .2142211{col 36}{space 2} .0267075{col 47}{space 1}    8.02{col 56}{space 3}0.000{col 64}{space 4} .1618744{col 77}{space 3} .2665678
+{txt}{space 13}ind_admin {c |}{col 24}{res}{space 2} .1819296{col 36}{space 2} .0259419{col 47}{space 1}    7.01{col 56}{space 3}0.000{col 64}{space 4} .1310836{col 77}{space 3} .2327757
+{txt}{space 5}ind_other_unknown {c |}{col 24}{res}{space 2} .2055143{col 36}{space 2} .0258415{col 47}{space 1}    7.95{col 56}{space 3}0.000{col 64}{space 4} .1548651{col 77}{space 3} .2561635
+{txt}{space 9}ind_construct {c |}{col 24}{res}{space 2} .3137484{col 36}{space 2} .0278255{col 47}{space 1}   11.28{col 56}{space 3}0.000{col 64}{space 4} .2592105{col 77}{space 3} .3682863
+{txt}{space 16}ind_it {c |}{col 24}{res}{space 2} .2494026{col 36}{space 2} .0267324{col 47}{space 1}    9.33{col 56}{space 3}0.000{col 64}{space 4} .1970072{col 77}{space 3}  .301798
+{txt}{space 6}ind_public_admin {c |}{col 24}{res}{space 2} .3314667{col 36}{space 2}  .024765{col 47}{space 1}   13.38{col 56}{space 3}0.000{col 64}{space 4} .2829274{col 77}{space 3}  .380006
+{txt}{space 17}_cons {c |}{col 24}{res}{space 2}  2.61606{col 36}{space 2} .0253299{col 47}{space 1}  103.28{col 56}{space 3}0.000{col 64}{space 4} 2.566414{col 77}{space 3} 2.665707
+{txt}{hline 23}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. *human capital + demographic + basic job char + union + WPS + occ
+. *occ_manage occ_tech_trade occ_clerical_admin occ_machinery occ_prof occ_community_personal_service occ_sales occ_labourer
+. regress log_wage sector_public experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT shiftwork_yes parttime long_hours casual union_yes firm_size_20_99 firm_size_100_199 firm_size_200_499 firm_size_500 firm_size_unknown occ_tech_trade occ_clerical_admin occ_machinery occ_prof occ_community_personal_service occ_sales occ_labourer if sex_male == 1, vce(robust)
+
+{txt}Linear regression                               Number of obs     = {res}    64,858
+                                                {txt}F(39, 64818)      =  {res}   615.82
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.2837
+                                                {txt}Root MSE          =    {res} .43228
+
+{txt}{hline 31}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 32}{c |}{col 44}    Robust
+{col 1}                      log_wage{col 32}{c |} Coefficient{col 44}  std. err.{col 56}      t{col 64}   P>|t|{col 72}     [95% con{col 85}f. interval]
+{hline 31}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 17}sector_public {c |}{col 32}{res}{space 2}-.0408962{col 44}{space 2} .0047456{col 55}{space 1}   -8.62{col 64}{space 3}0.000{col 72}{space 4}-.0501976{col 85}{space 3}-.0315948
+{txt}{space 20}experience {c |}{col 32}{res}{space 2} .0158101{col 44}{space 2} .0006747{col 55}{space 1}   23.43{col 64}{space 3}0.000{col 72}{space 4} .0144878{col 85}{space 3} .0171324
+{txt}{space 17}experience_sq {c |}{col 32}{res}{space 2}-.0002134{col 44}{space 2} .0000141{col 55}{space 1}  -15.15{col 64}{space 3}0.000{col 72}{space 4} -.000241{col 85}{space 3}-.0001857
+{txt}{space 23}edu_uni {c |}{col 32}{res}{space 2} .2504097{col 44}{space 2} .0056523{col 55}{space 1}   44.30{col 64}{space 3}0.000{col 72}{space 4} .2393312{col 85}{space 3} .2614883
+{txt}{space 14}edu_diploma_cert {c |}{col 32}{res}{space 2} .1024754{col 44}{space 2}   .00414{col 55}{space 1}   24.75{col 64}{space 3}0.000{col 72}{space 4}  .094361{col 85}{space 3} .1105897
+{txt}{space 20}children_1 {c |}{col 32}{res}{space 2}  .024823{col 44}{space 2} .0049251{col 55}{space 1}    5.04{col 64}{space 3}0.000{col 72}{space 4} .0151699{col 85}{space 3} .0344761
+{txt}{space 20}children_2 {c |}{col 32}{res}{space 2} .0731202{col 44}{space 2} .0051086{col 55}{space 1}   14.31{col 64}{space 3}0.000{col 72}{space 4} .0631074{col 85}{space 3} .0831331
+{txt}{space 20}children_3 {c |}{col 32}{res}{space 2} .0838597{col 44}{space 2} .0072644{col 55}{space 1}   11.54{col 64}{space 3}0.000{col 72}{space 4} .0696215{col 85}{space 3}  .098098
+{txt}{space 15}children_4_plus {c |}{col 32}{res}{space 2}-.0134248{col 44}{space 2} .0129081{col 55}{space 1}   -1.04{col 64}{space 3}0.298{col 72}{space 4}-.0387248{col 85}{space 3} .0118752
+{txt}{space 19}health_poor {c |}{col 32}{res}{space 2}-.0810599{col 44}{space 2} .0051162{col 55}{space 1}  -15.84{col 64}{space 3}0.000{col 72}{space 4}-.0910876{col 85}{space 3}-.0710321
+{txt}{space 21}birth_eng {c |}{col 32}{res}{space 2}-.0023214{col 44}{space 2} .0060232{col 55}{space 1}   -0.39{col 64}{space 3}0.700{col 72}{space 4}-.0141269{col 85}{space 3} .0094842
+{txt}{space 20}birth_neng {c |}{col 32}{res}{space 2}-.0993519{col 44}{space 2} .0057485{col 55}{space 1}  -17.28{col 64}{space 3}0.000{col 72}{space 4}-.1106189{col 85}{space 3}-.0880849
+{txt}{space 19}married_yes {c |}{col 32}{res}{space 2} .0989144{col 44}{space 2} .0051378{col 55}{space 1}   19.25{col 64}{space 3}0.000{col 72}{space 4} .0888442{col 85}{space 3} .1089845
+{txt}{space 19}married_sep {c |}{col 32}{res}{space 2} .0425677{col 44}{space 2}  .008448{col 55}{space 1}    5.04{col 64}{space 3}0.000{col 72}{space 4} .0260096{col 85}{space 3} .0591258
+{txt}{space 22}urban_no {c |}{col 32}{res}{space 2}-.0364873{col 44}{space 2} .0057844{col 55}{space 1}   -6.31{col 64}{space 3}0.000{col 72}{space 4}-.0478248{col 85}{space 3}-.0251498
+{txt}{space 21}state_VIC {c |}{col 32}{res}{space 2}-.0289023{col 44}{space 2} .0046102{col 55}{space 1}   -6.27{col 64}{space 3}0.000{col 72}{space 4}-.0379383{col 85}{space 3}-.0198663
+{txt}{space 22}state_WA {c |}{col 32}{res}{space 2} .0351271{col 44}{space 2} .0070923{col 55}{space 1}    4.95{col 64}{space 3}0.000{col 72}{space 4} .0212262{col 85}{space 3} .0490281
+{txt}{space 21}state_QLD {c |}{col 32}{res}{space 2}-.0139976{col 44}{space 2} .0047964{col 55}{space 1}   -2.92{col 64}{space 3}0.004{col 72}{space 4}-.0233985{col 85}{space 3}-.0045966
+{txt}{space 22}state_SA {c |}{col 32}{res}{space 2}-.1039882{col 44}{space 2} .0067115{col 55}{space 1}  -15.49{col 64}{space 3}0.000{col 72}{space 4}-.1171428{col 85}{space 3}-.0908337
+{txt}{space 22}state_NT {c |}{col 32}{res}{space 2} .0632011{col 44}{space 2} .0169857{col 55}{space 1}    3.72{col 64}{space 3}0.000{col 72}{space 4} .0299091{col 85}{space 3}  .096493
+{txt}{space 21}state_TAS {c |}{col 32}{res}{space 2}-.0840487{col 44}{space 2} .0091856{col 55}{space 1}   -9.15{col 64}{space 3}0.000{col 72}{space 4}-.1020524{col 85}{space 3} -.066045
+{txt}{space 21}state_ACT {c |}{col 32}{res}{space 2}  .095545{col 44}{space 2} .0111968{col 55}{space 1}    8.53{col 64}{space 3}0.000{col 72}{space 4} .0735992{col 85}{space 3} .1174908
+{txt}{space 17}shiftwork_yes {c |}{col 32}{res}{space 2} .0411006{col 44}{space 2} .0051656{col 55}{space 1}    7.96{col 64}{space 3}0.000{col 72}{space 4}  .030976{col 85}{space 3} .0512251
+{txt}{space 22}parttime {c |}{col 32}{res}{space 2}-.0217369{col 44}{space 2} .0078008{col 55}{space 1}   -2.79{col 64}{space 3}0.005{col 72}{space 4}-.0370265{col 85}{space 3}-.0064472
+{txt}{space 20}long_hours {c |}{col 32}{res}{space 2}-.0542146{col 44}{space 2} .0035817{col 55}{space 1}  -15.14{col 64}{space 3}0.000{col 72}{space 4}-.0612347{col 85}{space 3}-.0471944
+{txt}{space 24}casual {c |}{col 32}{res}{space 2} .0138296{col 44}{space 2} .0063756{col 55}{space 1}    2.17{col 64}{space 3}0.030{col 72}{space 4} .0013334{col 85}{space 3} .0263257
+{txt}{space 21}union_yes {c |}{col 32}{res}{space 2} .0321682{col 44}{space 2} .0042422{col 55}{space 1}    7.58{col 64}{space 3}0.000{col 72}{space 4} .0238536{col 85}{space 3} .0404829
+{txt}{space 15}firm_size_20_99 {c |}{col 32}{res}{space 2} .0923512{col 44}{space 2} .0043819{col 55}{space 1}   21.08{col 64}{space 3}0.000{col 72}{space 4} .0837628{col 85}{space 3} .1009397
+{txt}{space 13}firm_size_100_199 {c |}{col 32}{res}{space 2} .1491943{col 44}{space 2} .0060739{col 55}{space 1}   24.56{col 64}{space 3}0.000{col 72}{space 4} .1372894{col 85}{space 3} .1610992
+{txt}{space 13}firm_size_200_499 {c |}{col 32}{res}{space 2} .2419528{col 44}{space 2} .0062228{col 55}{space 1}   38.88{col 64}{space 3}0.000{col 72}{space 4} .2297561{col 85}{space 3} .2541495
+{txt}{space 17}firm_size_500 {c |}{col 32}{res}{space 2} .2972865{col 44}{space 2} .0058894{col 55}{space 1}   50.48{col 64}{space 3}0.000{col 72}{space 4} .2857434{col 85}{space 3} .3088297
+{txt}{space 13}firm_size_unknown {c |}{col 32}{res}{space 2}-.0054329{col 44}{space 2} .0301975{col 55}{space 1}   -0.18{col 64}{space 3}0.857{col 72}{space 4}-.0646201{col 85}{space 3} .0537542
+{txt}{space 16}occ_tech_trade {c |}{col 32}{res}{space 2}-.1979536{col 44}{space 2} .0061728{col 55}{space 1}  -32.07{col 64}{space 3}0.000{col 72}{space 4}-.2100523{col 85}{space 3} -.185855
+{txt}{space 12}occ_clerical_admin {c |}{col 32}{res}{space 2}-.2772743{col 44}{space 2} .0071506{col 55}{space 1}  -38.78{col 64}{space 3}0.000{col 72}{space 4}-.2912895{col 85}{space 3}-.2632591
+{txt}{space 17}occ_machinery {c |}{col 32}{res}{space 2} -.305972{col 44}{space 2} .0071232{col 55}{space 1}  -42.95{col 64}{space 3}0.000{col 72}{space 4}-.3199335{col 85}{space 3}-.2920105
+{txt}{space 22}occ_prof {c |}{col 32}{res}{space 2}-.0590008{col 44}{space 2} .0061904{col 55}{space 1}   -9.53{col 64}{space 3}0.000{col 72}{space 4} -.071134{col 85}{space 3}-.0468676
+{txt}occ_community_personal_service {c |}{col 32}{res}{space 2}-.2550937{col 44}{space 2} .0086206{col 55}{space 1}  -29.59{col 64}{space 3}0.000{col 72}{space 4}  -.27199{col 85}{space 3}-.2381974
+{txt}{space 21}occ_sales {c |}{col 32}{res}{space 2}-.3412231{col 44}{space 2} .0091378{col 55}{space 1}  -37.34{col 64}{space 3}0.000{col 72}{space 4}-.3591332{col 85}{space 3}-.3233129
+{txt}{space 18}occ_labourer {c |}{col 32}{res}{space 2}-.4120484{col 44}{space 2} .0080671{col 55}{space 1}  -51.08{col 64}{space 3}0.000{col 72}{space 4}-.4278598{col 85}{space 3} -.396237
+{txt}{space 25}_cons {c |}{col 32}{res}{space 2} 3.101332{col 44}{space 2} .0094997{col 55}{space 1}  326.47{col 64}{space 3}0.000{col 72}{space 4} 3.082713{col 85}{space 3} 3.119952
+{txt}{hline 31}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. regress log_wage sector_public experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT shiftwork_yes parttime long_hours casual union_yes firm_size_20_99 firm_size_100_199 firm_size_200_499 firm_size_500 firm_size_unknown occ_tech_trade occ_clerical_admin occ_machinery occ_prof occ_community_personal_service occ_sales occ_labourer if sex_female == 1, vce(robust)
+
+{txt}Linear regression                               Number of obs     = {res}    66,949
+                                                {txt}F(39, 66909)      =  {res}   621.60
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.2750
+                                                {txt}Root MSE          =    {res} .40489
+
+{txt}{hline 31}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 32}{c |}{col 44}    Robust
+{col 1}                      log_wage{col 32}{c |} Coefficient{col 44}  std. err.{col 56}      t{col 64}   P>|t|{col 72}     [95% con{col 85}f. interval]
+{hline 31}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 17}sector_public {c |}{col 32}{res}{space 2} .0259123{col 44}{space 2}  .003884{col 55}{space 1}    6.67{col 64}{space 3}0.000{col 72}{space 4} .0182997{col 85}{space 3} .0335249
+{txt}{space 20}experience {c |}{col 32}{res}{space 2} .0113379{col 44}{space 2}  .000654{col 55}{space 1}   17.34{col 64}{space 3}0.000{col 72}{space 4} .0100561{col 85}{space 3} .0126197
+{txt}{space 17}experience_sq {c |}{col 32}{res}{space 2}-.0001234{col 44}{space 2} .0000147{col 55}{space 1}   -8.42{col 64}{space 3}0.000{col 72}{space 4}-.0001522{col 85}{space 3}-.0000947
+{txt}{space 23}edu_uni {c |}{col 32}{res}{space 2} .2406973{col 44}{space 2} .0049964{col 55}{space 1}   48.17{col 64}{space 3}0.000{col 72}{space 4} .2309043{col 85}{space 3} .2504903
+{txt}{space 14}edu_diploma_cert {c |}{col 32}{res}{space 2} .1377817{col 44}{space 2} .0040205{col 55}{space 1}   34.27{col 64}{space 3}0.000{col 72}{space 4} .1299015{col 85}{space 3}  .145662
+{txt}{space 20}children_1 {c |}{col 32}{res}{space 2} .0188139{col 44}{space 2} .0045241{col 55}{space 1}    4.16{col 64}{space 3}0.000{col 72}{space 4} .0099467{col 85}{space 3} .0276811
+{txt}{space 20}children_2 {c |}{col 32}{res}{space 2}  .032496{col 44}{space 2} .0044593{col 55}{space 1}    7.29{col 64}{space 3}0.000{col 72}{space 4} .0237557{col 85}{space 3} .0412363
+{txt}{space 20}children_3 {c |}{col 32}{res}{space 2} .0331571{col 44}{space 2} .0066222{col 55}{space 1}    5.01{col 64}{space 3}0.000{col 72}{space 4} .0201776{col 85}{space 3} .0461366
+{txt}{space 15}children_4_plus {c |}{col 32}{res}{space 2}-.0183218{col 44}{space 2} .0128459{col 55}{space 1}   -1.43{col 64}{space 3}0.154{col 72}{space 4}-.0434997{col 85}{space 3} .0068561
+{txt}{space 19}health_poor {c |}{col 32}{res}{space 2} -.023218{col 44}{space 2}  .004438{col 55}{space 1}   -5.23{col 64}{space 3}0.000{col 72}{space 4}-.0319164{col 85}{space 3}-.0145196
+{txt}{space 21}birth_eng {c |}{col 32}{res}{space 2}-.0118256{col 44}{space 2} .0056973{col 55}{space 1}   -2.08{col 64}{space 3}0.038{col 72}{space 4}-.0229922{col 85}{space 3} -.000659
+{txt}{space 20}birth_neng {c |}{col 32}{res}{space 2}-.0240283{col 44}{space 2} .0053731{col 55}{space 1}   -4.47{col 64}{space 3}0.000{col 72}{space 4}-.0345595{col 85}{space 3} -.013497
+{txt}{space 19}married_yes {c |}{col 32}{res}{space 2} .0567035{col 44}{space 2} .0047609{col 55}{space 1}   11.91{col 64}{space 3}0.000{col 72}{space 4}  .047372{col 85}{space 3} .0660349
+{txt}{space 19}married_sep {c |}{col 32}{res}{space 2} .0049456{col 44}{space 2} .0063102{col 55}{space 1}    0.78{col 64}{space 3}0.433{col 72}{space 4}-.0074223{col 85}{space 3} .0173135
+{txt}{space 22}urban_no {c |}{col 32}{res}{space 2}-.0172423{col 44}{space 2} .0054076{col 55}{space 1}   -3.19{col 64}{space 3}0.001{col 72}{space 4}-.0278413{col 85}{space 3}-.0066433
+{txt}{space 21}state_VIC {c |}{col 32}{res}{space 2}-.0424866{col 44}{space 2} .0043041{col 55}{space 1}   -9.87{col 64}{space 3}0.000{col 72}{space 4}-.0509227{col 85}{space 3}-.0340506
+{txt}{space 22}state_WA {c |}{col 32}{res}{space 2}-.0015504{col 44}{space 2} .0062221{col 55}{space 1}   -0.25{col 64}{space 3}0.803{col 72}{space 4}-.0137457{col 85}{space 3}  .010645
+{txt}{space 21}state_QLD {c |}{col 32}{res}{space 2}-.0453967{col 44}{space 2} .0045061{col 55}{space 1}  -10.07{col 64}{space 3}0.000{col 72}{space 4}-.0542286{col 85}{space 3}-.0365648
+{txt}{space 22}state_SA {c |}{col 32}{res}{space 2}-.0615284{col 44}{space 2} .0062058{col 55}{space 1}   -9.91{col 64}{space 3}0.000{col 72}{space 4}-.0736918{col 85}{space 3}-.0493651
+{txt}{space 22}state_NT {c |}{col 32}{res}{space 2} .0104733{col 44}{space 2} .0158372{col 55}{space 1}    0.66{col 64}{space 3}0.508{col 72}{space 4}-.0205675{col 85}{space 3} .0415142
+{txt}{space 21}state_TAS {c |}{col 32}{res}{space 2}-.0532454{col 44}{space 2} .0085995{col 55}{space 1}   -6.19{col 64}{space 3}0.000{col 72}{space 4}-.0701005{col 85}{space 3}-.0363903
+{txt}{space 21}state_ACT {c |}{col 32}{res}{space 2} .0500032{col 44}{space 2} .0103561{col 55}{space 1}    4.83{col 64}{space 3}0.000{col 72}{space 4} .0297052{col 85}{space 3} .0703011
+{txt}{space 17}shiftwork_yes {c |}{col 32}{res}{space 2} .0182963{col 44}{space 2} .0046985{col 55}{space 1}    3.89{col 64}{space 3}0.000{col 72}{space 4} .0090872{col 85}{space 3} .0275054
+{txt}{space 22}parttime {c |}{col 32}{res}{space 2} .0102998{col 44}{space 2} .0038026{col 55}{space 1}    2.71{col 64}{space 3}0.007{col 72}{space 4} .0028466{col 85}{space 3} .0177529
+{txt}{space 20}long_hours {c |}{col 32}{res}{space 2} -.091619{col 44}{space 2} .0045303{col 55}{space 1}  -20.22{col 64}{space 3}0.000{col 72}{space 4}-.1004983{col 85}{space 3}-.0827396
+{txt}{space 24}casual {c |}{col 32}{res}{space 2}-.0268189{col 44}{space 2} .0052566{col 55}{space 1}   -5.10{col 64}{space 3}0.000{col 72}{space 4}-.0371219{col 85}{space 3} -.016516
+{txt}{space 21}union_yes {c |}{col 32}{res}{space 2} .0097123{col 44}{space 2} .0038119{col 55}{space 1}    2.55{col 64}{space 3}0.011{col 72}{space 4} .0022409{col 85}{space 3} .0171836
+{txt}{space 15}firm_size_20_99 {c |}{col 32}{res}{space 2} .0498286{col 44}{space 2} .0040885{col 55}{space 1}   12.19{col 64}{space 3}0.000{col 72}{space 4} .0418152{col 85}{space 3} .0578421
+{txt}{space 13}firm_size_100_199 {c |}{col 32}{res}{space 2}  .099077{col 44}{space 2} .0055848{col 55}{space 1}   17.74{col 64}{space 3}0.000{col 72}{space 4} .0881307{col 85}{space 3} .1100232
+{txt}{space 13}firm_size_200_499 {c |}{col 32}{res}{space 2} .1306376{col 44}{space 2} .0060105{col 55}{space 1}   21.73{col 64}{space 3}0.000{col 72}{space 4}  .118857{col 85}{space 3} .1424182
+{txt}{space 17}firm_size_500 {c |}{col 32}{res}{space 2} .2085371{col 44}{space 2}   .00549{col 55}{space 1}   37.98{col 64}{space 3}0.000{col 72}{space 4} .1977766{col 85}{space 3} .2192976
+{txt}{space 13}firm_size_unknown {c |}{col 32}{res}{space 2} .0210428{col 44}{space 2}  .020329{col 55}{space 1}    1.04{col 64}{space 3}0.301{col 72}{space 4} -.018802{col 85}{space 3} .0608876
+{txt}{space 16}occ_tech_trade {c |}{col 32}{res}{space 2}-.3284479{col 44}{space 2} .0094501{col 55}{space 1}  -34.76{col 64}{space 3}0.000{col 72}{space 4}  -.34697{col 85}{space 3}-.3099258
+{txt}{space 12}occ_clerical_admin {c |}{col 32}{res}{space 2}-.2549142{col 44}{space 2} .0065554{col 55}{space 1}  -38.89{col 64}{space 3}0.000{col 72}{space 4}-.2677627{col 85}{space 3}-.2420657
+{txt}{space 17}occ_machinery {c |}{col 32}{res}{space 2}-.2902038{col 44}{space 2} .0165907{col 55}{space 1}  -17.49{col 64}{space 3}0.000{col 72}{space 4}-.3227215{col 85}{space 3} -.257686
+{txt}{space 22}occ_prof {c |}{col 32}{res}{space 2}-.0594993{col 44}{space 2} .0064574{col 55}{space 1}   -9.21{col 64}{space 3}0.000{col 72}{space 4}-.0721558{col 85}{space 3}-.0468427
+{txt}occ_community_personal_service {c |}{col 32}{res}{space 2}-.3361833{col 44}{space 2} .0073309{col 55}{space 1}  -45.86{col 64}{space 3}0.000{col 72}{space 4}-.3505518{col 85}{space 3}-.3218147
+{txt}{space 21}occ_sales {c |}{col 32}{res}{space 2} -.357625{col 44}{space 2} .0080757{col 55}{space 1}  -44.28{col 64}{space 3}0.000{col 72}{space 4}-.3734533{col 85}{space 3}-.3417967
+{txt}{space 18}occ_labourer {c |}{col 32}{res}{space 2} -.466464{col 44}{space 2} .0099176{col 55}{space 1}  -47.03{col 64}{space 3}0.000{col 72}{space 4}-.4859024{col 85}{space 3}-.4470256
+{txt}{space 25}_cons {c |}{col 32}{res}{space 2} 3.098403{col 44}{space 2} .0098829{col 55}{space 1}  313.51{col 64}{space 3}0.000{col 72}{space 4} 3.079033{col 85}{space 3} 3.117774
+{txt}{hline 31}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. *human capital + demographic + basic job char + union + WPS + ind + occ
+. regress log_wage sector_public experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT shiftwork_yes parttime long_hours casual union_yes firm_size_20_99 firm_size_100_199 firm_size_200_499 firm_size_500 firm_size_unknown ind_wholesale ind_finance ind_education ind_mine ind_retail ind_housing ind_health ind_manufact ind_accomo_food ind_prof_sci_technical ind_arts_rec ind_utilities ind_logistics ind_admin ind_other_unknown ind_construct ind_it ind_public_admin occ_tech_trade occ_clerical_admin occ_machinery occ_prof occ_community_personal_service occ_sales occ_labourer if sex_male == 1, vce(robust)
+
+{txt}Linear regression                               Number of obs     = {res}    64,858
+                                                {txt}F(57, 64800)      =  {res}   558.29
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.3384
+                                                {txt}Root MSE          =    {res} .41551
+
+{txt}{hline 31}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 32}{c |}{col 44}    Robust
+{col 1}                      log_wage{col 32}{c |} Coefficient{col 44}  std. err.{col 56}      t{col 64}   P>|t|{col 72}     [95% con{col 85}f. interval]
+{hline 31}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 17}sector_public {c |}{col 32}{res}{space 2}-.0136579{col 44}{space 2} .0059534{col 55}{space 1}   -2.29{col 64}{space 3}0.022{col 72}{space 4}-.0253265{col 85}{space 3}-.0019892
+{txt}{space 20}experience {c |}{col 32}{res}{space 2} .0164371{col 44}{space 2} .0006559{col 55}{space 1}   25.06{col 64}{space 3}0.000{col 72}{space 4} .0151515{col 85}{space 3} .0177227
+{txt}{space 17}experience_sq {c |}{col 32}{res}{space 2}-.0002256{col 44}{space 2} .0000137{col 55}{space 1}  -16.52{col 64}{space 3}0.000{col 72}{space 4}-.0002524{col 85}{space 3}-.0001989
+{txt}{space 23}edu_uni {c |}{col 32}{res}{space 2} .2378455{col 44}{space 2} .0055225{col 55}{space 1}   43.07{col 64}{space 3}0.000{col 72}{space 4} .2270214{col 85}{space 3} .2486697
+{txt}{space 14}edu_diploma_cert {c |}{col 32}{res}{space 2} .0943561{col 44}{space 2} .0039908{col 55}{space 1}   23.64{col 64}{space 3}0.000{col 72}{space 4} .0865341{col 85}{space 3}  .102178
+{txt}{space 20}children_1 {c |}{col 32}{res}{space 2}  .025913{col 44}{space 2} .0046994{col 55}{space 1}    5.51{col 64}{space 3}0.000{col 72}{space 4} .0167021{col 85}{space 3} .0351238
+{txt}{space 20}children_2 {c |}{col 32}{res}{space 2} .0651674{col 44}{space 2} .0049223{col 55}{space 1}   13.24{col 64}{space 3}0.000{col 72}{space 4} .0555197{col 85}{space 3} .0748151
+{txt}{space 20}children_3 {c |}{col 32}{res}{space 2} .0802817{col 44}{space 2} .0068963{col 55}{space 1}   11.64{col 64}{space 3}0.000{col 72}{space 4} .0667649{col 85}{space 3} .0937985
+{txt}{space 15}children_4_plus {c |}{col 32}{res}{space 2}-.0202295{col 44}{space 2} .0123853{col 55}{space 1}   -1.63{col 64}{space 3}0.102{col 72}{space 4}-.0445048{col 85}{space 3} .0040457
+{txt}{space 19}health_poor {c |}{col 32}{res}{space 2}-.0706993{col 44}{space 2} .0049455{col 55}{space 1}  -14.30{col 64}{space 3}0.000{col 72}{space 4}-.0803925{col 85}{space 3} -.061006
+{txt}{space 21}birth_eng {c |}{col 32}{res}{space 2}-.0011294{col 44}{space 2}  .005747{col 55}{space 1}   -0.20{col 64}{space 3}0.844{col 72}{space 4}-.0123936{col 85}{space 3} .0101347
+{txt}{space 20}birth_neng {c |}{col 32}{res}{space 2}-.0823816{col 44}{space 2} .0055986{col 55}{space 1}  -14.71{col 64}{space 3}0.000{col 72}{space 4}-.0933548{col 85}{space 3}-.0714084
+{txt}{space 19}married_yes {c |}{col 32}{res}{space 2} .0834602{col 44}{space 2} .0049733{col 55}{space 1}   16.78{col 64}{space 3}0.000{col 72}{space 4} .0737126{col 85}{space 3} .0932079
+{txt}{space 19}married_sep {c |}{col 32}{res}{space 2} .0344331{col 44}{space 2} .0081546{col 55}{space 1}    4.22{col 64}{space 3}0.000{col 72}{space 4} .0184501{col 85}{space 3} .0504161
+{txt}{space 22}urban_no {c |}{col 32}{res}{space 2}-.0267164{col 44}{space 2} .0055784{col 55}{space 1}   -4.79{col 64}{space 3}0.000{col 72}{space 4}-.0376501{col 85}{space 3}-.0157827
+{txt}{space 21}state_VIC {c |}{col 32}{res}{space 2}-.0150158{col 44}{space 2} .0044815{col 55}{space 1}   -3.35{col 64}{space 3}0.001{col 72}{space 4}-.0237995{col 85}{space 3} -.006232
+{txt}{space 22}state_WA {c |}{col 32}{res}{space 2} .0116073{col 44}{space 2} .0068381{col 55}{space 1}    1.70{col 64}{space 3}0.090{col 72}{space 4}-.0017955{col 85}{space 3}   .02501
+{txt}{space 21}state_QLD {c |}{col 32}{res}{space 2}-.0114202{col 44}{space 2} .0045748{col 55}{space 1}   -2.50{col 64}{space 3}0.013{col 72}{space 4}-.0203868{col 85}{space 3}-.0024535
+{txt}{space 22}state_SA {c |}{col 32}{res}{space 2}-.0849146{col 44}{space 2} .0065649{col 55}{space 1}  -12.93{col 64}{space 3}0.000{col 72}{space 4}-.0977819{col 85}{space 3}-.0720474
+{txt}{space 22}state_NT {c |}{col 32}{res}{space 2} .0554583{col 44}{space 2} .0161679{col 55}{space 1}    3.43{col 64}{space 3}0.001{col 72}{space 4} .0237692{col 85}{space 3} .0871474
+{txt}{space 21}state_TAS {c |}{col 32}{res}{space 2}-.0726101{col 44}{space 2} .0091207{col 55}{space 1}   -7.96{col 64}{space 3}0.000{col 72}{space 4}-.0904867{col 85}{space 3}-.0547335
+{txt}{space 21}state_ACT {c |}{col 32}{res}{space 2} .0858907{col 44}{space 2} .0109201{col 55}{space 1}    7.87{col 64}{space 3}0.000{col 72}{space 4} .0644873{col 85}{space 3}  .107294
+{txt}{space 17}shiftwork_yes {c |}{col 32}{res}{space 2} .0600438{col 44}{space 2} .0051125{col 55}{space 1}   11.74{col 64}{space 3}0.000{col 72}{space 4} .0500234{col 85}{space 3} .0700642
+{txt}{space 22}parttime {c |}{col 32}{res}{space 2} .0242921{col 44}{space 2} .0077838{col 55}{space 1}    3.12{col 64}{space 3}0.002{col 72}{space 4} .0090359{col 85}{space 3} .0395484
+{txt}{space 20}long_hours {c |}{col 32}{res}{space 2}-.0756468{col 44}{space 2} .0034612{col 55}{space 1}  -21.86{col 64}{space 3}0.000{col 72}{space 4}-.0824308{col 85}{space 3}-.0688628
+{txt}{space 24}casual {c |}{col 32}{res}{space 2} .0061949{col 44}{space 2}  .006241{col 55}{space 1}    0.99{col 64}{space 3}0.321{col 72}{space 4}-.0060374{col 85}{space 3} .0184273
+{txt}{space 21}union_yes {c |}{col 32}{res}{space 2} .0231471{col 44}{space 2} .0041069{col 55}{space 1}    5.64{col 64}{space 3}0.000{col 72}{space 4} .0150975{col 85}{space 3} .0311966
+{txt}{space 15}firm_size_20_99 {c |}{col 32}{res}{space 2} .0963927{col 44}{space 2} .0042346{col 55}{space 1}   22.76{col 64}{space 3}0.000{col 72}{space 4} .0880928{col 85}{space 3} .1046926
+{txt}{space 13}firm_size_100_199 {c |}{col 32}{res}{space 2}  .151321{col 44}{space 2}  .005876{col 55}{space 1}   25.75{col 64}{space 3}0.000{col 72}{space 4}  .139804{col 85}{space 3}  .162838
+{txt}{space 13}firm_size_200_499 {c |}{col 32}{res}{space 2} .2059971{col 44}{space 2} .0060413{col 55}{space 1}   34.10{col 64}{space 3}0.000{col 72}{space 4} .1941562{col 85}{space 3}  .217838
+{txt}{space 17}firm_size_500 {c |}{col 32}{res}{space 2} .2603936{col 44}{space 2} .0058471{col 55}{space 1}   44.53{col 64}{space 3}0.000{col 72}{space 4} .2489334{col 85}{space 3} .2718539
+{txt}{space 13}firm_size_unknown {c |}{col 32}{res}{space 2}-.0249692{col 44}{space 2} .0299359{col 55}{space 1}   -0.83{col 64}{space 3}0.404{col 72}{space 4}-.0836435{col 85}{space 3} .0337052
+{txt}{space 17}ind_wholesale {c |}{col 32}{res}{space 2} .1657081{col 44}{space 2} .0143214{col 55}{space 1}   11.57{col 64}{space 3}0.000{col 72}{space 4} .1376381{col 85}{space 3} .1937781
+{txt}{space 19}ind_finance {c |}{col 32}{res}{space 2} .3610569{col 44}{space 2} .0155636{col 55}{space 1}   23.20{col 64}{space 3}0.000{col 72}{space 4} .3305523{col 85}{space 3} .3915615
+{txt}{space 17}ind_education {c |}{col 32}{res}{space 2} .0617314{col 44}{space 2} .0147105{col 55}{space 1}    4.20{col 64}{space 3}0.000{col 72}{space 4} .0328989{col 85}{space 3} .0905639
+{txt}{space 22}ind_mine {c |}{col 32}{res}{space 2} .5637336{col 44}{space 2} .0155082{col 55}{space 1}   36.35{col 64}{space 3}0.000{col 72}{space 4} .5333376{col 85}{space 3} .5941296
+{txt}{space 20}ind_retail {c |}{col 32}{res}{space 2} .0177704{col 44}{space 2} .0138704{col 55}{space 1}    1.28{col 64}{space 3}0.200{col 72}{space 4}-.0094155{col 85}{space 3} .0449563
+{txt}{space 19}ind_housing {c |}{col 32}{res}{space 2} .1705065{col 44}{space 2} .0216673{col 55}{space 1}    7.87{col 64}{space 3}0.000{col 72}{space 4} .1280387{col 85}{space 3} .2129744
+{txt}{space 20}ind_health {c |}{col 32}{res}{space 2} .1078161{col 44}{space 2} .0155199{col 55}{space 1}    6.95{col 64}{space 3}0.000{col 72}{space 4}  .077397{col 85}{space 3} .1382351
+{txt}{space 18}ind_manufact {c |}{col 32}{res}{space 2} .1410058{col 44}{space 2} .0129769{col 55}{space 1}   10.87{col 64}{space 3}0.000{col 72}{space 4} .1155709{col 85}{space 3} .1664406
+{txt}{space 15}ind_accomo_food {c |}{col 32}{res}{space 2}-.0463542{col 44}{space 2} .0155771{col 55}{space 1}   -2.98{col 64}{space 3}0.003{col 72}{space 4}-.0768854{col 85}{space 3}-.0158231
+{txt}{space 8}ind_prof_sci_technical {c |}{col 32}{res}{space 2} .2816816{col 44}{space 2} .0142162{col 55}{space 1}   19.81{col 64}{space 3}0.000{col 72}{space 4} .2538179{col 85}{space 3} .3095454
+{txt}{space 18}ind_arts_rec {c |}{col 32}{res}{space 2} .0091736{col 44}{space 2} .0184815{col 55}{space 1}    0.50{col 64}{space 3}0.620{col 72}{space 4}-.0270502{col 85}{space 3} .0453973
+{txt}{space 17}ind_utilities {c |}{col 32}{res}{space 2}  .366236{col 44}{space 2} .0172721{col 55}{space 1}   21.20{col 64}{space 3}0.000{col 72}{space 4} .3323826{col 85}{space 3} .4000893
+{txt}{space 17}ind_logistics {c |}{col 32}{res}{space 2} .2225328{col 44}{space 2} .0140098{col 55}{space 1}   15.88{col 64}{space 3}0.000{col 72}{space 4} .1950736{col 85}{space 3}  .249992
+{txt}{space 21}ind_admin {c |}{col 32}{res}{space 2} .1306719{col 44}{space 2} .0164239{col 55}{space 1}    7.96{col 64}{space 3}0.000{col 72}{space 4}  .098481{col 85}{space 3} .1628629
+{txt}{space 13}ind_other_unknown {c |}{col 32}{res}{space 2} .1362529{col 44}{space 2} .0152361{col 55}{space 1}    8.94{col 64}{space 3}0.000{col 72}{space 4}   .10639{col 85}{space 3} .1661158
+{txt}{space 17}ind_construct {c |}{col 32}{res}{space 2} .3371695{col 44}{space 2} .0133355{col 55}{space 1}   25.28{col 64}{space 3}0.000{col 72}{space 4} .3110319{col 85}{space 3} .3633072
+{txt}{space 24}ind_it {c |}{col 32}{res}{space 2} .1743036{col 44}{space 2} .0162403{col 55}{space 1}   10.73{col 64}{space 3}0.000{col 72}{space 4} .1424726{col 85}{space 3} .2061347
+{txt}{space 14}ind_public_admin {c |}{col 32}{res}{space 2} .2064124{col 44}{space 2} .0143475{col 55}{space 1}   14.39{col 64}{space 3}0.000{col 72}{space 4} .1782914{col 85}{space 3} .2345334
+{txt}{space 16}occ_tech_trade {c |}{col 32}{res}{space 2}-.2575462{col 44}{space 2}  .006152{col 55}{space 1}  -41.86{col 64}{space 3}0.000{col 72}{space 4}-.2696042{col 85}{space 3}-.2454882
+{txt}{space 12}occ_clerical_admin {c |}{col 32}{res}{space 2}-.3298116{col 44}{space 2} .0070746{col 55}{space 1}  -46.62{col 64}{space 3}0.000{col 72}{space 4}-.3436779{col 85}{space 3}-.3159453
+{txt}{space 17}occ_machinery {c |}{col 32}{res}{space 2}-.3800075{col 44}{space 2} .0070961{col 55}{space 1}  -53.55{col 64}{space 3}0.000{col 72}{space 4}-.3939158{col 85}{space 3}-.3660991
+{txt}{space 22}occ_prof {c |}{col 32}{res}{space 2}-.0903956{col 44}{space 2} .0061952{col 55}{space 1}  -14.59{col 64}{space 3}0.000{col 72}{space 4}-.1025382{col 85}{space 3}-.0782529
+{txt}occ_community_personal_service {c |}{col 32}{res}{space 2}-.2575098{col 44}{space 2} .0086706{col 55}{space 1}  -29.70{col 64}{space 3}0.000{col 72}{space 4}-.2745041{col 85}{space 3}-.2405155
+{txt}{space 21}occ_sales {c |}{col 32}{res}{space 2}-.2878906{col 44}{space 2} .0092777{col 55}{space 1}  -31.03{col 64}{space 3}0.000{col 72}{space 4}-.3060749{col 85}{space 3}-.2697064
+{txt}{space 18}occ_labourer {c |}{col 32}{res}{space 2} -.429062{col 44}{space 2} .0078776{col 55}{space 1}  -54.47{col 64}{space 3}0.000{col 72}{space 4}-.4445021{col 85}{space 3}-.4136219
+{txt}{space 25}_cons {c |}{col 32}{res}{space 2}  2.95773{col 44}{space 2} .0152238{col 55}{space 1}  194.28{col 64}{space 3}0.000{col 72}{space 4} 2.927891{col 85}{space 3} 2.987569
+{txt}{hline 31}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. regress log_wage sector_public experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT shiftwork_yes parttime long_hours casual union_yes firm_size_20_99 firm_size_100_199 firm_size_200_499 firm_size_500 firm_size_unknown ind_wholesale ind_finance ind_education ind_mine ind_retail ind_housing ind_health ind_manufact ind_accomo_food ind_prof_sci_technical ind_arts_rec ind_utilities ind_logistics ind_admin ind_other_unknown ind_construct ind_it ind_public_admin occ_tech_trade occ_clerical_admin occ_machinery occ_prof occ_community_personal_service occ_sales occ_labourer if sex_female == 1, vce(robust)
+
+{txt}Linear regression                               Number of obs     = {res}    66,949
+                                                {txt}F(57, 66891)      =  {res}   472.16
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.2914
+                                                {txt}Root MSE          =    {res} .40034
+
+{txt}{hline 31}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 32}{c |}{col 44}    Robust
+{col 1}                      log_wage{col 32}{c |} Coefficient{col 44}  std. err.{col 56}      t{col 64}   P>|t|{col 72}     [95% con{col 85}f. interval]
+{hline 31}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 17}sector_public {c |}{col 32}{res}{space 2} .0112189{col 44}{space 2} .0045846{col 55}{space 1}    2.45{col 64}{space 3}0.014{col 72}{space 4} .0022331{col 85}{space 3} .0202047
+{txt}{space 20}experience {c |}{col 32}{res}{space 2} .0105377{col 44}{space 2} .0006526{col 55}{space 1}   16.15{col 64}{space 3}0.000{col 72}{space 4} .0092586{col 85}{space 3} .0118168
+{txt}{space 17}experience_sq {c |}{col 32}{res}{space 2}-.0001062{col 44}{space 2} .0000147{col 55}{space 1}   -7.25{col 64}{space 3}0.000{col 72}{space 4}-.0001349{col 85}{space 3}-.0000775
+{txt}{space 23}edu_uni {c |}{col 32}{res}{space 2} .2303138{col 44}{space 2} .0049997{col 55}{space 1}   46.07{col 64}{space 3}0.000{col 72}{space 4} .2205144{col 85}{space 3} .2401131
+{txt}{space 14}edu_diploma_cert {c |}{col 32}{res}{space 2} .1306381{col 44}{space 2} .0040093{col 55}{space 1}   32.58{col 64}{space 3}0.000{col 72}{space 4} .1227798{col 85}{space 3} .1384964
+{txt}{space 20}children_1 {c |}{col 32}{res}{space 2} .0202937{col 44}{space 2} .0044833{col 55}{space 1}    4.53{col 64}{space 3}0.000{col 72}{space 4} .0115064{col 85}{space 3} .0290809
+{txt}{space 20}children_2 {c |}{col 32}{res}{space 2} .0318336{col 44}{space 2} .0044281{col 55}{space 1}    7.19{col 64}{space 3}0.000{col 72}{space 4} .0231546{col 85}{space 3} .0405126
+{txt}{space 20}children_3 {c |}{col 32}{res}{space 2} .0350845{col 44}{space 2} .0065638{col 55}{space 1}    5.35{col 64}{space 3}0.000{col 72}{space 4} .0222195{col 85}{space 3} .0479495
+{txt}{space 15}children_4_plus {c |}{col 32}{res}{space 2}-.0104059{col 44}{space 2} .0127856{col 55}{space 1}   -0.81{col 64}{space 3}0.416{col 72}{space 4}-.0354657{col 85}{space 3} .0146538
+{txt}{space 19}health_poor {c |}{col 32}{res}{space 2}-.0219547{col 44}{space 2} .0044055{col 55}{space 1}   -4.98{col 64}{space 3}0.000{col 72}{space 4}-.0305895{col 85}{space 3}  -.01332
+{txt}{space 21}birth_eng {c |}{col 32}{res}{space 2}-.0121426{col 44}{space 2} .0056387{col 55}{space 1}   -2.15{col 64}{space 3}0.031{col 72}{space 4}-.0231946{col 85}{space 3}-.0010907
+{txt}{space 20}birth_neng {c |}{col 32}{res}{space 2}-.0263136{col 44}{space 2} .0053461{col 55}{space 1}   -4.92{col 64}{space 3}0.000{col 72}{space 4} -.036792{col 85}{space 3}-.0158352
+{txt}{space 19}married_yes {c |}{col 32}{res}{space 2} .0563174{col 44}{space 2} .0047313{col 55}{space 1}   11.90{col 64}{space 3}0.000{col 72}{space 4} .0470441{col 85}{space 3} .0655908
+{txt}{space 19}married_sep {c |}{col 32}{res}{space 2} .0051265{col 44}{space 2} .0062756{col 55}{space 1}    0.82{col 64}{space 3}0.414{col 72}{space 4}-.0071737{col 85}{space 3} .0174267
+{txt}{space 22}urban_no {c |}{col 32}{res}{space 2}-.0151244{col 44}{space 2}  .005326{col 55}{space 1}   -2.84{col 64}{space 3}0.005{col 72}{space 4}-.0255633{col 85}{space 3}-.0046855
+{txt}{space 21}state_VIC {c |}{col 32}{res}{space 2}-.0429624{col 44}{space 2} .0042624{col 55}{space 1}  -10.08{col 64}{space 3}0.000{col 72}{space 4}-.0513167{col 85}{space 3}-.0346081
+{txt}{space 22}state_WA {c |}{col 32}{res}{space 2}-.0082407{col 44}{space 2} .0061267{col 55}{space 1}   -1.35{col 64}{space 3}0.179{col 72}{space 4}-.0202491{col 85}{space 3} .0037677
+{txt}{space 21}state_QLD {c |}{col 32}{res}{space 2}-.0473753{col 44}{space 2} .0044611{col 55}{space 1}  -10.62{col 64}{space 3}0.000{col 72}{space 4}-.0561189{col 85}{space 3}-.0386316
+{txt}{space 22}state_SA {c |}{col 32}{res}{space 2}-.0687024{col 44}{space 2} .0061841{col 55}{space 1}  -11.11{col 64}{space 3}0.000{col 72}{space 4}-.0808233{col 85}{space 3}-.0565815
+{txt}{space 22}state_NT {c |}{col 32}{res}{space 2}  .008599{col 44}{space 2} .0154471{col 55}{space 1}    0.56{col 64}{space 3}0.578{col 72}{space 4}-.0216774{col 85}{space 3} .0388754
+{txt}{space 21}state_TAS {c |}{col 32}{res}{space 2}-.0556137{col 44}{space 2} .0085385{col 55}{space 1}   -6.51{col 64}{space 3}0.000{col 72}{space 4}-.0723491{col 85}{space 3}-.0388782
+{txt}{space 21}state_ACT {c |}{col 32}{res}{space 2} .0245909{col 44}{space 2} .0102697{col 55}{space 1}    2.39{col 64}{space 3}0.017{col 72}{space 4} .0044622{col 85}{space 3} .0447195
+{txt}{space 17}shiftwork_yes {c |}{col 32}{res}{space 2} .0250995{col 44}{space 2} .0048347{col 55}{space 1}    5.19{col 64}{space 3}0.000{col 72}{space 4} .0156235{col 85}{space 3} .0345755
+{txt}{space 22}parttime {c |}{col 32}{res}{space 2} .0209626{col 44}{space 2} .0037854{col 55}{space 1}    5.54{col 64}{space 3}0.000{col 72}{space 4} .0135432{col 85}{space 3} .0283821
+{txt}{space 20}long_hours {c |}{col 32}{res}{space 2}-.0919432{col 44}{space 2} .0044934{col 55}{space 1}  -20.46{col 64}{space 3}0.000{col 72}{space 4}-.1007502{col 85}{space 3}-.0831362
+{txt}{space 24}casual {c |}{col 32}{res}{space 2}-.0114584{col 44}{space 2} .0053331{col 55}{space 1}   -2.15{col 64}{space 3}0.032{col 72}{space 4}-.0219113{col 85}{space 3}-.0010056
+{txt}{space 21}union_yes {c |}{col 32}{res}{space 2} .0212545{col 44}{space 2} .0038458{col 55}{space 1}    5.53{col 64}{space 3}0.000{col 72}{space 4} .0137167{col 85}{space 3} .0287924
+{txt}{space 15}firm_size_20_99 {c |}{col 32}{res}{space 2} .0560607{col 44}{space 2} .0040953{col 55}{space 1}   13.69{col 64}{space 3}0.000{col 72}{space 4}  .048034{col 85}{space 3} .0640874
+{txt}{space 13}firm_size_100_199 {c |}{col 32}{res}{space 2} .1000642{col 44}{space 2}  .005551{col 55}{space 1}   18.03{col 64}{space 3}0.000{col 72}{space 4} .0891843{col 85}{space 3} .1109441
+{txt}{space 13}firm_size_200_499 {c |}{col 32}{res}{space 2} .1141116{col 44}{space 2} .0059877{col 55}{space 1}   19.06{col 64}{space 3}0.000{col 72}{space 4} .1023756{col 85}{space 3} .1258476
+{txt}{space 17}firm_size_500 {c |}{col 32}{res}{space 2} .1888573{col 44}{space 2}  .005532{col 55}{space 1}   34.14{col 64}{space 3}0.000{col 72}{space 4} .1780146{col 85}{space 3} .1996999
+{txt}{space 13}firm_size_unknown {c |}{col 32}{res}{space 2} .0051327{col 44}{space 2} .0202813{col 55}{space 1}    0.25{col 64}{space 3}0.800{col 72}{space 4}-.0346186{col 85}{space 3} .0448841
+{txt}{space 17}ind_wholesale {c |}{col 32}{res}{space 2} .1416992{col 44}{space 2} .0254039{col 55}{space 1}    5.58{col 64}{space 3}0.000{col 72}{space 4} .0919076{col 85}{space 3} .1914908
+{txt}{space 19}ind_finance {c |}{col 32}{res}{space 2}  .232846{col 44}{space 2} .0248466{col 55}{space 1}    9.37{col 64}{space 3}0.000{col 72}{space 4} .1841467{col 85}{space 3} .2815454
+{txt}{space 17}ind_education {c |}{col 32}{res}{space 2}  .113481{col 44}{space 2} .0241782{col 55}{space 1}    4.69{col 64}{space 3}0.000{col 72}{space 4} .0660917{col 85}{space 3} .1608704
+{txt}{space 22}ind_mine {c |}{col 32}{res}{space 2} .4016884{col 44}{space 2} .0308673{col 55}{space 1}   13.01{col 64}{space 3}0.000{col 72}{space 4} .3411884{col 85}{space 3} .4621884
+{txt}{space 20}ind_retail {c |}{col 32}{res}{space 2} .0166482{col 44}{space 2} .0242959{col 55}{space 1}    0.69{col 64}{space 3}0.493{col 72}{space 4}-.0309718{col 85}{space 3} .0642681
+{txt}{space 19}ind_housing {c |}{col 32}{res}{space 2} .2014327{col 44}{space 2} .0271527{col 55}{space 1}    7.42{col 64}{space 3}0.000{col 72}{space 4} .1482135{col 85}{space 3} .2546519
+{txt}{space 20}ind_health {c |}{col 32}{res}{space 2} .1473212{col 44}{space 2} .0240215{col 55}{space 1}    6.13{col 64}{space 3}0.000{col 72}{space 4}  .100239{col 85}{space 3} .1944034
+{txt}{space 18}ind_manufact {c |}{col 32}{res}{space 2} .1244772{col 44}{space 2} .0244823{col 55}{space 1}    5.08{col 64}{space 3}0.000{col 72}{space 4}  .076492{col 85}{space 3} .1724624
+{txt}{space 15}ind_accomo_food {c |}{col 32}{res}{space 2}  .033094{col 44}{space 2} .0244945{col 55}{space 1}    1.35{col 64}{space 3}0.177{col 72}{space 4}-.0149153{col 85}{space 3} .0811032
+{txt}{space 8}ind_prof_sci_technical {c |}{col 32}{res}{space 2} .1939512{col 44}{space 2} .0245738{col 55}{space 1}    7.89{col 64}{space 3}0.000{col 72}{space 4} .1457865{col 85}{space 3} .2421158
+{txt}{space 18}ind_arts_rec {c |}{col 32}{res}{space 2} .0915185{col 44}{space 2} .0272803{col 55}{space 1}    3.35{col 64}{space 3}0.001{col 72}{space 4} .0380491{col 85}{space 3} .1449879
+{txt}{space 17}ind_utilities {c |}{col 32}{res}{space 2} .3468259{col 44}{space 2} .0295771{col 55}{space 1}   11.73{col 64}{space 3}0.000{col 72}{space 4} .2888549{col 85}{space 3}  .404797
+{txt}{space 17}ind_logistics {c |}{col 32}{res}{space 2} .1767106{col 44}{space 2} .0265534{col 55}{space 1}    6.65{col 64}{space 3}0.000{col 72}{space 4}  .124666{col 85}{space 3} .2287553
+{txt}{space 21}ind_admin {c |}{col 32}{res}{space 2} .1231402{col 44}{space 2} .0253345{col 55}{space 1}    4.86{col 64}{space 3}0.000{col 72}{space 4} .0734847{col 85}{space 3} .1727958
+{txt}{space 13}ind_other_unknown {c |}{col 32}{res}{space 2}  .139268{col 44}{space 2} .0254203{col 55}{space 1}    5.48{col 64}{space 3}0.000{col 72}{space 4} .0894441{col 85}{space 3} .1890918
+{txt}{space 17}ind_construct {c |}{col 32}{res}{space 2} .2653829{col 44}{space 2} .0275043{col 55}{space 1}    9.65{col 64}{space 3}0.000{col 72}{space 4} .2114744{col 85}{space 3} .3192914
+{txt}{space 24}ind_it {c |}{col 32}{res}{space 2} .1440912{col 44}{space 2} .0263166{col 55}{space 1}    5.48{col 64}{space 3}0.000{col 72}{space 4} .0925107{col 85}{space 3} .1956718
+{txt}{space 14}ind_public_admin {c |}{col 32}{res}{space 2} .2592859{col 44}{space 2} .0245618{col 55}{space 1}   10.56{col 64}{space 3}0.000{col 72}{space 4} .2111447{col 85}{space 3} .3074271
+{txt}{space 16}occ_tech_trade {c |}{col 32}{res}{space 2}-.3374934{col 44}{space 2} .0093639{col 55}{space 1}  -36.04{col 64}{space 3}0.000{col 72}{space 4}-.3558468{col 85}{space 3}-.3191401
+{txt}{space 12}occ_clerical_admin {c |}{col 32}{res}{space 2}-.2952461{col 44}{space 2} .0065369{col 55}{space 1}  -45.17{col 64}{space 3}0.000{col 72}{space 4}-.3080584{col 85}{space 3}-.2824338
+{txt}{space 17}occ_machinery {c |}{col 32}{res}{space 2}-.3326554{col 44}{space 2} .0161033{col 55}{space 1}  -20.66{col 64}{space 3}0.000{col 72}{space 4}-.3642178{col 85}{space 3}-.3010929
+{txt}{space 22}occ_prof {c |}{col 32}{res}{space 2}-.0716862{col 44}{space 2} .0065551{col 55}{space 1}  -10.94{col 64}{space 3}0.000{col 72}{space 4}-.0845341{col 85}{space 3}-.0588383
+{txt}occ_community_personal_service {c |}{col 32}{res}{space 2}-.3454917{col 44}{space 2} .0074281{col 55}{space 1}  -46.51{col 64}{space 3}0.000{col 72}{space 4}-.3600508{col 85}{space 3}-.3309326
+{txt}{space 21}occ_sales {c |}{col 32}{res}{space 2}-.3015545{col 44}{space 2} .0086107{col 55}{space 1}  -35.02{col 64}{space 3}0.000{col 72}{space 4}-.3184314{col 85}{space 3}-.2846775
+{txt}{space 18}occ_labourer {c |}{col 32}{res}{space 2}-.4513985{col 44}{space 2} .0101394{col 55}{space 1}  -44.52{col 64}{space 3}0.000{col 72}{space 4}-.4712717{col 85}{space 3}-.4315253
+{txt}{space 25}_cons {c |}{col 32}{res}{space 2} 2.977861{col 44}{space 2} .0257478{col 55}{space 1}  115.66{col 64}{space 3}0.000{col 72}{space 4} 2.927396{col 85}{space 3} 3.028327
+{txt}{hline 31}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. *human capital + demographic + basic job char + union + ind + occ
+. regress log_wage sector_public experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT shiftwork_yes parttime long_hours casual union_yes ind_wholesale ind_finance ind_education ind_mine ind_retail ind_housing ind_health ind_manufact ind_accomo_food ind_prof_sci_technical ind_arts_rec ind_utilities ind_logistics ind_admin ind_other_unknown ind_construct ind_it ind_public_admin occ_tech_trade occ_clerical_admin occ_machinery occ_prof occ_community_personal_service occ_sales occ_labourer if sex_male == 1, vce(robust)
+
+{txt}Linear regression                               Number of obs     = {res}    64,858
+                                                {txt}F(52, 64805)      =  {res}   535.65
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.3129
+                                                {txt}Root MSE          =    {res} .42342
+
+{txt}{hline 31}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 32}{c |}{col 44}    Robust
+{col 1}                      log_wage{col 32}{c |} Coefficient{col 44}  std. err.{col 56}      t{col 64}   P>|t|{col 72}     [95% con{col 85}f. interval]
+{hline 31}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 17}sector_public {c |}{col 32}{res}{space 2} .0208805{col 44}{space 2} .0059732{col 55}{space 1}    3.50{col 64}{space 3}0.000{col 72}{space 4}  .009173{col 85}{space 3}  .032588
+{txt}{space 20}experience {c |}{col 32}{res}{space 2} .0170399{col 44}{space 2} .0006651{col 55}{space 1}   25.62{col 64}{space 3}0.000{col 72}{space 4} .0157362{col 85}{space 3} .0183435
+{txt}{space 17}experience_sq {c |}{col 32}{res}{space 2}-.0002404{col 44}{space 2} .0000138{col 55}{space 1}  -17.38{col 64}{space 3}0.000{col 72}{space 4}-.0002675{col 85}{space 3}-.0002133
+{txt}{space 23}edu_uni {c |}{col 32}{res}{space 2} .2531347{col 44}{space 2} .0056314{col 55}{space 1}   44.95{col 64}{space 3}0.000{col 72}{space 4} .2420973{col 85}{space 3} .2641722
+{txt}{space 14}edu_diploma_cert {c |}{col 32}{res}{space 2} .0983339{col 44}{space 2} .0040471{col 55}{space 1}   24.30{col 64}{space 3}0.000{col 72}{space 4} .0904016{col 85}{space 3} .1062661
+{txt}{space 20}children_1 {c |}{col 32}{res}{space 2} .0269479{col 44}{space 2} .0048012{col 55}{space 1}    5.61{col 64}{space 3}0.000{col 72}{space 4} .0175375{col 85}{space 3} .0363583
+{txt}{space 20}children_2 {c |}{col 32}{res}{space 2}  .065984{col 44}{space 2} .0050233{col 55}{space 1}   13.14{col 64}{space 3}0.000{col 72}{space 4} .0561384{col 85}{space 3} .0758296
+{txt}{space 20}children_3 {c |}{col 32}{res}{space 2} .0806568{col 44}{space 2} .0070548{col 55}{space 1}   11.43{col 64}{space 3}0.000{col 72}{space 4} .0668293{col 85}{space 3} .0944843
+{txt}{space 15}children_4_plus {c |}{col 32}{res}{space 2}-.0161023{col 44}{space 2} .0127073{col 55}{space 1}   -1.27{col 64}{space 3}0.205{col 72}{space 4}-.0410086{col 85}{space 3}  .008804
+{txt}{space 19}health_poor {c |}{col 32}{res}{space 2}-.0732633{col 44}{space 2} .0050014{col 55}{space 1}  -14.65{col 64}{space 3}0.000{col 72}{space 4} -.083066{col 85}{space 3}-.0634606
+{txt}{space 21}birth_eng {c |}{col 32}{res}{space 2}  .007413{col 44}{space 2} .0059107{col 55}{space 1}    1.25{col 64}{space 3}0.210{col 72}{space 4}-.0041719{col 85}{space 3} .0189979
+{txt}{space 20}birth_neng {c |}{col 32}{res}{space 2}-.0712246{col 44}{space 2} .0057044{col 55}{space 1}  -12.49{col 64}{space 3}0.000{col 72}{space 4}-.0824053{col 85}{space 3}-.0600439
+{txt}{space 19}married_yes {c |}{col 32}{res}{space 2} .0825997{col 44}{space 2} .0050429{col 55}{space 1}   16.38{col 64}{space 3}0.000{col 72}{space 4} .0727155{col 85}{space 3} .0924838
+{txt}{space 19}married_sep {c |}{col 32}{res}{space 2} .0292766{col 44}{space 2} .0082879{col 55}{space 1}    3.53{col 64}{space 3}0.000{col 72}{space 4} .0130324{col 85}{space 3} .0455209
+{txt}{space 22}urban_no {c |}{col 32}{res}{space 2}-.0450957{col 44}{space 2} .0057117{col 55}{space 1}   -7.90{col 64}{space 3}0.000{col 72}{space 4}-.0562906{col 85}{space 3}-.0339009
+{txt}{space 21}state_VIC {c |}{col 32}{res}{space 2}-.0104828{col 44}{space 2} .0045783{col 55}{space 1}   -2.29{col 64}{space 3}0.022{col 72}{space 4}-.0194563{col 85}{space 3}-.0015094
+{txt}{space 22}state_WA {c |}{col 32}{res}{space 2} .0117193{col 44}{space 2} .0070113{col 55}{space 1}    1.67{col 64}{space 3}0.095{col 72}{space 4}-.0020228{col 85}{space 3} .0254615
+{txt}{space 21}state_QLD {c |}{col 32}{res}{space 2}-.0164928{col 44}{space 2} .0046648{col 55}{space 1}   -3.54{col 64}{space 3}0.000{col 72}{space 4}-.0256357{col 85}{space 3}-.0073499
+{txt}{space 22}state_SA {c |}{col 32}{res}{space 2}-.0829809{col 44}{space 2} .0066292{col 55}{space 1}  -12.52{col 64}{space 3}0.000{col 72}{space 4}-.0959742{col 85}{space 3}-.0699877
+{txt}{space 22}state_NT {c |}{col 32}{res}{space 2} .0487041{col 44}{space 2}  .016651{col 55}{space 1}    2.92{col 64}{space 3}0.003{col 72}{space 4} .0160682{col 85}{space 3} .0813401
+{txt}{space 21}state_TAS {c |}{col 32}{res}{space 2}-.0807474{col 44}{space 2} .0092474{col 55}{space 1}   -8.73{col 64}{space 3}0.000{col 72}{space 4}-.0988722{col 85}{space 3}-.0626225
+{txt}{space 21}state_ACT {c |}{col 32}{res}{space 2} .1082298{col 44}{space 2} .0109152{col 55}{space 1}    9.92{col 64}{space 3}0.000{col 72}{space 4} .0868359{col 85}{space 3} .1296237
+{txt}{space 17}shiftwork_yes {c |}{col 32}{res}{space 2} .0826682{col 44}{space 2} .0051796{col 55}{space 1}   15.96{col 64}{space 3}0.000{col 72}{space 4} .0725162{col 85}{space 3} .0928201
+{txt}{space 22}parttime {c |}{col 32}{res}{space 2}  .009534{col 44}{space 2} .0078472{col 55}{space 1}    1.21{col 64}{space 3}0.224{col 72}{space 4}-.0058465{col 85}{space 3} .0249146
+{txt}{space 20}long_hours {c |}{col 32}{res}{space 2}-.0727349{col 44}{space 2} .0035425{col 55}{space 1}  -20.53{col 64}{space 3}0.000{col 72}{space 4}-.0796782{col 85}{space 3}-.0657916
+{txt}{space 24}casual {c |}{col 32}{res}{space 2}-.0150311{col 44}{space 2} .0063587{col 55}{space 1}   -2.36{col 64}{space 3}0.018{col 72}{space 4} -.027494{col 85}{space 3}-.0025681
+{txt}{space 21}union_yes {c |}{col 32}{res}{space 2} .0407282{col 44}{space 2} .0041515{col 55}{space 1}    9.81{col 64}{space 3}0.000{col 72}{space 4} .0325913{col 85}{space 3} .0488651
+{txt}{space 17}ind_wholesale {c |}{col 32}{res}{space 2} .1816638{col 44}{space 2} .0145419{col 55}{space 1}   12.49{col 64}{space 3}0.000{col 72}{space 4} .1531617{col 85}{space 3} .2101659
+{txt}{space 19}ind_finance {c |}{col 32}{res}{space 2} .4529693{col 44}{space 2}  .015722{col 55}{space 1}   28.81{col 64}{space 3}0.000{col 72}{space 4} .4221542{col 85}{space 3} .4837844
+{txt}{space 17}ind_education {c |}{col 32}{res}{space 2} .1089175{col 44}{space 2} .0149274{col 55}{space 1}    7.30{col 64}{space 3}0.000{col 72}{space 4} .0796598{col 85}{space 3} .1381752
+{txt}{space 22}ind_mine {c |}{col 32}{res}{space 2}  .675333{col 44}{space 2} .0156474{col 55}{space 1}   43.16{col 64}{space 3}0.000{col 72}{space 4} .6446641{col 85}{space 3} .7060019
+{txt}{space 20}ind_retail {c |}{col 32}{res}{space 2} .0446628{col 44}{space 2} .0141033{col 55}{space 1}    3.17{col 64}{space 3}0.002{col 72}{space 4} .0170203{col 85}{space 3} .0723053
+{txt}{space 19}ind_housing {c |}{col 32}{res}{space 2} .1771219{col 44}{space 2} .0221207{col 55}{space 1}    8.01{col 64}{space 3}0.000{col 72}{space 4} .1337653{col 85}{space 3} .2204785
+{txt}{space 20}ind_health {c |}{col 32}{res}{space 2} .1715178{col 44}{space 2} .0156446{col 55}{space 1}   10.96{col 64}{space 3}0.000{col 72}{space 4} .1408543{col 85}{space 3} .2021812
+{txt}{space 18}ind_manufact {c |}{col 32}{res}{space 2} .2053507{col 44}{space 2} .0131275{col 55}{space 1}   15.64{col 64}{space 3}0.000{col 72}{space 4} .1796209{col 85}{space 3} .2310806
+{txt}{space 15}ind_accomo_food {c |}{col 32}{res}{space 2}-.0098458{col 44}{space 2} .0157965{col 55}{space 1}   -0.62{col 64}{space 3}0.533{col 72}{space 4} -.040807{col 85}{space 3} .0211154
+{txt}{space 8}ind_prof_sci_technical {c |}{col 32}{res}{space 2} .3227389{col 44}{space 2} .0144703{col 55}{space 1}   22.30{col 64}{space 3}0.000{col 72}{space 4}  .294377{col 85}{space 3} .3511007
+{txt}{space 18}ind_arts_rec {c |}{col 32}{res}{space 2} .0715047{col 44}{space 2} .0187315{col 55}{space 1}    3.82{col 64}{space 3}0.000{col 72}{space 4} .0347911{col 85}{space 3} .1082184
+{txt}{space 17}ind_utilities {c |}{col 32}{res}{space 2} .4293869{col 44}{space 2} .0174465{col 55}{space 1}   24.61{col 64}{space 3}0.000{col 72}{space 4} .3951917{col 85}{space 3} .4635822
+{txt}{space 17}ind_logistics {c |}{col 32}{res}{space 2} .2698961{col 44}{space 2} .0142108{col 55}{space 1}   18.99{col 64}{space 3}0.000{col 72}{space 4} .2420429{col 85}{space 3} .2977493
+{txt}{space 21}ind_admin {c |}{col 32}{res}{space 2}  .163189{col 44}{space 2} .0166173{col 55}{space 1}    9.82{col 64}{space 3}0.000{col 72}{space 4} .1306191{col 85}{space 3}  .195759
+{txt}{space 13}ind_other_unknown {c |}{col 32}{res}{space 2} .1474814{col 44}{space 2} .0155928{col 55}{space 1}    9.46{col 64}{space 3}0.000{col 72}{space 4} .1169196{col 85}{space 3} .1780432
+{txt}{space 17}ind_construct {c |}{col 32}{res}{space 2} .3561974{col 44}{space 2} .0135427{col 55}{space 1}   26.30{col 64}{space 3}0.000{col 72}{space 4} .3296536{col 85}{space 3} .3827412
+{txt}{space 24}ind_it {c |}{col 32}{res}{space 2} .2528799{col 44}{space 2}  .016593{col 55}{space 1}   15.24{col 64}{space 3}0.000{col 72}{space 4} .2203576{col 85}{space 3} .2854021
+{txt}{space 14}ind_public_admin {c |}{col 32}{res}{space 2} .2706075{col 44}{space 2} .0144835{col 55}{space 1}   18.68{col 64}{space 3}0.000{col 72}{space 4} .2422198{col 85}{space 3} .2989953
+{txt}{space 16}occ_tech_trade {c |}{col 32}{res}{space 2}-.2717324{col 44}{space 2} .0063028{col 55}{space 1}  -43.11{col 64}{space 3}0.000{col 72}{space 4}-.2840859{col 85}{space 3} -.259379
+{txt}{space 12}occ_clerical_admin {c |}{col 32}{res}{space 2}-.3251935{col 44}{space 2} .0072136{col 55}{space 1}  -45.08{col 64}{space 3}0.000{col 72}{space 4} -.339332{col 85}{space 3}-.3110549
+{txt}{space 17}occ_machinery {c |}{col 32}{res}{space 2}-.3866047{col 44}{space 2} .0072305{col 55}{space 1}  -53.47{col 64}{space 3}0.000{col 72}{space 4}-.4007764{col 85}{space 3}-.3724329
+{txt}{space 22}occ_prof {c |}{col 32}{res}{space 2}-.0842333{col 44}{space 2}  .006372{col 55}{space 1}  -13.22{col 64}{space 3}0.000{col 72}{space 4}-.0967224{col 85}{space 3}-.0717441
+{txt}occ_community_personal_service {c |}{col 32}{res}{space 2}-.2905892{col 44}{space 2} .0086884{col 55}{space 1}  -33.45{col 64}{space 3}0.000{col 72}{space 4}-.3076185{col 85}{space 3}  -.27356
+{txt}{space 21}occ_sales {c |}{col 32}{res}{space 2}-.3029721{col 44}{space 2} .0093973{col 55}{space 1}  -32.24{col 64}{space 3}0.000{col 72}{space 4}-.3213908{col 85}{space 3}-.2845534
+{txt}{space 18}occ_labourer {c |}{col 32}{res}{space 2}-.4319015{col 44}{space 2} .0079879{col 55}{space 1}  -54.07{col 64}{space 3}0.000{col 72}{space 4}-.4475578{col 85}{space 3}-.4162452
+{txt}{space 25}_cons {c |}{col 32}{res}{space 2} 2.997038{col 44}{space 2} .0154401{col 55}{space 1}  194.11{col 64}{space 3}0.000{col 72}{space 4} 2.966775{col 85}{space 3}   3.0273
+{txt}{hline 31}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. regress log_wage sector_public experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT shiftwork_yes parttime long_hours casual union_yes ind_wholesale ind_finance ind_education ind_mine ind_retail ind_housing ind_health ind_manufact ind_accomo_food ind_prof_sci_technical ind_arts_rec ind_utilities ind_logistics ind_admin ind_other_unknown ind_construct ind_it ind_public_admin occ_tech_trade occ_clerical_admin occ_machinery occ_prof occ_community_personal_service occ_sales occ_labourer if sex_female == 1, vce(robust)
+
+{txt}Linear regression                               Number of obs     = {res}    66,949
+                                                {txt}F(52, 66896)      =  {res}   486.49
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.2775
+                                                {txt}Root MSE          =    {res} .40423
+
+{txt}{hline 31}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 32}{c |}{col 44}    Robust
+{col 1}                      log_wage{col 32}{c |} Coefficient{col 44}  std. err.{col 56}      t{col 64}   P>|t|{col 72}     [95% con{col 85}f. interval]
+{hline 31}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 17}sector_public {c |}{col 32}{res}{space 2} .0454802{col 44}{space 2} .0044786{col 55}{space 1}   10.16{col 64}{space 3}0.000{col 72}{space 4} .0367021{col 85}{space 3} .0542582
+{txt}{space 20}experience {c |}{col 32}{res}{space 2} .0110248{col 44}{space 2} .0006574{col 55}{space 1}   16.77{col 64}{space 3}0.000{col 72}{space 4} .0097364{col 85}{space 3} .0123133
+{txt}{space 17}experience_sq {c |}{col 32}{res}{space 2}-.0001161{col 44}{space 2} .0000148{col 55}{space 1}   -7.87{col 64}{space 3}0.000{col 72}{space 4} -.000145{col 85}{space 3}-.0000871
+{txt}{space 23}edu_uni {c |}{col 32}{res}{space 2} .2420284{col 44}{space 2} .0050551{col 55}{space 1}   47.88{col 64}{space 3}0.000{col 72}{space 4} .2321205{col 85}{space 3} .2519364
+{txt}{space 14}edu_diploma_cert {c |}{col 32}{res}{space 2}  .131596{col 44}{space 2} .0040441{col 55}{space 1}   32.54{col 64}{space 3}0.000{col 72}{space 4} .1236695{col 85}{space 3} .1395225
+{txt}{space 20}children_1 {c |}{col 32}{res}{space 2} .0203474{col 44}{space 2} .0045239{col 55}{space 1}    4.50{col 64}{space 3}0.000{col 72}{space 4} .0114806{col 85}{space 3} .0292143
+{txt}{space 20}children_2 {c |}{col 32}{res}{space 2} .0315948{col 44}{space 2} .0044772{col 55}{space 1}    7.06{col 64}{space 3}0.000{col 72}{space 4} .0228195{col 85}{space 3} .0403702
+{txt}{space 20}children_3 {c |}{col 32}{res}{space 2}  .033284{col 44}{space 2} .0066426{col 55}{space 1}    5.01{col 64}{space 3}0.000{col 72}{space 4} .0202646{col 85}{space 3} .0463034
+{txt}{space 15}children_4_plus {c |}{col 32}{res}{space 2}-.0173913{col 44}{space 2} .0128473{col 55}{space 1}   -1.35{col 64}{space 3}0.176{col 72}{space 4} -.042572{col 85}{space 3} .0077893
+{txt}{space 19}health_poor {c |}{col 32}{res}{space 2}-.0218133{col 44}{space 2} .0044374{col 55}{space 1}   -4.92{col 64}{space 3}0.000{col 72}{space 4}-.0305106{col 85}{space 3} -.013116
+{txt}{space 21}birth_eng {c |}{col 32}{res}{space 2} -.004228{col 44}{space 2} .0056767{col 55}{space 1}   -0.74{col 64}{space 3}0.456{col 72}{space 4}-.0153544{col 85}{space 3} .0068984
+{txt}{space 20}birth_neng {c |}{col 32}{res}{space 2}-.0183925{col 44}{space 2} .0054065{col 55}{space 1}   -3.40{col 64}{space 3}0.001{col 72}{space 4}-.0289893{col 85}{space 3}-.0077957
+{txt}{space 19}married_yes {c |}{col 32}{res}{space 2} .0546942{col 44}{space 2} .0047555{col 55}{space 1}   11.50{col 64}{space 3}0.000{col 72}{space 4} .0453734{col 85}{space 3}  .064015
+{txt}{space 19}married_sep {c |}{col 32}{res}{space 2} .0010448{col 44}{space 2} .0063172{col 55}{space 1}    0.17{col 64}{space 3}0.869{col 72}{space 4}-.0113368{col 85}{space 3} .0134264
+{txt}{space 22}urban_no {c |}{col 32}{res}{space 2}-.0298457{col 44}{space 2} .0053456{col 55}{space 1}   -5.58{col 64}{space 3}0.000{col 72}{space 4}-.0403231{col 85}{space 3}-.0193684
+{txt}{space 21}state_VIC {c |}{col 32}{res}{space 2}-.0375399{col 44}{space 2} .0043137{col 55}{space 1}   -8.70{col 64}{space 3}0.000{col 72}{space 4}-.0459948{col 85}{space 3}-.0290851
+{txt}{space 22}state_WA {c |}{col 32}{res}{space 2}-.0047406{col 44}{space 2} .0061883{col 55}{space 1}   -0.77{col 64}{space 3}0.444{col 72}{space 4}-.0168696{col 85}{space 3} .0073885
+{txt}{space 21}state_QLD {c |}{col 32}{res}{space 2}-.0486659{col 44}{space 2} .0045072{col 55}{space 1}  -10.80{col 64}{space 3}0.000{col 72}{space 4}-.0574999{col 85}{space 3}-.0398318
+{txt}{space 22}state_SA {c |}{col 32}{res}{space 2}-.0678367{col 44}{space 2} .0062047{col 55}{space 1}  -10.93{col 64}{space 3}0.000{col 72}{space 4}-.0799978{col 85}{space 3}-.0556755
+{txt}{space 22}state_NT {c |}{col 32}{res}{space 2}-.0030109{col 44}{space 2} .0155472{col 55}{space 1}   -0.19{col 64}{space 3}0.846{col 72}{space 4}-.0334833{col 85}{space 3} .0274615
+{txt}{space 21}state_TAS {c |}{col 32}{res}{space 2}-.0555969{col 44}{space 2} .0085825{col 55}{space 1}   -6.48{col 64}{space 3}0.000{col 72}{space 4}-.0724187{col 85}{space 3}-.0387752
+{txt}{space 21}state_ACT {c |}{col 32}{res}{space 2} .0463166{col 44}{space 2} .0103912{col 55}{space 1}    4.46{col 64}{space 3}0.000{col 72}{space 4} .0259499{col 85}{space 3} .0666833
+{txt}{space 17}shiftwork_yes {c |}{col 32}{res}{space 2} .0459855{col 44}{space 2} .0048067{col 55}{space 1}    9.57{col 64}{space 3}0.000{col 72}{space 4} .0365643{col 85}{space 3} .0554066
+{txt}{space 22}parttime {c |}{col 32}{res}{space 2} .0132218{col 44}{space 2} .0038194{col 55}{space 1}    3.46{col 64}{space 3}0.001{col 72}{space 4} .0057358{col 85}{space 3} .0207078
+{txt}{space 20}long_hours {c |}{col 32}{res}{space 2}-.0870639{col 44}{space 2}  .004575{col 55}{space 1}  -19.03{col 64}{space 3}0.000{col 72}{space 4}-.0960309{col 85}{space 3}-.0780968
+{txt}{space 24}casual {c |}{col 32}{res}{space 2}-.0276523{col 44}{space 2} .0053242{col 55}{space 1}   -5.19{col 64}{space 3}0.000{col 72}{space 4}-.0380878{col 85}{space 3}-.0172168
+{txt}{space 21}union_yes {c |}{col 32}{res}{space 2} .0273036{col 44}{space 2}  .003851{col 55}{space 1}    7.09{col 64}{space 3}0.000{col 72}{space 4} .0197556{col 85}{space 3} .0348516
+{txt}{space 17}ind_wholesale {c |}{col 32}{res}{space 2} .1473222{col 44}{space 2} .0255962{col 55}{space 1}    5.76{col 64}{space 3}0.000{col 72}{space 4} .0971537{col 85}{space 3} .1974907
+{txt}{space 19}ind_finance {c |}{col 32}{res}{space 2}  .270399{col 44}{space 2} .0251011{col 55}{space 1}   10.77{col 64}{space 3}0.000{col 72}{space 4} .2212009{col 85}{space 3}  .319597
+{txt}{space 17}ind_education {c |}{col 32}{res}{space 2} .1184314{col 44}{space 2} .0243795{col 55}{space 1}    4.86{col 64}{space 3}0.000{col 72}{space 4} .0706475{col 85}{space 3} .1662153
+{txt}{space 22}ind_mine {c |}{col 32}{res}{space 2} .4685691{col 44}{space 2} .0312483{col 55}{space 1}   15.00{col 64}{space 3}0.000{col 72}{space 4} .4073224{col 85}{space 3} .5298158
+{txt}{space 20}ind_retail {c |}{col 32}{res}{space 2} .0283163{col 44}{space 2}  .024507{col 55}{space 1}    1.16{col 64}{space 3}0.248{col 72}{space 4}-.0197174{col 85}{space 3} .0763501
+{txt}{space 19}ind_housing {c |}{col 32}{res}{space 2} .1917666{col 44}{space 2} .0273887{col 55}{space 1}    7.00{col 64}{space 3}0.000{col 72}{space 4} .1380848{col 85}{space 3} .2454484
+{txt}{space 20}ind_health {c |}{col 32}{res}{space 2} .1740773{col 44}{space 2} .0242129{col 55}{space 1}    7.19{col 64}{space 3}0.000{col 72}{space 4}   .12662{col 85}{space 3} .2215346
+{txt}{space 18}ind_manufact {c |}{col 32}{res}{space 2} .1540853{col 44}{space 2} .0247057{col 55}{space 1}    6.24{col 64}{space 3}0.000{col 72}{space 4} .1056621{col 85}{space 3} .2025085
+{txt}{space 15}ind_accomo_food {c |}{col 32}{res}{space 2} .0409691{col 44}{space 2} .0246883{col 55}{space 1}    1.66{col 64}{space 3}0.097{col 72}{space 4}  -.00742{col 85}{space 3} .0893582
+{txt}{space 8}ind_prof_sci_technical {c |}{col 32}{res}{space 2} .2037914{col 44}{space 2} .0247935{col 55}{space 1}    8.22{col 64}{space 3}0.000{col 72}{space 4} .1551962{col 85}{space 3} .2523867
+{txt}{space 18}ind_arts_rec {c |}{col 32}{res}{space 2} .1103157{col 44}{space 2} .0274263{col 55}{space 1}    4.02{col 64}{space 3}0.000{col 72}{space 4} .0565601{col 85}{space 3} .1640713
+{txt}{space 17}ind_utilities {c |}{col 32}{res}{space 2} .3916175{col 44}{space 2} .0300882{col 55}{space 1}   13.02{col 64}{space 3}0.000{col 72}{space 4} .3326447{col 85}{space 3} .4505904
+{txt}{space 17}ind_logistics {c |}{col 32}{res}{space 2} .2001125{col 44}{space 2} .0268421{col 55}{space 1}    7.46{col 64}{space 3}0.000{col 72}{space 4}  .147502{col 85}{space 3} .2527231
+{txt}{space 21}ind_admin {c |}{col 32}{res}{space 2} .1304094{col 44}{space 2} .0254857{col 55}{space 1}    5.12{col 64}{space 3}0.000{col 72}{space 4} .0804574{col 85}{space 3} .1803614
+{txt}{space 13}ind_other_unknown {c |}{col 32}{res}{space 2}  .136556{col 44}{space 2} .0256368{col 55}{space 1}    5.33{col 64}{space 3}0.000{col 72}{space 4} .0863078{col 85}{space 3} .1868041
+{txt}{space 17}ind_construct {c |}{col 32}{res}{space 2} .2735759{col 44}{space 2} .0277501{col 55}{space 1}    9.86{col 64}{space 3}0.000{col 72}{space 4} .2191857{col 85}{space 3}  .327966
+{txt}{space 24}ind_it {c |}{col 32}{res}{space 2} .1767609{col 44}{space 2} .0266283{col 55}{space 1}    6.64{col 64}{space 3}0.000{col 72}{space 4} .1245694{col 85}{space 3} .2289524
+{txt}{space 14}ind_public_admin {c |}{col 32}{res}{space 2} .2884619{col 44}{space 2} .0247484{col 55}{space 1}   11.66{col 64}{space 3}0.000{col 72}{space 4}  .239955{col 85}{space 3} .3369688
+{txt}{space 16}occ_tech_trade {c |}{col 32}{res}{space 2}-.3473674{col 44}{space 2}  .009495{col 55}{space 1}  -36.58{col 64}{space 3}0.000{col 72}{space 4}-.3659777{col 85}{space 3}-.3287572
+{txt}{space 12}occ_clerical_admin {c |}{col 32}{res}{space 2} -.294158{col 44}{space 2} .0066579{col 55}{space 1}  -44.18{col 64}{space 3}0.000{col 72}{space 4}-.3072075{col 85}{space 3}-.2811085
+{txt}{space 17}occ_machinery {c |}{col 32}{res}{space 2}-.3286001{col 44}{space 2} .0163275{col 55}{space 1}  -20.13{col 64}{space 3}0.000{col 72}{space 4}-.3606021{col 85}{space 3}-.2965982
+{txt}{space 22}occ_prof {c |}{col 32}{res}{space 2}-.0654768{col 44}{space 2} .0066858{col 55}{space 1}   -9.79{col 64}{space 3}0.000{col 72}{space 4}-.0785809{col 85}{space 3}-.0523726
+{txt}occ_community_personal_service {c |}{col 32}{res}{space 2}-.3564729{col 44}{space 2}  .007503{col 55}{space 1}  -47.51{col 64}{space 3}0.000{col 72}{space 4}-.3711787{col 85}{space 3}-.3417671
+{txt}{space 21}occ_sales {c |}{col 32}{res}{space 2}-.3046032{col 44}{space 2} .0087376{col 55}{space 1}  -34.86{col 64}{space 3}0.000{col 72}{space 4} -.321729{col 85}{space 3}-.2874774
+{txt}{space 18}occ_labourer {c |}{col 32}{res}{space 2}-.4423981{col 44}{space 2} .0102101{col 55}{space 1}  -43.33{col 64}{space 3}0.000{col 72}{space 4}-.4624098{col 85}{space 3}-.4223864
+{txt}{space 25}_cons {c |}{col 32}{res}{space 2} 3.007539{col 44}{space 2} .0259178{col 55}{space 1}  116.04{col 64}{space 3}0.000{col 72}{space 4}  2.95674{col 85}{space 3} 3.058337
+{txt}{hline 31}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. 

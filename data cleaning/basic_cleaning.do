@@ -2,12 +2,16 @@
 * It then drops missing observations, codes dummies and cleans up categorical variables to have the correct levels
 
 clear
-use "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v3/base_longfile_v4.dta"
+use "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v3/base_longfile.dta"
 *use "/home/sean/Code/honours/hons-project/cleaned_data/v3/base_longfile.dta"
 
 *rename variables
-rename (jbmhruc wscmei hgage ehtjb hgsex tcr jbempt) (main_hours main_income age experience sex n_resident_children tenure)
 
+rename (jbmhruc wscmei hgage ehtjb tcr jbempt jbmi61 jbmo61) (main_hours main_income age experience n_resident_children tenure industry occupation)
+rename(jbhruc wscei hgsex) (all_hours all_wages sex)
+
+*drop variables that were only used for cleaning in the rfile
+drop esbrd edfts
 
 *generate sector data
 generate sector_public = 0
@@ -41,6 +45,7 @@ replace english_good = 1 if english_poor == 0
 
 generate english = "good"
 replace english = "poor" if english_poor == 1
+drop aneab hgeab
 
 
 *experience
@@ -54,10 +59,6 @@ replace sex_male = 1 if sex == 1
 
 generate sex_female = 0
 replace sex_female = 1 if sex == 2
-
-drop sex
-generate sex = "male"
-replace sex = "female" if sex_female == 1
 
 
 *children
@@ -90,6 +91,7 @@ replace edu = "y12_or_less" if edu_y12_or_less == 1
 keep if edu_uni == 1 | edu_diploma_cert == 1 | edu_y12_or_less == 1
 drop edhigh1
 
+
 *health
 generate health_good = 0
 replace health_good = 1 if helth == 2
@@ -98,6 +100,8 @@ generate health_poor = 0
 replace health_poor = 1 if helth == 1
 
 keep if health_good == 1 | health_poor == 1
+drop helth
+
 
 *country of birth
 generate birth_aus = 0
@@ -114,53 +118,43 @@ keep if birth_aus == 1 | birth_eng == 1 | birth_neng == 1
 generate birth = "aus"
 replace birth = "eng" if birth_eng == 1
 replace birth = "non eng" if birth_neng == 1
+drop anbcob
 
 
 *industry
-replace jbmi61 = 19 if jbmi61 < 0
-gen ind_agri = 1.jbmi61
-gen ind_mine = 2.jbmi61
-gen ind_manufact = 3.jbmi61
-gen ind__utilities = 4.jbmi61
-gen ind_construct = 5.jbmi61
-gen ind_wholesale = 6.jbmi61
-gen ind_retail = 7.jbmi61
-gen ind_accomo_food = 8.jbmi61
-gen ind_logistics = 9.jbmi61
-gen ind_it = 10.jbmi61
-gen ind_finance = 11.jbmi61
-gen ind_rent_and_real_estate = 12.jbmi61
-gen ind_prof_sci_technical = 13.jbmi61
-gen ind_admin = 14.jbmi61
-gen ind_public_admin = 15.jbmi61
-gen ind_education = 16.jbmi61
-gen ind_health = 17.jbmi61
-gen ind_arts_rec = 18.jbmi61
-gen ind_other_unknown = 19.jbmi61
+replace industry = 19 if industry < 0
+gen ind_agri = 1.industry
+gen ind_mine = 2.industry
+gen ind_manufact = 3.industry
+gen ind_utilities = 4.industry
+gen ind_construct = 5.industry
+gen ind_wholesale = 6.industry
+gen ind_retail = 7.industry
+gen ind_accomo_food = 8.industry
+gen ind_logistics = 9.industry
+gen ind_it = 10.industry
+gen ind_finance = 11.industry
+gen ind_housing = 12.industry
+gen ind_prof_sci_technical = 13.industry
+gen ind_admin = 14.industry
+gen ind_public_admin = 15.industry
+gen ind_education = 16.industry
+gen ind_health = 17.industry
+gen ind_arts_rec = 18.industry
+gen ind_other_unknown = 19.industry
 
 
 *occupation
-// generate occ = 0
-// replace occ = 1 if occupation_1 == 1
-// replace occ = 2 if occupation_2 == 1
-// replace occ = 3 if occupation_3 == 1
-// replace occ = 4 if occupation_4 == 1
-// replace occ = 5 if occupation_5 == 1
-// replace occ = 6 if occupation_6 == 1
-// replace occ = 7 if occupation_7 == 1
-// replace occ = 8 if occupation_8 == 1
-//
-// tabulate occ, summarize(p_sec)
-***FIX***
-keep if jbmo61 > 0
-gen occ_manage = 1.jbmo61
-gen occ_prof = 2.jbmo61
-gen occ_tech_trade = 3.jbmo61
-gen occ_community_personal_service = 4.jbmo61
-gen occ_clerical_admin = 5.jbmo61
-gen occ_sales = 6.jbmo61
-gen occ_machinery = 7.jbmo61
-gen occ_labourer = 8.jbmo61
+keep if occupation > 0
+gen occ_manage = 1.occupation
+gen occ_prof = 2.occupation
+gen occ_tech_trade = 3.occupation
+gen occ_community_personal_service = 4.occupation
+gen occ_clerical_admin = 5.occupation
+gen occ_sales = 6.occupation
+gen occ_machinery = 7.occupation
+gen occ_labourer = 8.occupation
+*tabulate occupation, summarize(psec)
 
 
 *marriage
@@ -192,6 +186,7 @@ replace urban = 1 if hhssos == 0 | hhssos == 1
 generate urban_no = hhssos > 1
 
 drop if hhssos < 0
+drop hhssos
 
 *state
 keep if hhstate > 0
@@ -204,6 +199,8 @@ gen state_TAS = 6.hhstate
 gen state_NT = 7.hhstate
 gen state_ACT = 8.hhstate
 
+rename hhstate state
+
 
 *shiftwork
 keep if jbmsch > 0
@@ -213,6 +210,8 @@ replace shiftwork_yes = 0 if jbmsch == 1
 
 generate shiftwork_no = 0
 replace shiftwork_no = 1 if shiftwork_yes == 0
+
+drop jbmsch
 
 
 *firm size
@@ -241,12 +240,15 @@ generate firm_size_200_499 = firm_size == "200-499"
 generate firm_size_500 = firm_size == "500+"
 generate firm_size_unknown = firm_size == "unknown"
 
+drop jbmwps jbmwpsz
+
 *drop if firm_size == "unknown"
 *<20, 20-99, 100-199, 200-499, 500+, unknown
 
 
 *self employed
 keep if esempst == 1
+drop esempst
 
 
 *union
@@ -257,9 +259,33 @@ replace union_yes = 1 if jbmtuea == 1
 generate union_no = 0
 replace union_no = 1 if union_yes == 0
 
+drop jbmtuea
+
+*part time and long hours
+generate parttime = main_hours < 35
+generate partime_no = main_hours >= 35
+
+generate long_hours = main_hours >= 41
+
+
+*casual
+generate casual = jbcasab == 1
+generate casual_no = jbcasab == 2
+drop if casual ==0 & casual_no == 0
+drop jbcasab
+
+
+*changed employer
+generate changed_employer = .
+replace changed_employer = 1 if pjsemp == 2
+replace changed_employer = 0 if pjsemp == 1
+drop pjsemp
+
 
 *income and wage
-keep if main_hours >= 1
+keep if main_hours >= 5
+keep if main_hours <= 60
+
 keep if main_income >= 1
 
 generate wage = main_income / main_hours

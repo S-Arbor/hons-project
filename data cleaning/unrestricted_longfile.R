@@ -1,6 +1,7 @@
 # Purpose of the program:
 # =======================
 # This program creates one long file on a subset of variables across all HILDA waves.
+# This second file is to extract variables to analyse wage growth over time
 #
 # Based on code from the Hilda program library by Mossamet Nesa
 
@@ -65,32 +66,12 @@ for( i in 1:last_wave) {
   temp$wave <- i
   temp$cpi <- annual_cpi$annual_cpi[annual_cpi$year == 2000+i]
   
-  # add restrictions to the data:
-  #  1. Only those are employed
-  #  2. Only those who are 22-64
-  #  3. No full time students
-  #  4. Has data on sector
-  #  5. Has data on wage (i.e. hours and pay for main job)
-  employed = temp$esbrd == 1
-  over21 = temp$hgage > 21
-  under65 = temp$hgage < 65
-  not_fulltimestudent = temp$edfts == 0
-  wage_data = temp$jbmhruc >= 0 & temp$wscmei >=0
-  
-  if (i == 1) {
-    sector_data = temp$jbmmpl > 0
-  } else if (i == 2) {
-    sector_data = temp$jbmmplr > 0
-  } else {
-    sector_data = temp$jbmmply > 0
-  }
-  
-  reduced_temp <- temp[employed & over21 & under65 & not_fulltimestudent & sector_data & wage_data,]
+  # this file has no restrictions on who is included in the data
   
   if (i == 1 ){
-    longfile <- reduced_temp
+    longfile <- temp
   } else {
-    longfile <- bind_rows(longfile, reduced_temp) # Append the data file from each wave
+    longfile <- bind_rows(longfile, temp) # Append the data file from each wave
   }
 }
 
@@ -98,4 +79,4 @@ for( i in 1:last_wave) {
 
 # Save new data set
 setwd(newdatdir)
-write_dta(longfile, "base_longfile.dta") # Could save as a stata data file
+write_dta(longfile, "unrestricted_longfile.dta")
