@@ -55,3 +55,7 @@ regress wage sector_public experience experience_sq edu_uni edu_diploma  if sex_
 
 regress wage sector_public experience experience_sq edu_uni edu_diploma  if sex_female == 1, vce(robust)
 
+regress wage industry
+
+regress log_wage industry
+

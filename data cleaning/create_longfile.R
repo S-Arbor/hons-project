@@ -51,8 +51,8 @@ var <- c("jbmhruc", "wscmei", "jbhruc", "wscei", # income variables
          "jbempt", "pjsemp",                     # tenure
          "jbmwpsz", "jbmwps", #"jbmemsz",        # firm size
          "jbcasab",                              # casual
-         "ajbmplej", "ajbmpgj",                  # chance to leave job
-         "ajbmsall", "ajbmspay"                  # []/pay satisfaction
+         "jbmplej", "jbmpgj",                  # chance to leave job
+         "jbmsall", "jbmspay"                  # []/pay satisfaction
         )
 
 for( i in 1:last_wave) {
