@@ -2,8 +2,8 @@
 * It then drops missing observations, codes dummies and cleans up categorical variables to have the correct levels
 
 clear
-use "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v3/base_longfile.dta"
-*use "/home/sean/Code/honours/hons-project/cleaned_data/v3/base_longfile.dta"
+*use "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v3/base_longfile.dta"
+use "/home/sean/Code/honours/hons-project/cleaned_data/v3/base_longfile.dta"
 
 *rename variables
 
@@ -294,7 +294,21 @@ generate log_wage = log(wage)
 generate real_wage = wage * 100 / cpi
 generate log_real_wage = log(real_wage)
 
+
+*job satisfaction
+replace jbmplej = . if jbmplej < 0 | jbmplej == 999
+
+replace jbmpgj = . if jbmpgj < 0 | jbmpgj > 100
+
+replace jbmsall = . if jbmsall < 0
+tab jbmsall, gen(job_satisfaction)
+
+replace jbmspay = . if jbmspay < 0
+tab jbmspay, gen(pay_satisfaction)
+
+rename (jbmplej jbmpgj jbmsall jbmspay) (chance_volun_leave chance_find_better_job job_satisfaction pay_satisfaction)
+
 summarize
 
-*save "/home/sean/Code/honours/hons-project/cleaned_data/v3/basic_cleaned.dta"
-save "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v3/basic_cleaned.dta"
+save "/home/sean/Code/honours/hons-project/cleaned_data/v3/basic_cleaned.dta"
+*save "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v3/basic_cleaned.dta"
