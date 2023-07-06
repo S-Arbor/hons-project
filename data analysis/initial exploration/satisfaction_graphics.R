@@ -10,6 +10,8 @@ income <- read_dta("basic_cleaned.dta")
 ggplot(income, aes(x = all_hours, y = log_real_wage)) +
   geom_density_2d()
 
+
+
 ggplot(income, aes(x = main_hours)) +
   geom_density()
 
@@ -37,6 +39,10 @@ ggplot(income, aes(x = log_real_wage, y = chance_volun_leave)) +
   geom_density_2d_filled() +
   scale_fill_brewer()
   
+ggplot(income, aes(x = log_real_wage, y = chance_find_better_job)) +
+  geom_density_2d_filled() +
+  scale_fill_brewer()
+
 ggplot(income, aes(x = log_real_wage, y = chance_find_better_job)) +
   geom_density_2d_filled() +
   scale_fill_brewer()

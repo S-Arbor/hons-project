@@ -45,7 +45,7 @@ var <- c("jbmhruc", "wscmei", "jbhruc", "wscei", # income variables
          "aneab", "hgeab",                       # English proficiency
          "jbmsch",                               # shiftwork and day worked
          "jbmtuea", #"jbmtabs",                  # union, trade union membership (left out since non comprehensive, review later)
-         "tcr",                                  # number of children
+         "tcr", "tcr04", "hhyng",                # number of children
          "edfts", "esbrd", "esempst",            # full time student, employed, ft/pt, self employed / own business
          #"alpd", "alsk",                        # paid annual and sick leave in last 12 months (left out since non comprehensive)
          "jbempt", "pjsemp",                     # tenure

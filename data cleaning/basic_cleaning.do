@@ -2,12 +2,12 @@
 * It then drops missing observations, codes dummies and cleans up categorical variables to have the correct levels
 
 clear
-*use "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v3/base_longfile.dta"
-use "/home/sean/Code/honours/hons-project/cleaned_data/v3/base_longfile.dta"
+use "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v3/base_longfile.dta"
+*use "/home/sean/Code/honours/hons-project/cleaned_data/v3/base_longfile.dta"
 
 *rename variables
 
-rename (jbmhruc wscmei hgage ehtjb tcr jbempt jbmi61 jbmo61) (main_hours main_income age experience n_resident_children tenure industry occupation)
+rename (jbmhruc wscmei hgage ehtjb tcr tcr04 jbempt jbmi61 jbmo61) (main_hours main_income age experience n_resident_children n_children_under_5 tenure industry occupation)
 rename(jbhruc wscei hgsex) (all_hours all_wages sex)
 
 *drop variables that were only used for cleaning in the rfile
@@ -76,6 +76,11 @@ replace children_cat = "2" if children_2 == 1
 replace children_cat = "3" if children_3 == 1
 replace children_cat = "4" if children_4_plus == 1
 
+
+generate children_under_5 = n_children_under_5 > 0
+generate children_under_5_no = n_children_under_5 == 0
+
+generate residents_under_5 = hhyng < 5
 
 *education
 generate edu = "uni"
@@ -310,5 +315,5 @@ rename (jbmplej jbmpgj jbmsall jbmspay) (chance_volun_leave chance_find_better_j
 
 summarize
 
-save "/home/sean/Code/honours/hons-project/cleaned_data/v3/basic_cleaned.dta"
-*save "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v3/basic_cleaned.dta"
+*save "/home/sean/Code/honours/hons-project/cleaned_data/v3/basic_cleaned.dta"
+save "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v3/basic_cleaned.dta"
