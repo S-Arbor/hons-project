@@ -31,3 +31,5 @@ generate real_wage_sq = real_wage ^ 2
 
 logistic leading_moved_public real_wage real_wage_sq experience if sex_male == 1
 logistic leading_moved_public real_wage real_wage_sq experience if sex_female == 1
+
+save "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v3/private_only_with_leavers.dta"
