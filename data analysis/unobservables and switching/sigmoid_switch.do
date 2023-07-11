@@ -9,6 +9,9 @@ bysort xwaveid (wave): gen leading_sector_public_reported = sector_public[_n+1] 
 bysort xwaveid (wave): gen leading_employer_change_reported = changed_employer[_n+1] == 1 if changed_employer[_n+1] != .
 
 keep if sector_private == 1
+
+
+
 keep if leading_sector_public_reported != . & leading_employer_change_reported != .
 
 tab leading_sector_public_reported leading_employer_change_reported
