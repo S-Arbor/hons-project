@@ -67,4 +67,23 @@ keep if leading_sector_public_reported != . & leading_employer_change_reported !
 generate leading_moved_public = leading_employer_change_reported & leading_sector_public_reported
 
 
+tab leading_moved_public, summarize(m1_res)
+ttest m1_res, by(leading_moved_public)
+
+tab leading_moved_public, summarize(m2_res)
+ttest m2_res, by(leading_moved_public)
+
+tab leading_moved_public, summarize(m3_res)
+ttest m3_res, by(leading_moved_public)
+
+tab leading_moved_public, summarize(m4_res)
+ttest m4_res, by(leading_moved_public)
+
+tab leading_moved_public, summarize(m5_res)
+ttest m5_res, by(leading_moved_public)
+
+
+// now need to run the same test on comparable candidates (i.e. not people in high paying jobs unlikely to move)
+
+
 save "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v3/male_private_resid.dta"
