@@ -11,17 +11,21 @@ income <- read_dta("male_private_resid.dta")
 
 income$leading_moved_public = as.factor(income$leading_moved_public)
 
-inc_subs = income[income$leading_employer_change_reported == 1 & income$real_wage< 150,]
-ggplot(inc_subs[inc_subs$leading_moved_public == 0,]) + aes(x=real_wage, y=m4_res, alpha=0.5) +
+inc_subs = income[income$real_wage< 150,] #income$leading_employer_change_reported == 1 & 
+ggplot(inc_subs[inc_subs$leading_moved_public == 0,]) + aes(x=real_wage, y=m1_res, alpha=0.5) +
   geom_point(alpha=0.2) +
-  geom_smooth(alpha=0.2, method="loess") +
   geom_point(data=inc_subs[inc_subs$leading_moved_public == 1,], aes(colour="red")) +
+  geom_smooth(alpha=0.2, method="gam") +
   geom_smooth(data=inc_subs[inc_subs$leading_moved_public == 1,], aes(colour="red"), method="loess")
 
 mean(income[income$leading_moved_public == 1,]$m4_res)
 mean(income[income$leading_moved_public == 0 & income$leading_employer_change_reported == 1,]$m4_res)
+mean(income[income$leading_moved_public == 0 & income$leading_employer_change_reported == 0,]$m4_res)
 
 ggplot(income, aes(log_real_wage, m4_res)) +
+  geom_point()
+
+ggplot(income, aes(m4_pred, m4_res)) +
   geom_point()
 
 income <- income %>%
