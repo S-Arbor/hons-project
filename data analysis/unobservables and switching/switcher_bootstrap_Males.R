@@ -9,6 +9,21 @@ income <- read_dta("male_private_resid.dta")
 # income$experience_cat <- cut(income$experience, breaks=c(0:3, seq(4,8,2), seq(10,40,5), 55))
 # table(income$experience_cat)
 
+income$leading_moved_public = as.factor(income$leading_moved_public)
+
+inc_subs = income[income$leading_employer_change_reported == 1 & income$real_wage< 150,]
+ggplot(inc_subs[inc_subs$leading_moved_public == 0,]) + aes(x=real_wage, y=m4_res, alpha=0.5) +
+  geom_point(alpha=0.2) +
+  geom_smooth(alpha=0.2, method="loess") +
+  geom_point(data=inc_subs[inc_subs$leading_moved_public == 1,], aes(colour="red")) +
+  geom_smooth(data=inc_subs[inc_subs$leading_moved_public == 1,], aes(colour="red"), method="loess")
+
+mean(income[income$leading_moved_public == 1,]$m4_res)
+mean(income[income$leading_moved_public == 0 & income$leading_employer_change_reported == 1,]$m4_res)
+
+ggplot(income, aes(log_real_wage, m4_res)) +
+  geom_point()
+
 income <- income %>%
   group_by(wave, industry, occupation) %>%
   mutate(subset_id = cur_group_id())

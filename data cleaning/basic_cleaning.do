@@ -256,6 +256,10 @@ keep if esempst == 1
 drop esempst
 
 
+*tenure
+keep if tenure>=0
+
+
 *union
 keep if jbmtuea > 0
 generate union_yes = 0
@@ -306,12 +310,10 @@ replace jbmplej = . if jbmplej < 0 | jbmplej == 999
 replace jbmpgj = . if jbmpgj < 0 | jbmpgj > 100
 
 replace jbmsall = . if jbmsall < 0
-tab jbmsall, gen(job_satisfaction)
 
 replace jbmspay = . if jbmspay < 0
-tab jbmspay, gen(pay_satisfaction)
 
-rename (jbmplej jbmpgj jbmsall jbmspay) (chance_volun_leave chance_find_better_job job_satisfaction pay_satisfaction)
+rename (jbmplej jbmpgj jbmsall jbmspay) (chance_volun_leave chance_find_geq_job_if_lose job_satisfaction pay_satisfaction)
 
 summarize
 
