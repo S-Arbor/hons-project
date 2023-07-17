@@ -2,8 +2,8 @@
 * It then drops missing observations, codes dummies and cleans up categorical variables to have the correct levels
 
 clear
-use "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v3/base_longfile.dta"
-*use "/home/sean/Code/honours/hons-project/cleaned_data/v3/base_longfile.dta"
+*use "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v3/base_longfile.dta"
+use "/home/sean/Code/honours/hons-project/cleaned_data/v3/base_longfile.dta"
 
 *rename variables
 
@@ -317,5 +317,5 @@ rename (jbmplej jbmpgj jbmsall jbmspay) (chance_volun_leave chance_find_geq_job_
 
 summarize
 
-*save "/home/sean/Code/honours/hons-project/cleaned_data/v3/basic_cleaned.dta"
-save "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v3/basic_cleaned.dta"
+save "/home/sean/Code/honours/hons-project/cleaned_data/v3/basic_cleaned.dta"
+*save "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v3/basic_cleaned.dta"
