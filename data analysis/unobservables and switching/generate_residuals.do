@@ -61,6 +61,12 @@ regress log_real_wage experience experience_sq edu_uni edu_diploma children_1 ch
 predict m5_pred
 predict m5_res, residuals
 
+*human capital + demographic + basic job char + union + ind + occ + pay_sat
+regress log_real_wage experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT shiftwork_yes parttime long_hours casual union_yes ind_wholesale ind_finance ind_education ind_mine ind_retail ind_housing ind_health ind_manufact ind_accomo_food ind_prof_sci_technical ind_arts_rec ind_utilities ind_logistics ind_admin ind_other_unknown ind_construct ind_it ind_public_admin occ_tech_trade occ_clerical_admin occ_machinery occ_prof occ_community_personal_service occ_sales occ_labourer i.wave pay_sat if sex_male == 1, vce(robust)
+
+predict m6_pred
+predict m6_res, residuals
+
 // restrict sample for analysis on those who we have movement information on
 keep if leading_sector_public_reported != . & leading_employer_change_reported != .
 
@@ -84,9 +90,12 @@ ttest m4_res if leading_employer_change_reported==1 & real_wage < 100 & real_wag
 
 tab leading_moved_public, summarize(m4_res)
 ttest real_wage if leading_employer_change_reported==1 & real_wage < 100 & real_wage > 20, by(leading_moved_public)
+ttest real_wage, by(leading_moved_public)
 
 tab leading_moved_public, summarize(m5_res)
 ttest m5_res if leading_employer_change_reported==1, by(leading_moved_public)
+
+ttest m6_res if leading_employer_change_reported==1, by(leading_moved_public)
 
 
 // now need to run the same test on comparable candidates (i.e. not people in high paying jobs unlikely to move)

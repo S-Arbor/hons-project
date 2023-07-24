@@ -7,7 +7,7 @@ dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
 setwd(paste(dir, "../../cleaned_data/v3", sep="/"))
 
 income_raw <- read_dta("basic_cleaned.dta")
-income = income[income$sex_male == 1,]
+income = income_raw[income_raw$sex_male == 1,]
 
 ## examining satisfaction variables by pay level
 

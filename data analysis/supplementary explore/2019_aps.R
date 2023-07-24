@@ -26,7 +26,7 @@ table(aps$q24i)
 table(aps$q45.1)
 # 46 - do you want to stay
 # 47 - primary reason for wanting to leave
-table(aps$q47)
+table(aps$q47, aps$q7.)
 # 54 - what attracted you to work in the APS
 table(aps$q54.1)
 # 104 corruption
