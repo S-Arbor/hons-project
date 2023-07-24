@@ -65,6 +65,14 @@ ggplot(inc_subs[inc_subs$leading_moved_public == 0,]) + aes(x=real_wage, y=m1_re
   geom_smooth(alpha=0.2, method="gam") +
   geom_smooth(data=inc_subs[inc_subs$leading_moved_public == 1,], aes(colour="red"), method="loess")
 
+ggplot(inc_subs[inc_subs$leading_moved_public == 0 & inc_subs$wave==14,], aes(x=m5_res)) +
+  geom_density(colour="blue") +
+  geom_density(data=inc_subs[inc_subs$leading_moved_public == 1 & inc_subs$wave==14,], colour="green")
+
+ggplot(inc_subs[inc_subs$leading_moved_public == 0,], aes(x=m5_res)) +
+  geom_density(colour="blue") +
+  geom_density(data=inc_subs[inc_subs$leading_moved_public == 1,], colour="green")
+
 mean(income[income$leading_moved_public == 1,]$m4_res)
 mean(income[income$leading_moved_public == 0 & income$leading_employer_change_reported == 1,]$m4_res)
 mean(income[income$leading_moved_public == 0 & income$leading_employer_change_reported == 0,]$m4_res)

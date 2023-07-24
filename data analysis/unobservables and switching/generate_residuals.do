@@ -1,7 +1,7 @@
 clear
 
-*use "/home/sean/Code/honours/hons-project/cleaned_data/v3/basic_cleaned.dta"
-use "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v3/basic_cleaned.dta"
+use "/home/sean/Code/honours/hons-project/cleaned_data/v3/basic_cleaned.dta"
+*use "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v3/basic_cleaned.dta"
 
 keep if sex_male == 1
 
@@ -93,7 +93,7 @@ ttest real_wage if leading_employer_change_reported==1 & real_wage < 100 & real_
 ttest real_wage, by(leading_moved_public)
 
 tab leading_moved_public, summarize(m5_res)
-ttest m5_res if leading_employer_change_reported==1, by(leading_moved_public)
+ttest m5_res if leading_employer_change_reported==1 & wave==19, by(leading_moved_public)
 
 ttest m6_res if leading_employer_change_reported==1, by(leading_moved_public)
 
@@ -101,4 +101,5 @@ ttest m6_res if leading_employer_change_reported==1, by(leading_moved_public)
 // now need to run the same test on comparable candidates (i.e. not people in high paying jobs unlikely to move)
 
 
-save "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v3/male_private_resid.dta"
+*save "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v3/male_private_resid.dta"
+save "/home/sean/Code/honours/hons-project/cleaned_data/v3/male_private_resid.dta"
