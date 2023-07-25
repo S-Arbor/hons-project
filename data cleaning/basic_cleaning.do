@@ -2,13 +2,13 @@
 * It then drops missing observations, codes dummies and cleans up categorical variables to have the correct levels
 
 clear
-*use "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v3/base_longfile.dta"
-use "/home/sean/Code/honours/hons-project/cleaned_data/v3/base_longfile.dta"
+use "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v3/base_longfile.dta"
+*use "/home/sean/Code/honours/hons-project/cleaned_data/v3/base_longfile.dta"
 
 *rename variables
 
 rename (jbmhruc wscmei hgage ehtjb tcr tcr04 jbempt jbmi61 jbmo61) (main_hours main_income age experience n_resident_children n_children_under_5 tenure industry occupation)
-rename(jbhruc wscei hgsex) (all_hours all_wages sex)
+rename (jbhruc wscei hgsex hhtup) (all_hours all_wages sex top_up)
 
 *drop variables that were only used for cleaning in the rfile
 drop esbrd edfts
@@ -317,5 +317,5 @@ rename (jbmplej jbmpgj jbmsall jbmspay) (chance_volun_leave chance_find_geq_job_
 
 summarize
 
-save "/home/sean/Code/honours/hons-project/cleaned_data/v3/basic_cleaned.dta"
-*save "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v3/basic_cleaned.dta"
+*save "/home/sean/Code/honours/hons-project/cleaned_data/v3/basic_cleaned.dta"
+save "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v3/basic_cleaned.dta"

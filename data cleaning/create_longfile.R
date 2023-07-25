@@ -51,8 +51,9 @@ var <- c("jbmhruc", "wscmei", "jbhruc", "wscei", # income variables
          "jbempt", "pjsemp",                     # tenure
          "jbmwpsz", "jbmwps", #"jbmemsz",        # firm size
          "jbcasab",                              # casual
-         "jbmplej", "jbmpgj",                  # chance to leave job
-         "jbmsall", "jbmspay"                  # []/pay satisfaction
+         "jbmplej", "jbmpgj",                    # chance to leave job
+         "jbmsall", "jbmspay",                   # []/pay satisfaction
+         "hhtup"                                 # top up sample
         )
 
 for( i in 1:last_wave) {
