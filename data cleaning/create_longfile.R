@@ -32,6 +32,12 @@ annual_cpi <- aus_cpi %>%
   group_by(year) %>%
   summarise(annual_cpi = mean(CPI))
 
+aus_wpi <- read.csv("aus_wpi.csv")
+aus_wpi$year <- sub("^[^-]+-", "", aus_wpi$Quarter)
+annual_wpi <- aus_wpi %>%
+  group_by(year) %>%
+  summarise(annual_wpi = mean(WPI))
+
 
 # Load main data
 setwd(origdatdir)
@@ -65,6 +71,7 @@ for( i in 1:last_wave) {
   names(temp)[-1] <-substring(names(temp)[-1], 2) # Remove wave letter from variable names except for xwaveid
   temp$wave <- i
   temp$cpi <- annual_cpi$annual_cpi[annual_cpi$year == 2000+i]
+  temp$wpi <- annual_wpi$annual_wpi[annual_wpi$year == 2000+i]
   
   # add restrictions to the data:
   #  1. Only those are employed

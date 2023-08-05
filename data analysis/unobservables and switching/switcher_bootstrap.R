@@ -5,7 +5,7 @@ library(ggplot2)
 dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
 setwd(paste(dir, "../../cleaned_data/v3", sep="/"))
 
-income <- read_dta("private_only_with_leavers.dta")
+income <- read_dta("pub_to_priv.dta")
 income$experience_cat <- cut(income$experience, breaks=c(0:3, seq(4,8,2), seq(10,40,5), 55))
 table(income$experience_cat)
 

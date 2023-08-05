@@ -303,6 +303,9 @@ generate log_wage = log(wage)
 generate real_wage = wage * 100 / cpi
 generate log_real_wage = log(real_wage)
 
+generate wpi_adj_wage = wage * 100 / wpi
+generate log_wpi_adj_wage = log(wpi_adj_wage)
+
 
 *job satisfaction
 replace jbmplej = . if jbmplej < 0 | jbmplej == 999
