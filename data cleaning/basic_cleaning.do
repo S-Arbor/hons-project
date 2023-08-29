@@ -321,4 +321,4 @@ rename (jbmplej jbmpgj jbmsall jbmspay) (chance_volun_leave chance_find_geq_job_
 summarize
 
 *save "/home/sean/Code/honours/hons-project/cleaned_data/v3/basic_cleaned.dta"
-save "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v3/basic_cleaned.dta"
+save "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v3/basic_cleaned.dta", replace

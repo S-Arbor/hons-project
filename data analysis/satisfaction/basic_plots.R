@@ -7,6 +7,8 @@ dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
 setwd(paste(dir, "../../cleaned_data/v3", sep="/"))
 
 income_raw <- read_dta("basic_cleaned.dta")
+
+### Just males
 income = income_raw[income_raw$sex_male == 1,]
 
 ## examining satisfaction variables by pay level
@@ -106,3 +108,11 @@ ggplot(data=mean_responses.3, aes(x=experience_cat_int, y=mean_chance_leave, col
 ggplot(data=mean_responses.3, aes(x=experience_cat_int, y=mean_geq_job, colour=sector)) +
   geom_line()
 
+## by age
+income$sector <- as.factor(income$sector)
+ggplot(data=income[income$age > 40 & income$edu_diploma_cert == 1,], aes(x=log_real_wage, colour=sector)) +
+  geom_density()
+ggplot(data=income[income$edu_uni == 1,], aes(x=log_real_wage, colour=sector)) +
+  geom_density()
+ggplot(data=income[income$age > 40 & income$edu_y12_or_less == 1,], aes(x=log_real_wage, colour=sector)) +
+  geom_density()

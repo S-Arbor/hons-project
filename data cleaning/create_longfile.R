@@ -59,7 +59,8 @@ var <- c("jbmhruc", "wscmei", "jbhruc", "wscei", # income variables
          "jbcasab",                              # casual
          "jbmplej", "jbmpgj",                    # chance to leave job
          "jbmsall", "jbmspay",                   # []/pay satisfaction
-         "hhtup", "hhwtrp", "wleta_ts"           # top up sample, cross-sectional weights
+         "hhtup", "hhwtrp", "wleta_ts",          # top up sample, cross-sectional weights
+         "jbmi62", "jbmo62"                      # more detailed industry / occupation
         )
 
 for( i in 1:last_wave) {
