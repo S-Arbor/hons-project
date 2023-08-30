@@ -12,7 +12,7 @@ setwd(paste(dir, "../../cleaned_data/v3", sep="/"))
 
 income.raw <- read_dta("basic_cleaned.dta")
 
-n_obs <- income %>%
+n_obs <- income.raw %>%
   group_by(xwaveid) %>%
   summarise(n_obs = n())
 table(n_obs$n_obs)
@@ -22,8 +22,9 @@ income <- merge(income.raw, n_obs, by="xwaveid") %>%
   mutate_at(c("sector", "edu", "xwaveid", "state", "occupation"), as.factor)
 
 income.males <- income[income$sex_male == 1,]
+income.females <- income[income$sex_female == 1,]
 
-sectoral_movers <- income.males %>%
+sectoral_movers <- income %>%
   group_by(xwaveid) %>%
   summarise(mean_sector = mean(sector_public)) %>%
   mutate(only_public = mean_sector == 1) %>%
@@ -31,6 +32,7 @@ sectoral_movers <- income.males %>%
   mutate(mover = !(only_private | only_public))
 
 income.males.mover <- income.males[income.males$xwaveid %in% sectoral_movers$xwaveid[sectoral_movers$mover],]
+income.females.mover <- income.females[income.females$xwaveid %in% sectoral_movers$xwaveid[sectoral_movers$mover],]
 
 ## ANALYSIS
 
@@ -71,9 +73,12 @@ fe_qr <- function(dataset, base_formula, tau, extended_formula = "none", fe_deta
     extended_formula <- update(base_formula, .~. + fixed.effs)
   }
   
-  if (fe_details) {
+  if (fe_details != "none") {
     ggplot(data=fixed.effs.df, aes(x=fixed.effs)) +
       geom_density()
+    print(min(fixed.effs))
+    print(max(fixed.effs))
+    print(any(is.na(fixed.effs)))
   }
   
   m.full <- rq(extended_formula, data=extended_df, tau=tau)
@@ -114,15 +119,16 @@ for (min_nobs in 4:15) {
   print(m.more_obs$coefficients[2])
 }
 
-for (min_nobs in 4:21) {
+v <- c()
+for (min_nobs in 1:21) {
   formula.b.1 <- formula(log_real_wage ~ sector + experience + experience_sq + married_yes + married_sep +
                            urban_no + state + shiftwork_yes + parttime + long_hours + casual + tenure + occupation)
   
-  test_df <- income.males.mover[income.males.mover$n_obs > min_nobs & income.males.mover$edu == "uni",]
+  test_df <- income.males[income.males$n_obs >= min_nobs & income.males.mover$edu == "uni",]
   
   m.more_obs <- fe_qr(test_df, formula.b.1, tau=0.9)
   #summary(lm.1)
-  print(m.more_obs$coefficients[2])
+  v[min_nobs] <- m.more_obs$coefficients[2]
 }
 
 for (min_nobs in 4:15) {
@@ -139,3 +145,171 @@ for (min_nobs in 4:15) {
 ## ALSO if FE-QR didn't give a negative result then this is kinda cap
 
 m.test <- lm(log_real_wage ~ experience + experience_sq + sector * factor(xwaveid), data=income.males.mover)
+
+
+## just more general feqr model
+for (min_nobs in 4:15) {
+  formula.b.1 <- formula(log_real_wage ~ sector + experience + experience_sq + married_yes + married_sep +
+                           urban_no + state + shiftwork_yes + parttime + long_hours + casual + tenure + occupation)
+  
+  test_df <- income.males[income.males$n_obs > min_nobs,]
+  
+  m.more_obs <- fe_qr(test_df, formula.b.1, tau=0.5)
+  #summary(lm.1)
+  print(m.more_obs$coefficients[2])
+}
+
+
+income.females = income[income$sex_female == 1,]
+
+for (min_nobs in 4:15) {
+  formula.b.1 <- formula(log_real_wage ~ sector + experience + experience_sq + married_yes + married_sep +
+                           urban_no + state + shiftwork_yes + parttime + long_hours + casual + tenure + occupation)
+  
+  test_df <- income.females[income.females$n_obs > min_nobs,]
+  
+  m.more_obs <- fe_qr(test_df, formula.b.1, tau=0.5)
+  #summary(lm.1)
+  print(m.more_obs$coefficients[2])
+}
+
+
+###### Most recent tests
+v.males.all <- c()
+for (min_nobs in 1:21) {
+  formula.b.1 <- formula(log_real_wage ~ sector + experience + experience_sq + married_yes + married_sep +
+                           urban_no + state + shiftwork_yes + parttime + long_hours + casual + tenure + occupation)
+  
+  test_df <- income.males[income.males$n_obs >= min_nobs & income.males$edu == "uni",]
+  
+  m.more_obs <- fe_qr(test_df, formula.b.1, tau=0.9)
+  #summary(lm.1)
+  v.males.all[min_nobs] <- m.more_obs$coefficients[2]
+}
+
+v.males.mover <- c()
+for (min_nobs in 1:21) {
+  formula.b.1 <- formula(log_real_wage ~ sector + experience + experience_sq + married_yes + married_sep +
+                           urban_no + state + shiftwork_yes + parttime + long_hours + casual + tenure + occupation)
+  
+  test_df <- income.males.mover[income.males.mover$n_obs >= min_nobs & income.males.mover$edu == "uni",]
+  
+  m.more_obs <- fe_qr(test_df, formula.b.1, tau=0.9)
+  #summary(lm.1)
+  v.males.mover[min_nobs] <- m.more_obs$coefficients[2]
+}
+
+v.females.all <- c()
+for (min_nobs in 1:21) {
+  formula.b.1 <- formula(log_real_wage ~ sector + experience + experience_sq + married_yes + married_sep +
+                           urban_no + state + shiftwork_yes + parttime + long_hours + casual + tenure + occupation)
+  
+  test_df <- income.females[income.females$n_obs >= min_nobs & income.females$edu == "uni",]
+  
+  m.more_obs <- fe_qr(test_df, formula.b.1, tau=0.9)
+  #summary(lm.1)
+  v.females.all[min_nobs] <- m.more_obs$coefficients[2]
+}
+
+v.females.mover <- c()
+for (min_nobs in 1:21) {
+  formula.b.1 <- formula(log_real_wage ~ sector + experience + experience_sq + married_yes + married_sep +
+                           urban_no + state + shiftwork_yes + parttime + long_hours + casual + tenure + occupation)
+  
+  test_df <- income.females.mover[income.females.mover$n_obs >= min_nobs & income.females.mover$edu == "uni",]
+  
+  m.more_obs <- fe_qr(test_df, formula.b.1, tau=0.9)
+  #summary(lm.1)
+  v.females.mover[min_nobs] <- m.more_obs$coefficients[2]
+}
+
+par(mfrow=c(2,2))
+plot(1:21, v.males.all, main='Males, all')
+plot(1:21, v.males.mover, main="Males, mover")
+plot(1:21, v.females.all, main='Females, all')
+plot(1:21, v.females.mover, main="Females, mover")
+
+###### All, quantile 0.5
+v.males.all <- c()
+for (min_nobs in 1:21) {
+  formula.b.1 <- formula(log_real_wage ~ sector + experience + experience_sq + married_yes + married_sep +
+                           urban_no + state + shiftwork_yes + parttime + long_hours + casual + tenure + occupation)
+  
+  test_df <- income.males[income.males$n_obs >= min_nobs,]
+  
+  m.more_obs <- fe_qr(test_df, formula.b.1, tau=0.5)
+  #summary(lm.1)
+  v.males.all[min_nobs] <- m.more_obs$coefficients[2]
+}
+
+v.males.mover <- c()
+for (min_nobs in 1:21) {
+  formula.b.1 <- formula(log_real_wage ~ sector + experience + experience_sq + married_yes + married_sep +
+                           urban_no + state + shiftwork_yes + parttime + long_hours + casual + tenure + occupation)
+  
+  test_df <- income.males.mover[income.males.mover$n_obs >= min_nobs,]
+  
+  m.more_obs <- fe_qr(test_df, formula.b.1, tau=0.5)
+  #summary(lm.1)
+  v.males.mover[min_nobs] <- m.more_obs$coefficients[2]
+}
+
+v.females.all <- c()
+for (min_nobs in 1:21) {
+  formula.b.1 <- formula(log_real_wage ~ sector + experience + experience_sq + married_yes + married_sep +
+                           urban_no + state + shiftwork_yes + parttime + long_hours + casual + tenure + occupation)
+  
+  test_df <- income.females[income.females$n_obs >= min_nobs,]
+  
+  m.more_obs <- fe_qr(test_df, formula.b.1, tau=0.5)
+  #summary(lm.1)
+  v.females.all[min_nobs] <- m.more_obs$coefficients[2]
+}
+
+v.females.mover <- c()
+for (min_nobs in 1:21) {
+  formula.b.1 <- formula(log_real_wage ~ sector + experience + experience_sq + married_yes + married_sep +
+                           urban_no + state + shiftwork_yes + parttime + long_hours + casual + tenure + occupation)
+  
+  test_df <- income.females.mover[income.females.mover$n_obs >= min_nobs,]
+  
+  m.more_obs <- fe_qr(test_df, formula.b.1, tau=0.5)
+  #summary(lm.1)
+  v.females.mover[min_nobs] <- m.more_obs$coefficients[2]
+}
+
+par(mfrow=c(2,2))
+plot(1:21, v.males.all, main='Males, all')
+plot(1:21, v.males.mover, main="Males, mover")
+plot(1:21, v.females.all, main='Females, all')
+plot(1:21, v.females.mover, main="Females, mover")
+
+## Males, by wave
+###### All, quantile 0.5
+v.males.all <- c()
+for (min_nobs in 2:21) {
+  formula.b.1 <- formula(log_real_wage ~ sector + experience + experience_sq + married_yes + married_sep +
+                           urban_no + state + shiftwork_yes + parttime + long_hours + casual + tenure + occupation)
+  
+  test_df <- income.males[income.males$wave >= min_nobs,]
+  
+  m.more_obs <- fe_qr(test_df, formula.b.1, tau=0.5)
+  #summary(lm.1)
+  v.males.all[min_nobs] <- m.more_obs$coefficients[2]
+}
+plot(2:21, v.males.all)
+
+## Males, by wave
+###### All, quantile 0.5
+v.males.all <- c(0, 0, 0, 0)
+for (wave in 5:21) {
+  formula.b.1 <- formula(log_real_wage ~ sector + experience + experience_sq + married_yes + married_sep +
+                           urban_no + state + shiftwork_yes + parttime + long_hours + casual + tenure + occupation)
+  
+  test_df <- income.males[income.males$wave <= wave & income.males$n_obs >= 5,]
+  
+  m.more_obs <- fe_qr(test_df, formula.b.1, tau=0.5)
+  #summary(lm.1)
+  v.males.all[min_nobs] <- m.more_obs$coefficients[2]
+}
+plot(5:21, v.males.all[5:21])

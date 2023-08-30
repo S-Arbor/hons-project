@@ -1,0 +1,946 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/Users/arbor/Documents/github repos/hons-project/data analysis/august_logs/Quantile.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}29 Aug 2023, 23:31:44
+
+{com}. do "/Users/arbor/Documents/github repos/hons-project/data analysis/clean/quantile.do"
+{txt}
+{com}. // This file contains the basic OLS regressions of the project by gender and then presents decompositions
+. // Current issues:
+. // Need to figure out the correct standard errors
+. // https://www.stata.com/statalist/archive/2005-10/msg00754.html suggests bootstrapping may be incorrect
+. // but package thinks it is okay?
+. 
+. use "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v3/basic_cleaned.dta", clear
+{txt}
+{com}. 
+. 
+. // Men without occupation
+. qrprocess log_real_wage sector_public experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT shiftwork_yes parttime long_hours casual if sex_male == 1 [pw=hhwtrp], quantile(0.1, 0.25, 0.5, 0.75, 0.9)
+{res}
+{txt}{col 0}Quantile regression
+{col 0}No. of obs.{res}{col 20}64281   
+{txt}{col 0}Algorithm:{res}{col 20}Frisch-Newton interior point with preprocessing.
+{txt}{col 0}Variance:{res}{col 20}kernel estimate of the sandwich as proposed by Powell(1990).
+
+{txt}{hline 13}{c TT}{hline 64}
+{col 0}log_real_wage{col 14}{c |}{col 19}  Coef.   {col 29}Std. Err. {col 41}   t    {col 45} P>|t|  {col 59}[95% Conf. Interval]
+{hline 13}{c +}{hline 64}
+{col 0}Quant. 0{res}.1   {col 14}{c |}
+{txt}{col 0}sector_pub~c{col 14}{c |}{res}{col 17} .1329037{col 28} .0073899{col 40}17.98{col 49}0.000{col 58} .1184195{col 70} .1473879
+{txt}{col 0} experience{col 14}{c |}{res}{col 17} .0136922{col 28} .0011268{col 40}12.15{col 49}0.000{col 58} .0114836{col 70} .0159007
+{txt}{col 0}experience~q{col 14}{c |}{res}{col 17}-.0002215{col 28} .0000229{col 40}-9.68{col 49}0.000{col 58}-.0002663{col 70}-.0001766
+{txt}{col 0}    edu_uni{col 14}{c |}{res}{col 17} .2783771{col 28} .0098544{col 40}28.25{col 49}0.000{col 58} .2590625{col 70} .2976916
+{txt}{col 0}edu_diplom~t{col 14}{c |}{res}{col 17} .1048798{col 28} .0068104{col 40}15.40{col 49}0.000{col 58} .0915314{col 70} .1182283
+{txt}{col 0} children_1{col 14}{c |}{res}{col 17} .0126672{col 28} .0082854{col 40} 1.53{col 49}0.126{col 58}-.0035722{col 70} .0289065
+{txt}{col 0} children_2{col 14}{c |}{res}{col 17} .0575722{col 28} .0085014{col 40} 6.77{col 49}0.000{col 58} .0409095{col 70}  .074235
+{txt}{col 0} children_3{col 14}{c |}{res}{col 17} .0515603{col 28} .0111736{col 40} 4.61{col 49}0.000{col 58} .0296601{col 70} .0734605
+{txt}{col 0}children_4~s{col 14}{c |}{res}{col 17} .0009575{col 28} .0161018{col 40} 0.06{col 49}0.953{col 58} -.030602{col 70} .0325171
+{txt}{col 0}health_poor{col 14}{c |}{res}{col 17}-.0872704{col 28} .0092911{col 40}-9.39{col 49}0.000{col 58} -.105481{col 70}-.0690599
+{txt}{col 0}  birth_eng{col 14}{c |}{res}{col 17} .0344096{col 28} .0114075{col 40} 3.02{col 49}0.003{col 58} .0120508{col 70} .0567683
+{txt}{col 0} birth_neng{col 14}{c |}{res}{col 17}-.0847867{col 28} .0105547{col 40}-8.03{col 49}0.000{col 58}-.1054739{col 70}-.0640995
+{txt}{col 0}married_yes{col 14}{c |}{res}{col 17}  .109737{col 28} .0103597{col 40}10.59{col 49}0.000{col 58}  .089432{col 70} .1300421
+{txt}{col 0}married_sep{col 14}{c |}{res}{col 17} .0552698{col 28} .0166953{col 40} 3.31{col 49}0.001{col 58}  .022547{col 70} .0879925
+{txt}{col 0}   urban_no{col 14}{c |}{res}{col 17}-.0768922{col 28} .0102564{col 40}-7.50{col 49}0.000{col 58}-.0969947{col 70}-.0567897
+{txt}{col 0}  state_VIC{col 14}{c |}{res}{col 17} -.023448{col 28}  .008166{col 40}-2.87{col 49}0.004{col 58}-.0394534{col 70}-.0074426
+{txt}{col 0}   state_WA{col 14}{c |}{res}{col 17}  .014587{col 28} .0108362{col 40} 1.35{col 49}0.178{col 58} -.006652{col 70}  .035826
+{txt}{col 0}  state_QLD{col 14}{c |}{res}{col 17}-.0117832{col 28} .0088181{col 40}-1.34{col 49}0.181{col 58}-.0290667{col 70} .0055003
+{txt}{col 0}   state_SA{col 14}{c |}{res}{col 17}-.0564607{col 28} .0117321{col 40}-4.81{col 49}0.000{col 58}-.0794557{col 70}-.0334657
+{txt}{col 0}   state_NT{col 14}{c |}{res}{col 17} -.050643{col 28} .0329836{col 40}-1.54{col 49}0.125{col 58}-.1152909{col 70} .0140048
+{txt}{col 0}  state_TAS{col 14}{c |}{res}{col 17}-.0390402{col 28} .0126823{col 40}-3.08{col 49}0.002{col 58}-.0638976{col 70}-.0141829
+{txt}{col 0}  state_ACT{col 14}{c |}{res}{col 17} .1340007{col 28} .0219258{col 40} 6.11{col 49}0.000{col 58} .0910261{col 70} .1769754
+{txt}{col 0}shiftwork_~s{col 14}{c |}{res}{col 17} .0284265{col 28} .0086177{col 40} 3.30{col 49}0.001{col 58} .0115358{col 70} .0453171
+{txt}{col 0}   parttime{col 14}{c |}{res}{col 17}-.1641333{col 28} .0144463{col 40}-11.36{col 49}0.000{col 58}-.1924481{col 70}-.1358185
+{txt}{col 0} long_hours{col 14}{c |}{res}{col 17}-.0317784{col 28} .0062014{col 40}-5.12{col 49}0.000{col 58}-.0439332{col 70}-.0196235
+{txt}{col 0}     casual{col 14}{c |}{res}{col 17}-.1280674{col 28} .0119241{col 40}-10.74{col 49}0.000{col 58}-.1514386{col 70}-.1046962
+{txt}{col 0}      _cons{col 14}{c |}{res}{col 17}  2.61804{col 28} .0148138{col 40}176.73{col 49}0.000{col 58} 2.589005{col 70} 2.647075
+{txt}{hline 13}{c BT}{hline 64}
+{col 0}Quant. 0{res}.25  {col 14}{c |}
+{txt}{col 0}sector_pub~c{col 14}{c |}{res}{col 17} .1275494{col 28} .0055742{col 40}22.88{col 49}0.000{col 58} .1166239{col 70} .1384748
+{txt}{col 0} experience{col 14}{c |}{res}{col 17}  .016476{col 28} .0008604{col 40}19.15{col 49}0.000{col 58} .0147896{col 70} .0181624
+{txt}{col 0}experience~q{col 14}{c |}{res}{col 17}-.0002561{col 28} .0000177{col 40}-14.48{col 49}0.000{col 58}-.0002908{col 70}-.0002214
+{txt}{col 0}    edu_uni{col 14}{c |}{res}{col 17} .3204229{col 28} .0073887{col 40}43.37{col 49}0.000{col 58} .3059409{col 70} .3349049
+{txt}{col 0}edu_diplom~t{col 14}{c |}{res}{col 17} .1144347{col 28} .0051268{col 40}22.32{col 49}0.000{col 58} .1043861{col 70} .1244833
+{txt}{col 0} children_1{col 14}{c |}{res}{col 17} .0071412{col 28} .0074091{col 40} 0.96{col 49}0.335{col 58}-.0073806{col 70} .0216629
+{txt}{col 0} children_2{col 14}{c |}{res}{col 17} .0684928{col 28} .0061605{col 40}11.12{col 49}0.000{col 58} .0564183{col 70} .0805673
+{txt}{col 0} children_3{col 14}{c |}{res}{col 17} .0550917{col 28} .0103286{col 40} 5.33{col 49}0.000{col 58} .0348476{col 70} .0753359
+{txt}{col 0}children_4~s{col 14}{c |}{res}{col 17}-.0031475{col 28} .0160797{col 40}-0.20{col 49}0.845{col 58}-.0346637{col 70} .0283687
+{txt}{col 0}health_poor{col 14}{c |}{res}{col 17}-.0710447{col 28} .0063784{col 40}-11.14{col 49}0.000{col 58}-.0835463{col 70}-.0585431
+{txt}{col 0}  birth_eng{col 14}{c |}{res}{col 17} .0399382{col 28} .0083028{col 40} 4.81{col 49}0.000{col 58} .0236648{col 70} .0562117
+{txt}{col 0} birth_neng{col 14}{c |}{res}{col 17}-.0841178{col 28} .0073234{col 40}-11.49{col 49}0.000{col 58}-.0984717{col 70}-.0697639
+{txt}{col 0}married_yes{col 14}{c |}{res}{col 17} .0753563{col 28} .0070231{col 40}10.73{col 49}0.000{col 58} .0615911{col 70} .0891215
+{txt}{col 0}married_sep{col 14}{c |}{res}{col 17} .0184657{col 28} .0109287{col 40} 1.69{col 49}0.091{col 58}-.0029545{col 70} .0398859
+{txt}{col 0}   urban_no{col 14}{c |}{res}{col 17}-.0700631{col 28} .0077051{col 40}-9.09{col 49}0.000{col 58} -.085165{col 70}-.0549612
+{txt}{col 0}  state_VIC{col 14}{c |}{res}{col 17}-.0214661{col 28} .0062418{col 40}-3.44{col 49}0.001{col 58}   -.0337{col 70}-.0092323
+{txt}{col 0}   state_WA{col 14}{c |}{res}{col 17} .0258511{col 28} .0096474{col 40} 2.68{col 49}0.007{col 58} .0069422{col 70}   .04476
+{txt}{col 0}  state_QLD{col 14}{c |}{res}{col 17}-.0319865{col 28} .0069562{col 40}-4.60{col 49}0.000{col 58}-.0456206{col 70}-.0183524
+{txt}{col 0}   state_SA{col 14}{c |}{res}{col 17}-.0665234{col 28} .0073689{col 40}-9.03{col 49}0.000{col 58}-.0809663{col 70}-.0520804
+{txt}{col 0}   state_NT{col 14}{c |}{res}{col 17}-.0589335{col 28} .0161706{col 40}-3.64{col 49}0.000{col 58}-.0906278{col 70}-.0272391
+{txt}{col 0}  state_TAS{col 14}{c |}{res}{col 17}-.0771394{col 28} .0113513{col 40}-6.80{col 49}0.000{col 58}-.0993879{col 70}-.0548909
+{txt}{col 0}  state_ACT{col 14}{c |}{res}{col 17} .1476562{col 28}  .017521{col 40} 8.43{col 49}0.000{col 58} .1133151{col 70} .1819974
+{txt}{col 0}shiftwork_~s{col 14}{c |}{res}{col 17} .0483396{col 28} .0059246{col 40} 8.16{col 49}0.000{col 58} .0367274{col 70} .0599517
+{txt}{col 0}   parttime{col 14}{c |}{res}{col 17}-.1124269{col 28} .0097345{col 40}-11.55{col 49}0.000{col 58}-.1315064{col 70}-.0933473
+{txt}{col 0} long_hours{col 14}{c |}{res}{col 17}-.0042256{col 28} .0047691{col 40}-0.89{col 49}0.376{col 58}-.0135729{col 70} .0051218
+{txt}{col 0}     casual{col 14}{c |}{res}{col 17}-.0694006{col 28} .0082988{col 40}-8.36{col 49}0.000{col 58}-.0856663{col 70}-.0531348
+{txt}{col 0}      _cons{col 14}{c |}{res}{col 17} 2.768878{col 28} .0109962{col 40}251.80{col 49}0.000{col 58} 2.747326{col 70} 2.790431
+{txt}{hline 13}{c BT}{hline 64}
+{col 0}Quant. 0{res}.5   {col 14}{c |}
+{txt}{col 0}sector_pub~c{col 14}{c |}{res}{col 17}  .088447{col 28} .0057412{col 40}15.41{col 49}0.000{col 58} .0771943{col 70} .0996998
+{txt}{col 0} experience{col 14}{c |}{res}{col 17} .0209784{col 28} .0009363{col 40}22.41{col 49}0.000{col 58} .0191432{col 70} .0228136
+{txt}{col 0}experience~q{col 14}{c |}{res}{col 17}-.0003226{col 28} .0000193{col 40}-16.69{col 49}0.000{col 58}-.0003604{col 70}-.0002847
+{txt}{col 0}    edu_uni{col 14}{c |}{res}{col 17} .3760141{col 28} .0071653{col 40}52.48{col 49}0.000{col 58} .3619702{col 70}  .390058
+{txt}{col 0}edu_diplom~t{col 14}{c |}{res}{col 17} .1299546{col 28}  .005118{col 40}25.39{col 49}0.000{col 58} .1199233{col 70} .1399859
+{txt}{col 0} children_1{col 14}{c |}{res}{col 17}  .020035{col 28}  .007437{col 40} 2.69{col 49}0.007{col 58} .0054585{col 70} .0346114
+{txt}{col 0} children_2{col 14}{c |}{res}{col 17} .0877509{col 28} .0070017{col 40}12.53{col 49}0.000{col 58} .0740275{col 70} .1014742
+{txt}{col 0} children_3{col 14}{c |}{res}{col 17} .0824763{col 28} .0109611{col 40} 7.52{col 49}0.000{col 58} .0609927{col 70}   .10396
+{txt}{col 0}children_4~s{col 14}{c |}{res}{col 17} .0085401{col 28} .0176011{col 40} 0.49{col 49}0.628{col 58}-.0259581{col 70} .0430383
+{txt}{col 0}health_poor{col 14}{c |}{res}{col 17}-.0777529{col 28}    .0068{col 40}-11.43{col 49}0.000{col 58}-.0910809{col 70}-.0644249
+{txt}{col 0}  birth_eng{col 14}{c |}{res}{col 17} .0564236{col 28} .0085837{col 40} 6.57{col 49}0.000{col 58} .0395996{col 70} .0732477
+{txt}{col 0} birth_neng{col 14}{c |}{res}{col 17}-.0998052{col 28} .0080336{col 40}-12.42{col 49}0.000{col 58} -.115551{col 70}-.0840594
+{txt}{col 0}married_yes{col 14}{c |}{res}{col 17} .0713106{col 28} .0067519{col 40}10.56{col 49}0.000{col 58} .0580769{col 70} .0845443
+{txt}{col 0}married_sep{col 14}{c |}{res}{col 17}-.0077906{col 28} .0123547{col 40}-0.63{col 49}0.528{col 58}-.0320057{col 70} .0164246
+{txt}{col 0}   urban_no{col 14}{c |}{res}{col 17}-.0606334{col 28} .0079522{col 40}-7.62{col 49}0.000{col 58}-.0762198{col 70} -.045047
+{txt}{col 0}  state_VIC{col 14}{c |}{res}{col 17}-.0265365{col 28} .0062991{col 40}-4.21{col 49}0.000{col 58}-.0388828{col 70}-.0141901
+{txt}{col 0}   state_WA{col 14}{c |}{res}{col 17} .0433378{col 28} .0090398{col 40} 4.79{col 49}0.000{col 58} .0256198{col 70} .0610557
+{txt}{col 0}  state_QLD{col 14}{c |}{res}{col 17}-.0404508{col 28} .0068714{col 40}-5.89{col 49}0.000{col 58}-.0539187{col 70}-.0269829
+{txt}{col 0}   state_SA{col 14}{c |}{res}{col 17}-.0982637{col 28}  .008531{col 40}-11.52{col 49}0.000{col 58}-.1149844{col 70} -.081543
+{txt}{col 0}   state_NT{col 14}{c |}{res}{col 17}-.0609649{col 28}  .042244{col 40}-1.44{col 49}0.149{col 58}-.1437632{col 70} .0218333
+{txt}{col 0}  state_TAS{col 14}{c |}{res}{col 17}-.1112152{col 28} .0112636{col 40}-9.87{col 49}0.000{col 58}-.1332918{col 70}-.0891386
+{txt}{col 0}  state_ACT{col 14}{c |}{res}{col 17} .1886919{col 28} .0123543{col 40}15.27{col 49}0.000{col 58} .1644774{col 70} .2129064
+{txt}{col 0}shiftwork_~s{col 14}{c |}{res}{col 17} .0520586{col 28} .0063568{col 40} 8.19{col 49}0.000{col 58} .0395994{col 70} .0645179
+{txt}{col 0}   parttime{col 14}{c |}{res}{col 17}-.0761886{col 28} .0095606{col 40}-7.97{col 49}0.000{col 58}-.0949275{col 70}-.0574498
+{txt}{col 0} long_hours{col 14}{c |}{res}{col 17} .0133023{col 28} .0051813{col 40} 2.57{col 49}0.010{col 58} .0031469{col 70} .0234577
+{txt}{col 0}     casual{col 14}{c |}{res}{col 17}-.0587374{col 28}  .007539{col 40}-7.79{col 49}0.000{col 58}-.0735139{col 70} -.043961
+{txt}{col 0}      _cons{col 14}{c |}{res}{col 17} 2.917898{col 28} .0106059{col 40}275.12{col 49}0.000{col 58}  2.89711{col 70} 2.938685
+{txt}{hline 13}{c BT}{hline 64}
+{col 0}Quant. 0{res}.75  {col 14}{c |}
+{txt}{col 0}sector_pub~c{col 14}{c |}{res}{col 17} .0198287{col 28} .0065495{col 40} 3.03{col 49}0.002{col 58} .0069918{col 70} .0326657
+{txt}{col 0} experience{col 14}{c |}{res}{col 17} .0265262{col 28} .0011537{col 40}22.99{col 49}0.000{col 58} .0242649{col 70} .0287875
+{txt}{col 0}experience~q{col 14}{c |}{res}{col 17}-.0003977{col 28} .0000234{col 40}-17.03{col 49}0.000{col 58}-.0004434{col 70}-.0003519
+{txt}{col 0}    edu_uni{col 14}{c |}{res}{col 17}   .42398{col 28} .0090579{col 40}46.81{col 49}0.000{col 58} .4062265{col 70} .4417335
+{txt}{col 0}edu_diplom~t{col 14}{c |}{res}{col 17} .1427363{col 28} .0069221{col 40}20.62{col 49}0.000{col 58}  .129169{col 70} .1563036
+{txt}{col 0} children_1{col 14}{c |}{res}{col 17} .0225957{col 28} .0091301{col 40} 2.47{col 49}0.013{col 58} .0047007{col 70} .0404906
+{txt}{col 0} children_2{col 14}{c |}{res}{col 17} .0827088{col 28} .0089425{col 40} 9.25{col 49}0.000{col 58} .0651816{col 70} .1002361
+{txt}{col 0} children_3{col 14}{c |}{res}{col 17} .0988575{col 28} .0116281{col 40} 8.50{col 49}0.000{col 58} .0760664{col 70} .1216487
+{txt}{col 0}children_4~s{col 14}{c |}{res}{col 17} .0159295{col 28} .0205034{col 40} 0.78{col 49}0.437{col 58}-.0242572{col 70} .0561162
+{txt}{col 0}health_poor{col 14}{c |}{res}{col 17}-.0762219{col 28} .0078317{col 40}-9.73{col 49}0.000{col 58} -.091572{col 70}-.0608717
+{txt}{col 0}  birth_eng{col 14}{c |}{res}{col 17}  .052878{col 28} .0108704{col 40} 4.86{col 49}0.000{col 58}  .031572{col 70}  .074184
+{txt}{col 0} birth_neng{col 14}{c |}{res}{col 17}-.0942893{col 28} .0102694{col 40}-9.18{col 49}0.000{col 58}-.1144172{col 70}-.0741613
+{txt}{col 0}married_yes{col 14}{c |}{res}{col 17} .0895845{col 28} .0087091{col 40}10.29{col 49}0.000{col 58} .0725147{col 70} .1066542
+{txt}{col 0}married_sep{col 14}{c |}{res}{col 17} .0070415{col 28} .0166756{col 40} 0.42{col 49}0.673{col 58}-.0256427{col 70} .0397256
+{txt}{col 0}   urban_no{col 14}{c |}{res}{col 17}-.0718587{col 28} .0092297{col 40}-7.79{col 49}0.000{col 58}-.0899489{col 70}-.0537685
+{txt}{col 0}  state_VIC{col 14}{c |}{res}{col 17}-.0216441{col 28} .0080274{col 40}-2.70{col 49}0.007{col 58}-.0373778{col 70}-.0059104
+{txt}{col 0}   state_WA{col 14}{c |}{res}{col 17} .0859152{col 28} .0114019{col 40} 7.54{col 49}0.000{col 58} .0635673{col 70}  .108263
+{txt}{col 0}  state_QLD{col 14}{c |}{res}{col 17}-.0347215{col 28} .0086844{col 40}-4.00{col 49}0.000{col 58}-.0517429{col 70}-.0177001
+{txt}{col 0}   state_SA{col 14}{c |}{res}{col 17}-.1337969{col 28} .0088941{col 40}-15.04{col 49}0.000{col 58}-.1512294{col 70}-.1163644
+{txt}{col 0}   state_NT{col 14}{c |}{res}{col 17}-.0099033{col 28} .0432554{col 40}-0.23{col 49}0.819{col 58} -.094684{col 70} .0748774
+{txt}{col 0}  state_TAS{col 14}{c |}{res}{col 17}-.1715139{col 28}  .012403{col 40}-13.83{col 49}0.000{col 58}-.1958239{col 70}-.1472039
+{txt}{col 0}  state_ACT{col 14}{c |}{res}{col 17} .1787274{col 28} .0165199{col 40}10.82{col 49}0.000{col 58} .1463485{col 70} .2111064
+{txt}{col 0}shiftwork_~s{col 14}{c |}{res}{col 17}  .056943{col 28} .0080453{col 40} 7.08{col 49}0.000{col 58} .0411742{col 70} .0727119
+{txt}{col 0}   parttime{col 14}{c |}{res}{col 17}-.0445489{col 28} .0114968{col 40}-3.87{col 49}0.000{col 58}-.0670827{col 70}-.0220151
+{txt}{col 0} long_hours{col 14}{c |}{res}{col 17} .0226512{col 28} .0064695{col 40} 3.50{col 49}0.000{col 58}  .009971{col 70} .0353314
+{txt}{col 0}     casual{col 14}{c |}{res}{col 17}-.0296952{col 28} .0094942{col 40}-3.13{col 49}0.002{col 58}-.0483037{col 70}-.0110867
+{txt}{col 0}      _cons{col 14}{c |}{res}{col 17} 3.075502{col 28} .0124448{col 40}247.13{col 49}0.000{col 58} 3.051111{col 70} 3.099894
+{txt}{hline 13}{c BT}{hline 64}
+{col 0}Quant. 0{res}.9   {col 14}{c |}
+{txt}{col 0}sector_pub~c{col 14}{c |}{res}{col 17}-.0649009{col 28} .0083141{col 40}-7.81{col 49}0.000{col 58}-.0811965{col 70}-.0486052
+{txt}{col 0} experience{col 14}{c |}{res}{col 17}  .031515{col 28} .0017664{col 40}17.84{col 49}0.000{col 58} .0280528{col 70} .0349772
+{txt}{col 0}experience~q{col 14}{c |}{res}{col 17}-.0004931{col 28} .0000349{col 40}-14.11{col 49}0.000{col 58}-.0005616{col 70}-.0004246
+{txt}{col 0}    edu_uni{col 14}{c |}{res}{col 17}    .4378{col 28} .0113448{col 40}38.59{col 49}0.000{col 58} .4155643{col 70} .4600358
+{txt}{col 0}edu_diplom~t{col 14}{c |}{res}{col 17} .1555592{col 28} .0090494{col 40}17.19{col 49}0.000{col 58} .1378224{col 70}  .173296
+{txt}{col 0} children_1{col 14}{c |}{res}{col 17} .0292643{col 28} .0122346{col 40} 2.39{col 49}0.017{col 58} .0052846{col 70} .0532441
+{txt}{col 0} children_2{col 14}{c |}{res}{col 17} .0756886{col 28} .0131633{col 40} 5.75{col 49}0.000{col 58} .0498886{col 70} .1014886
+{txt}{col 0} children_3{col 14}{c |}{res}{col 17} .1326628{col 28} .0184868{col 40} 7.18{col 49}0.000{col 58} .0964287{col 70} .1688968
+{txt}{col 0}children_4~s{col 14}{c |}{res}{col 17} -.008902{col 28} .0264032{col 40}-0.34{col 49}0.736{col 58}-.0606524{col 70} .0428484
+{txt}{col 0}health_poor{col 14}{c |}{res}{col 17}-.0812893{col 28} .0096014{col 40}-8.47{col 49}0.000{col 58}-.1001081{col 70}-.0624704
+{txt}{col 0}  birth_eng{col 14}{c |}{res}{col 17} .0618547{col 28} .0149344{col 40} 4.14{col 49}0.000{col 58} .0325833{col 70} .0911261
+{txt}{col 0} birth_neng{col 14}{c |}{res}{col 17}-.0958544{col 28} .0118831{col 40}-8.07{col 49}0.000{col 58}-.1191454{col 70}-.0725634
+{txt}{col 0}married_yes{col 14}{c |}{res}{col 17}  .117502{col 28} .0109939{col 40}10.69{col 49}0.000{col 58}  .095954{col 70} .1390501
+{txt}{col 0}married_sep{col 14}{c |}{res}{col 17} .0265979{col 28} .0229312{col 40} 1.16{col 49}0.246{col 58}-.0183473{col 70} .0715431
+{txt}{col 0}   urban_no{col 14}{c |}{res}{col 17}-.0775622{col 28}  .012513{col 40}-6.20{col 49}0.000{col 58}-.1020876{col 70}-.0530368
+{txt}{col 0}  state_VIC{col 14}{c |}{res}{col 17}-.0101957{col 28} .0104359{col 40}-0.98{col 49}0.329{col 58}  -.03065{col 70} .0102586
+{txt}{col 0}   state_WA{col 14}{c |}{res}{col 17} .1030877{col 28} .0150287{col 40} 6.86{col 49}0.000{col 58} .0736315{col 70} .1325438
+{txt}{col 0}  state_QLD{col 14}{c |}{res}{col 17}-.0267366{col 28}  .010428{col 40}-2.56{col 49}0.010{col 58}-.0471754{col 70}-.0062978
+{txt}{col 0}   state_SA{col 14}{c |}{res}{col 17}-.1612482{col 28} .0126693{col 40}-12.73{col 49}0.000{col 58}  -.18608{col 70}-.1364163
+{txt}{col 0}   state_NT{col 14}{c |}{res}{col 17} .0480285{col 28} .0487812{col 40} 0.98{col 49}0.325{col 58}-.0475826{col 70} .1436397
+{txt}{col 0}  state_TAS{col 14}{c |}{res}{col 17}-.1819697{col 28} .0182397{col 40}-9.98{col 49}0.000{col 58}-.2177195{col 70}  -.14622
+{txt}{col 0}  state_ACT{col 14}{c |}{res}{col 17} .2244226{col 28} .0269175{col 40} 8.34{col 49}0.000{col 58} .1716642{col 70}  .277181
+{txt}{col 0}shiftwork_~s{col 14}{c |}{res}{col 17}  .066603{col 28} .0102091{col 40} 6.52{col 49}0.000{col 58} .0465931{col 70} .0866129
+{txt}{col 0}   parttime{col 14}{c |}{res}{col 17} .0299251{col 28}   .01489{col 40} 2.01{col 49}0.044{col 58} .0007407{col 70} .0591095
+{txt}{col 0} long_hours{col 14}{c |}{res}{col 17} .0310917{col 28} .0086465{col 40} 3.60{col 49}0.000{col 58} .0141447{col 70} .0480388
+{txt}{col 0}     casual{col 14}{c |}{res}{col 17} .0159505{col 28} .0151377{col 40} 1.05{col 49}0.292{col 58}-.0137195{col 70} .0456205
+{txt}{col 0}      _cons{col 14}{c |}{res}{col 17} 3.248911{col 28}  .018276{col 40}177.77{col 49}0.000{col 58}  3.21309{col 70} 3.284732
+{txt}{hline 13}{c BT}{hline 64}
+
+{com}. 
+. // Men with occupation
+. qrprocess log_real_wage sector_public experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT shiftwork_yes parttime long_hours casual occ_tech_trade occ_clerical_admin occ_machinery occ_prof occ_community_personal_service occ_sales occ_labourer [pw=hhwtrp] if sex_male == 1, quantile(0.1, 0.25, 0.5, 0.75, 0.9)
+{res}
+{txt}{col 0}Quantile regression
+{col 0}No. of obs.{res}{col 20}64281   
+{txt}{col 0}Algorithm:{res}{col 20}Frisch-Newton interior point with preprocessing.
+{txt}{col 0}Variance:{res}{col 20}kernel estimate of the sandwich as proposed by Powell(1990).
+
+{txt}{hline 13}{c TT}{hline 64}
+{col 0}log_real_wage{col 14}{c |}{col 19}  Coef.   {col 29}Std. Err. {col 41}   t    {col 45} P>|t|  {col 59}[95% Conf. Interval]
+{hline 13}{c +}{hline 64}
+{col 0}Quant. 0{res}.1   {col 14}{c |}
+{txt}{col 0}sector_pub~c{col 14}{c |}{res}{col 17} .1139202{col 28} .0074958{col 40}15.20{col 49}0.000{col 58} .0992284{col 70}  .128612
+{txt}{col 0} experience{col 14}{c |}{res}{col 17} .0157601{col 28} .0011178{col 40}14.10{col 49}0.000{col 58} .0135692{col 70} .0179509
+{txt}{col 0}experience~q{col 14}{c |}{res}{col 17}-.0002594{col 28} .0000229{col 40}-11.32{col 49}0.000{col 58}-.0003043{col 70}-.0002145
+{txt}{col 0}    edu_uni{col 14}{c |}{res}{col 17} .1601651{col 28} .0108214{col 40}14.80{col 49}0.000{col 58} .1389552{col 70}  .181375
+{txt}{col 0}edu_diplom~t{col 14}{c |}{res}{col 17} .0732746{col 28}  .006966{col 40}10.52{col 49}0.000{col 58} .0596213{col 70}  .086928
+{txt}{col 0} children_1{col 14}{c |}{res}{col 17} .0111462{col 28} .0081695{col 40} 1.36{col 49}0.172{col 58} -.004866{col 70} .0271585
+{txt}{col 0} children_2{col 14}{c |}{res}{col 17} .0472424{col 28} .0082664{col 40} 5.72{col 49}0.000{col 58} .0310403{col 70} .0634446
+{txt}{col 0} children_3{col 14}{c |}{res}{col 17} .0414781{col 28} .0123061{col 40} 3.37{col 49}0.001{col 58}  .017358{col 70} .0655981
+{txt}{col 0}children_4~s{col 14}{c |}{res}{col 17} .0120622{col 28}  .020552{col 40} 0.59{col 49}0.557{col 58}-.0282196{col 70} .0523441
+{txt}{col 0}health_poor{col 14}{c |}{res}{col 17} -.084278{col 28} .0094969{col 40}-8.87{col 49}0.000{col 58} -.102892{col 70}-.0656641
+{txt}{col 0}  birth_eng{col 14}{c |}{res}{col 17} .0180386{col 28}  .009498{col 40} 1.90{col 49}0.058{col 58}-.0005775{col 70} .0366547
+{txt}{col 0} birth_neng{col 14}{c |}{res}{col 17} -.044159{col 28} .0113186{col 40}-3.90{col 49}0.000{col 58}-.0663435{col 70}-.0219744
+{txt}{col 0}married_yes{col 14}{c |}{res}{col 17} .1062715{col 28} .0103427{col 40}10.28{col 49}0.000{col 58} .0859998{col 70} .1265432
+{txt}{col 0}married_sep{col 14}{c |}{res}{col 17} .0646502{col 28} .0179927{col 40} 3.59{col 49}0.000{col 58} .0293845{col 70} .0999159
+{txt}{col 0}   urban_no{col 14}{c |}{res}{col 17}-.0732429{col 28}  .010606{col 40}-6.91{col 49}0.000{col 58}-.0940307{col 70}-.0524551
+{txt}{col 0}  state_VIC{col 14}{c |}{res}{col 17}-.0253428{col 28} .0082607{col 40}-3.07{col 49}0.002{col 58}-.0415338{col 70}-.0091518
+{txt}{col 0}   state_WA{col 14}{c |}{res}{col 17} .0218094{col 28}  .012345{col 40} 1.77{col 49}0.077{col 58}-.0023868{col 70} .0460056
+{txt}{col 0}  state_QLD{col 14}{c |}{res}{col 17}-.0105592{col 28} .0088116{col 40}-1.20{col 49}0.231{col 58}-.0278299{col 70} .0067115
+{txt}{col 0}   state_SA{col 14}{c |}{res}{col 17}-.0521877{col 28} .0126236{col 40}-4.13{col 49}0.000{col 58}  -.07693{col 70}-.0274454
+{txt}{col 0}   state_NT{col 14}{c |}{res}{col 17} -.008577{col 28} .0254824{col 40}-0.34{col 49}0.736{col 58}-.0585225{col 70} .0413685
+{txt}{col 0}  state_TAS{col 14}{c |}{res}{col 17}-.0340131{col 28}  .013546{col 40}-2.51{col 49}0.012{col 58}-.0605633{col 70}-.0074629
+{txt}{col 0}  state_ACT{col 14}{c |}{res}{col 17} .1300414{col 28} .0189745{col 40} 6.85{col 49}0.000{col 58} .0928514{col 70} .1672314
+{txt}{col 0}shiftwork_~s{col 14}{c |}{res}{col 17} .0416219{col 28}  .009186{col 40} 4.53{col 49}0.000{col 58} .0236172{col 70} .0596265
+{txt}{col 0}   parttime{col 14}{c |}{res}{col 17}-.1683016{col 28} .0202029{col 40}-8.33{col 49}0.000{col 58}-.2078994{col 70}-.1287038
+{txt}{col 0} long_hours{col 14}{c |}{res}{col 17}-.0697035{col 28} .0066505{col 40}-10.48{col 49}0.000{col 58}-.0827385{col 70}-.0566685
+{txt}{col 0}     casual{col 14}{c |}{res}{col 17}-.0956072{col 28} .0135846{col 40}-7.04{col 49}0.000{col 58} -.122233{col 70}-.0689815
+{txt}{col 0}occ_tech_t~e{col 14}{c |}{res}{col 17}-.1479874{col 28} .0101761{col 40}-14.54{col 49}0.000{col 58}-.1679326{col 70}-.1280423
+{txt}{col 0}occ_cleric~n{col 14}{c |}{res}{col 17}-.1269987{col 28} .0118664{col 40}-10.70{col 49}0.000{col 58}-.1502568{col 70}-.1037405
+{txt}{col 0}occ_machin~y{col 14}{c |}{res}{col 17}-.2033994{col 28} .0121785{col 40}-16.70{col 49}0.000{col 58}-.2272693{col 70}-.1795294
+{txt}{col 0}   occ_prof{col 14}{c |}{res}{col 17}  .019115{col 28} .0119403{col 40} 1.60{col 49}0.109{col 58} -.004288{col 70}  .042518
+{txt}{col 0}occ_commun~e{col 14}{c |}{res}{col 17}-.1537651{col 28} .0156697{col 40}-9.81{col 49}0.000{col 58}-.1844777{col 70}-.1230525
+{txt}{col 0}  occ_sales{col 14}{c |}{res}{col 17}-.2422758{col 28} .0208065{col 40}-11.64{col 49}0.000{col 58}-.2830566{col 70} -.201495
+{txt}{col 0}occ_labourer{col 14}{c |}{res}{col 17}-.2974712{col 28}  .013253{col 40}-22.45{col 49}0.000{col 58} -.323447{col 70}-.2714954
+{txt}{col 0}      _cons{col 14}{c |}{res}{col 17} 2.783886{col 28} .0167883{col 40}165.82{col 49}0.000{col 58} 2.750981{col 70} 2.816791
+{txt}{hline 13}{c BT}{hline 64}
+{col 0}Quant. 0{res}.25  {col 14}{c |}
+{txt}{col 0}sector_pub~c{col 14}{c |}{res}{col 17} .0997968{col 28} .0052248{col 40}19.10{col 49}0.000{col 58} .0895563{col 70} .1100373
+{txt}{col 0} experience{col 14}{c |}{res}{col 17} .0169687{col 28} .0008264{col 40}20.53{col 49}0.000{col 58}  .015349{col 70} .0185884
+{txt}{col 0}experience~q{col 14}{c |}{res}{col 17} -.000259{col 28} .0000173{col 40}-14.99{col 49}0.000{col 58}-.0002928{col 70}-.0002251
+{txt}{col 0}    edu_uni{col 14}{c |}{res}{col 17} .1988398{col 28} .0071676{col 40}27.74{col 49}0.000{col 58} .1847914{col 70} .2128882
+{txt}{col 0}edu_diplom~t{col 14}{c |}{res}{col 17} .0808277{col 28} .0050113{col 40}16.13{col 49}0.000{col 58} .0710055{col 70} .0906499
+{txt}{col 0} children_1{col 14}{c |}{res}{col 17} .0155091{col 28} .0063625{col 40} 2.44{col 49}0.015{col 58} .0030387{col 70} .0279796
+{txt}{col 0} children_2{col 14}{c |}{res}{col 17} .0613248{col 28} .0065885{col 40} 9.31{col 49}0.000{col 58} .0484114{col 70} .0742383
+{txt}{col 0} children_3{col 14}{c |}{res}{col 17} .0553371{col 28} .0089732{col 40} 6.17{col 49}0.000{col 58} .0377498{col 70} .0729245
+{txt}{col 0}children_4~s{col 14}{c |}{res}{col 17}-.0177266{col 28} .0146044{col 40}-1.21{col 49}0.225{col 58}-.0463512{col 70}  .010898
+{txt}{col 0}health_poor{col 14}{c |}{res}{col 17}-.0679681{col 28} .0053647{col 40}-12.67{col 49}0.000{col 58}-.0784829{col 70}-.0574533
+{txt}{col 0}  birth_eng{col 14}{c |}{res}{col 17} .0288508{col 28} .0080101{col 40} 3.60{col 49}0.000{col 58} .0131509{col 70} .0445507
+{txt}{col 0} birth_neng{col 14}{c |}{res}{col 17}-.0544572{col 28} .0067414{col 40}-8.08{col 49}0.000{col 58}-.0676704{col 70} -.041244
+{txt}{col 0}married_yes{col 14}{c |}{res}{col 17} .0690643{col 28}  .006227{col 40}11.09{col 49}0.000{col 58} .0568593{col 70} .0812693
+{txt}{col 0}married_sep{col 14}{c |}{res}{col 17} .0183058{col 28} .0110901{col 40} 1.65{col 49}0.099{col 58}-.0034307{col 70} .0400423
+{txt}{col 0}   urban_no{col 14}{c |}{res}{col 17}-.0586269{col 28} .0078299{col 40}-7.49{col 49}0.000{col 58}-.0739735{col 70}-.0432803
+{txt}{col 0}  state_VIC{col 14}{c |}{res}{col 17}-.0308795{col 28} .0057592{col 40}-5.36{col 49}0.000{col 58}-.0421675{col 70}-.0195916
+{txt}{col 0}   state_WA{col 14}{c |}{res}{col 17} .0280631{col 28} .0085038{col 40} 3.30{col 49}0.001{col 58} .0113956{col 70} .0447305
+{txt}{col 0}  state_QLD{col 14}{c |}{res}{col 17}-.0209972{col 28} .0065054{col 40}-3.23{col 49}0.001{col 58}-.0337478{col 70}-.0082466
+{txt}{col 0}   state_SA{col 14}{c |}{res}{col 17}-.0532009{col 28} .0076555{col 40}-6.95{col 49}0.000{col 58}-.0682057{col 70}-.0381961
+{txt}{col 0}   state_NT{col 14}{c |}{res}{col 17}-.0135363{col 28} .0225637{col 40}-0.60{col 49}0.549{col 58}-.0577611{col 70} .0306885
+{txt}{col 0}  state_TAS{col 14}{c |}{res}{col 17}-.0672555{col 28} .0100997{col 40}-6.66{col 49}0.000{col 58}-.0870509{col 70}-.0474601
+{txt}{col 0}  state_ACT{col 14}{c |}{res}{col 17} .1291078{col 28} .0172378{col 40} 7.49{col 49}0.000{col 58} .0953218{col 70} .1628938
+{txt}{col 0}shiftwork_~s{col 14}{c |}{res}{col 17} .0693932{col 28} .0071098{col 40} 9.76{col 49}0.000{col 58}  .055458{col 70} .0833284
+{txt}{col 0}   parttime{col 14}{c |}{res}{col 17}-.0935027{col 28} .0095039{col 40}-9.84{col 49}0.000{col 58}-.1121304{col 70} -.074875
+{txt}{col 0} long_hours{col 14}{c |}{res}{col 17}-.0398074{col 28}  .005049{col 40}-7.88{col 49}0.000{col 58}-.0497034{col 70}-.0299114
+{txt}{col 0}     casual{col 14}{c |}{res}{col 17}-.0345737{col 28} .0074936{col 40}-4.61{col 49}0.000{col 58}-.0492613{col 70}-.0198862
+{txt}{col 0}occ_tech_t~e{col 14}{c |}{res}{col 17}-.1684177{col 28} .0085836{col 40}-19.62{col 49}0.000{col 58}-.1852415{col 70}-.1515939
+{txt}{col 0}occ_cleric~n{col 14}{c |}{res}{col 17}-.1764719{col 28}  .008627{col 40}-20.46{col 49}0.000{col 58}-.1933808{col 70} -.159563
+{txt}{col 0}occ_machin~y{col 14}{c |}{res}{col 17}-.2485356{col 28} .0092276{col 40}-26.93{col 49}0.000{col 58}-.2666217{col 70}-.2304495
+{txt}{col 0}   occ_prof{col 14}{c |}{res}{col 17} .0077636{col 28} .0088077{col 40} 0.88{col 49}0.378{col 58}-.0094994{col 70} .0250267
+{txt}{col 0}occ_commun~e{col 14}{c |}{res}{col 17}-.1956752{col 28} .0112167{col 40}-17.45{col 49}0.000{col 58}-.2176599{col 70}-.1736905
+{txt}{col 0}  occ_sales{col 14}{c |}{res}{col 17}-.2671738{col 28} .0123672{col 40}-21.60{col 49}0.000{col 58}-.2914135{col 70} -.242934
+{txt}{col 0}occ_labourer{col 14}{c |}{res}{col 17}-.3269722{col 28} .0097294{col 40}-33.61{col 49}0.000{col 58}-.3460419{col 70}-.3079025
+{txt}{col 0}      _cons{col 14}{c |}{res}{col 17} 2.967636{col 28} .0122107{col 40}243.03{col 49}0.000{col 58} 2.943703{col 70} 2.991569
+{txt}{hline 13}{c BT}{hline 64}
+{col 0}Quant. 0{res}.5   {col 14}{c |}
+{txt}{col 0}sector_pub~c{col 14}{c |}{res}{col 17} .0681014{col 28} .0050687{col 40}13.44{col 49}0.000{col 58} .0581668{col 70} .0780361
+{txt}{col 0} experience{col 14}{c |}{res}{col 17} .0189468{col 28} .0008392{col 40}22.58{col 49}0.000{col 58} .0173019{col 70} .0205916
+{txt}{col 0}experience~q{col 14}{c |}{res}{col 17}-.0002814{col 28} .0000169{col 40}-16.67{col 49}0.000{col 58}-.0003145{col 70}-.0002483
+{txt}{col 0}    edu_uni{col 14}{c |}{res}{col 17} .2223543{col 28} .0077411{col 40}28.72{col 49}0.000{col 58} .2071818{col 70} .2375269
+{txt}{col 0}edu_diplom~t{col 14}{c |}{res}{col 17}  .082767{col 28} .0052281{col 40}15.83{col 49}0.000{col 58} .0725198{col 70} .0930142
+{txt}{col 0} children_1{col 14}{c |}{res}{col 17} .0217016{col 28} .0065574{col 40} 3.31{col 49}0.001{col 58} .0088491{col 70}  .034554
+{txt}{col 0} children_2{col 14}{c |}{res}{col 17} .0692407{col 28} .0060945{col 40}11.36{col 49}0.000{col 58} .0572955{col 70} .0811858
+{txt}{col 0} children_3{col 14}{c |}{res}{col 17} .0811993{col 28} .0099693{col 40} 8.14{col 49}0.000{col 58} .0616594{col 70} .1007391
+{txt}{col 0}children_4~s{col 14}{c |}{res}{col 17} .0083958{col 28} .0133482{col 40} 0.63{col 49}0.529{col 58}-.0177666{col 70} .0345582
+{txt}{col 0}health_poor{col 14}{c |}{res}{col 17}-.0647492{col 28} .0061529{col 40}-10.52{col 49}0.000{col 58}-.0768088{col 70}-.0526896
+{txt}{col 0}  birth_eng{col 14}{c |}{res}{col 17}  .044056{col 28} .0083293{col 40} 5.29{col 49}0.000{col 58} .0277305{col 70} .0603814
+{txt}{col 0} birth_neng{col 14}{c |}{res}{col 17}-.0679411{col 28} .0072037{col 40}-9.43{col 49}0.000{col 58}-.0820604{col 70}-.0538219
+{txt}{col 0}married_yes{col 14}{c |}{res}{col 17} .0618233{col 28} .0067224{col 40} 9.20{col 49}0.000{col 58} .0486473{col 70} .0749992
+{txt}{col 0}married_sep{col 14}{c |}{res}{col 17}  .012437{col 28}  .009675{col 40} 1.29{col 49}0.199{col 58}-.0065261{col 70}    .0314
+{txt}{col 0}   urban_no{col 14}{c |}{res}{col 17}-.0401449{col 28} .0067664{col 40}-5.93{col 49}0.000{col 58}-.0534071{col 70}-.0268828
+{txt}{col 0}  state_VIC{col 14}{c |}{res}{col 17}-.0161402{col 28} .0058326{col 40}-2.77{col 49}0.006{col 58}-.0275721{col 70}-.0047082
+{txt}{col 0}   state_WA{col 14}{c |}{res}{col 17} .0506223{col 28} .0089725{col 40} 5.64{col 49}0.000{col 58} .0330361{col 70} .0682084
+{txt}{col 0}  state_QLD{col 14}{c |}{res}{col 17}-.0281039{col 28} .0067175{col 40}-4.18{col 49}0.000{col 58}-.0412702{col 70}-.0149376
+{txt}{col 0}   state_SA{col 14}{c |}{res}{col 17}-.0676282{col 28} .0072782{col 40}-9.29{col 49}0.000{col 58}-.0818934{col 70} -.053363
+{txt}{col 0}   state_NT{col 14}{c |}{res}{col 17}-.0230643{col 28} .0240551{col 40}-0.96{col 49}0.338{col 58}-.0702122{col 70} .0240837
+{txt}{col 0}  state_TAS{col 14}{c |}{res}{col 17}-.0871032{col 28} .0099706{col 40}-8.74{col 49}0.000{col 58}-.1066455{col 70}-.0675609
+{txt}{col 0}  state_ACT{col 14}{c |}{res}{col 17}  .143772{col 28} .0127907{col 40}11.24{col 49}0.000{col 58} .1187023{col 70} .1688418
+{txt}{col 0}shiftwork_~s{col 14}{c |}{res}{col 17} .0973825{col 28} .0064698{col 40}15.05{col 49}0.000{col 58} .0847017{col 70} .1100632
+{txt}{col 0}   parttime{col 14}{c |}{res}{col 17}-.0605843{col 28} .0088958{col 40}-6.81{col 49}0.000{col 58}-.0780202{col 70}-.0431485
+{txt}{col 0} long_hours{col 14}{c |}{res}{col 17}-.0094351{col 28}  .005254{col 40}-1.80{col 49}0.073{col 58} -.019733{col 70} .0008628
+{txt}{col 0}     casual{col 14}{c |}{res}{col 17}-.0060546{col 28} .0075242{col 40}-0.80{col 49}0.421{col 58} -.020802{col 70} .0086927
+{txt}{col 0}occ_tech_t~e{col 14}{c |}{res}{col 17} -.213934{col 28} .0091388{col 40}-23.41{col 49}0.000{col 58} -.231846{col 70} -.196022
+{txt}{col 0}occ_cleric~n{col 14}{c |}{res}{col 17}-.2572827{col 28} .0097104{col 40}-26.50{col 49}0.000{col 58}-.2763152{col 70}-.2382502
+{txt}{col 0}occ_machin~y{col 14}{c |}{res}{col 17}-.3236923{col 28} .0103003{col 40}-31.43{col 49}0.000{col 58} -.343881{col 70}-.3035037
+{txt}{col 0}   occ_prof{col 14}{c |}{res}{col 17}-.0332822{col 28} .0087604{col 40}-3.80{col 49}0.000{col 58}-.0504526{col 70}-.0161118
+{txt}{col 0}occ_commun~e{col 14}{c |}{res}{col 17}-.2868285{col 28} .0122767{col 40}-23.36{col 49}0.000{col 58}-.3108909{col 70}-.2627661
+{txt}{col 0}  occ_sales{col 14}{c |}{res}{col 17}-.3544921{col 28} .0105969{col 40}-33.45{col 49}0.000{col 58}-.3752621{col 70}-.3337221
+{txt}{col 0}occ_labourer{col 14}{c |}{res}{col 17}-.3998678{col 28} .0100772{col 40}-39.68{col 49}0.000{col 58}-.4196191{col 70}-.3801164
+{txt}{col 0}      _cons{col 14}{c |}{res}{col 17} 3.177663{col 28} .0132423{col 40}239.96{col 49}0.000{col 58} 3.151708{col 70} 3.203617
+{txt}{hline 13}{c BT}{hline 64}
+{col 0}Quant. 0{res}.75  {col 14}{c |}
+{txt}{col 0}sector_pub~c{col 14}{c |}{res}{col 17}-.0024321{col 28} .0065335{col 40}-0.37{col 49}0.710{col 58}-.0152378{col 70} .0103736
+{txt}{col 0} experience{col 14}{c |}{res}{col 17} .0228815{col 28} .0011706{col 40}19.55{col 49}0.000{col 58} .0205872{col 70} .0251758
+{txt}{col 0}experience~q{col 14}{c |}{res}{col 17}-.0003404{col 28} .0000233{col 40}-14.58{col 49}0.000{col 58}-.0003862{col 70}-.0002947
+{txt}{col 0}    edu_uni{col 14}{c |}{res}{col 17} .2507535{col 28} .0098269{col 40}25.52{col 49}0.000{col 58} .2314927{col 70} .2700142
+{txt}{col 0}edu_diplom~t{col 14}{c |}{res}{col 17} .0863862{col 28} .0067945{col 40}12.71{col 49}0.000{col 58} .0730689{col 70} .0997034
+{txt}{col 0} children_1{col 14}{c |}{res}{col 17}  .021976{col 28} .0089474{col 40} 2.46{col 49}0.014{col 58} .0044392{col 70} .0395129
+{txt}{col 0} children_2{col 14}{c |}{res}{col 17} .0742941{col 28} .0085805{col 40} 8.66{col 49}0.000{col 58} .0574762{col 70} .0911119
+{txt}{col 0} children_3{col 14}{c |}{res}{col 17}  .106879{col 28} .0113145{col 40} 9.45{col 49}0.000{col 58} .0847024{col 70} .1290555
+{txt}{col 0}children_4~s{col 14}{c |}{res}{col 17} .0124998{col 28} .0157948{col 40} 0.79{col 49}0.429{col 58}-.0184581{col 70} .0434577
+{txt}{col 0}health_poor{col 14}{c |}{res}{col 17}-.0630835{col 28} .0075511{col 40}-8.35{col 49}0.000{col 58}-.0778837{col 70}-.0482833
+{txt}{col 0}  birth_eng{col 14}{c |}{res}{col 17} .0454736{col 28} .0093956{col 40} 4.84{col 49}0.000{col 58} .0270582{col 70}  .063889
+{txt}{col 0} birth_neng{col 14}{c |}{res}{col 17}-.0698148{col 28} .0102961{col 40}-6.78{col 49}0.000{col 58}-.0899953{col 70}-.0496344
+{txt}{col 0}married_yes{col 14}{c |}{res}{col 17} .0744966{col 28} .0080802{col 40} 9.22{col 49}0.000{col 58} .0586594{col 70} .0903338
+{txt}{col 0}married_sep{col 14}{c |}{res}{col 17}-.0000568{col 28}  .015351{col 40}-0.00{col 49}0.997{col 58}-.0301448{col 70} .0300311
+{txt}{col 0}   urban_no{col 14}{c |}{res}{col 17}-.0430195{col 28} .0076644{col 40}-5.61{col 49}0.000{col 58}-.0580417{col 70}-.0279973
+{txt}{col 0}  state_VIC{col 14}{c |}{res}{col 17}-.0150492{col 28} .0071644{col 40}-2.10{col 49}0.036{col 58}-.0290914{col 70}-.0010069
+{txt}{col 0}   state_WA{col 14}{c |}{res}{col 17} .0834063{col 28} .0118795{col 40} 7.02{col 49}0.000{col 58} .0601226{col 70} .1066901
+{txt}{col 0}  state_QLD{col 14}{c |}{res}{col 17}-.0226555{col 28} .0085688{col 40}-2.64{col 49}0.008{col 58}-.0394504{col 70}-.0058605
+{txt}{col 0}   state_SA{col 14}{c |}{res}{col 17}-.1053083{col 28} .0092802{col 40}-11.35{col 49}0.000{col 58}-.1234974{col 70}-.0871191
+{txt}{col 0}   state_NT{col 14}{c |}{res}{col 17}  .014522{col 28} .0339284{col 40} 0.43{col 49}0.669{col 58}-.0519777{col 70} .0810216
+{txt}{col 0}  state_TAS{col 14}{c |}{res}{col 17} -.129525{col 28} .0122649{col 40}-10.56{col 49}0.000{col 58}-.1535643{col 70}-.1054858
+{txt}{col 0}  state_ACT{col 14}{c |}{res}{col 17} .1310202{col 28} .0145361{col 40} 9.01{col 49}0.000{col 58} .1025295{col 70} .1595109
+{txt}{col 0}shiftwork_~s{col 14}{c |}{res}{col 17} .1399476{col 28} .0083639{col 40}16.73{col 49}0.000{col 58} .1235544{col 70} .1563408
+{txt}{col 0}   parttime{col 14}{c |}{res}{col 17}-.0221132{col 28} .0117133{col 40}-1.89{col 49}0.059{col 58}-.0450714{col 70} .0008449
+{txt}{col 0} long_hours{col 14}{c |}{res}{col 17} .0055766{col 28} .0060549{col 40} 0.92{col 49}0.357{col 58}-.0062911{col 70} .0174442
+{txt}{col 0}     casual{col 14}{c |}{res}{col 17} .0100169{col 28} .0108065{col 40} 0.93{col 49}0.354{col 58}-.0111638{col 70} .0311977
+{txt}{col 0}occ_tech_t~e{col 14}{c |}{res}{col 17}-.2557484{col 28} .0108974{col 40}-23.47{col 49}0.000{col 58}-.2771072{col 70}-.2343896
+{txt}{col 0}occ_cleric~n{col 14}{c |}{res}{col 17}-.3255031{col 28} .0122006{col 40}-26.68{col 49}0.000{col 58}-.3494163{col 70}  -.30159
+{txt}{col 0}occ_machin~y{col 14}{c |}{res}{col 17}-.3784513{col 28} .0134913{col 40}-28.05{col 49}0.000{col 58}-.4048942{col 70}-.3520084
+{txt}{col 0}   occ_prof{col 14}{c |}{res}{col 17} -.063525{col 28} .0103624{col 40}-6.13{col 49}0.000{col 58}-.0838353{col 70}-.0432146
+{txt}{col 0}occ_commun~e{col 14}{c |}{res}{col 17}-.3472679{col 28} .0140621{col 40}-24.70{col 49}0.000{col 58}-.3748298{col 70}-.3197061
+{txt}{col 0}  occ_sales{col 14}{c |}{res}{col 17}-.4411758{col 28} .0164624{col 40}-26.80{col 49}0.000{col 58}-.4734422{col 70}-.4089095
+{txt}{col 0}occ_labourer{col 14}{c |}{res}{col 17}-.4739656{col 28}   .01359{col 40}-34.88{col 49}0.000{col 58} -.500602{col 70}-.4473292
+{txt}{col 0}      _cons{col 14}{c |}{res}{col 17} 3.390923{col 28} .0170779{col 40}198.56{col 49}0.000{col 58} 3.357451{col 70} 3.424396
+{txt}{hline 13}{c BT}{hline 64}
+{col 0}Quant. 0{res}.9   {col 14}{c |}
+{txt}{col 0}sector_pub~c{col 14}{c |}{res}{col 17}-.0720522{col 28} .0088719{col 40}-8.12{col 49}0.000{col 58}-.0894411{col 70}-.0546633
+{txt}{col 0} experience{col 14}{c |}{res}{col 17} .0274664{col 28} .0016652{col 40}16.49{col 49}0.000{col 58} .0242026{col 70} .0307303
+{txt}{col 0}experience~q{col 14}{c |}{res}{col 17}-.0004144{col 28} .0000324{col 40}-12.78{col 49}0.000{col 58}-.0004779{col 70}-.0003508
+{txt}{col 0}    edu_uni{col 14}{c |}{res}{col 17} .2744625{col 28} .0136424{col 40}20.12{col 49}0.000{col 58} .2477234{col 70} .3012017
+{txt}{col 0}edu_diplom~t{col 14}{c |}{res}{col 17} .1043013{col 28} .0091449{col 40}11.41{col 49}0.000{col 58} .0863772{col 70} .1222253
+{txt}{col 0} children_1{col 14}{c |}{res}{col 17} .0390325{col 28} .0116643{col 40} 3.35{col 49}0.001{col 58} .0161705{col 70} .0618945
+{txt}{col 0} children_2{col 14}{c |}{res}{col 17} .0754488{col 28} .0107357{col 40} 7.03{col 49}0.000{col 58} .0544068{col 70} .0964908
+{txt}{col 0} children_3{col 14}{c |}{res}{col 17} .1135691{col 28} .0168211{col 40} 6.75{col 49}0.000{col 58} .0805998{col 70} .1465384
+{txt}{col 0}children_4~s{col 14}{c |}{res}{col 17}-.0152036{col 28}  .020099{col 40}-0.76{col 49}0.449{col 58}-.0545976{col 70} .0241905
+{txt}{col 0}health_poor{col 14}{c |}{res}{col 17}-.0624922{col 28} .0101601{col 40}-6.15{col 49}0.000{col 58} -.082406{col 70}-.0425785
+{txt}{col 0}  birth_eng{col 14}{c |}{res}{col 17}  .052977{col 28} .0141827{col 40} 3.74{col 49}0.000{col 58} .0251789{col 70} .0807751
+{txt}{col 0} birth_neng{col 14}{c |}{res}{col 17}-.0755489{col 28} .0144043{col 40}-5.24{col 49}0.000{col 58}-.1037813{col 70}-.0473164
+{txt}{col 0}married_yes{col 14}{c |}{res}{col 17} .0786282{col 28} .0118723{col 40} 6.62{col 49}0.000{col 58} .0553585{col 70} .1018979
+{txt}{col 0}married_sep{col 14}{c |}{res}{col 17} .0085609{col 28} .0169066{col 40} 0.51{col 49}0.613{col 58}-.0245762{col 70} .0416979
+{txt}{col 0}   urban_no{col 14}{c |}{res}{col 17}-.0424297{col 28} .0113647{col 40}-3.73{col 49}0.000{col 58}-.0647045{col 70} -.020155
+{txt}{col 0}  state_VIC{col 14}{c |}{res}{col 17}-.0172568{col 28} .0097959{col 40}-1.76{col 49}0.078{col 58}-.0364568{col 70} .0019432
+{txt}{col 0}   state_WA{col 14}{c |}{res}{col 17} .1031975{col 28} .0144416{col 40} 7.15{col 49}0.000{col 58} .0748919{col 70} .1315031
+{txt}{col 0}  state_QLD{col 14}{c |}{res}{col 17}-.0046896{col 28} .0119357{col 40}-0.39{col 49}0.694{col 58}-.0280835{col 70} .0187044
+{txt}{col 0}   state_SA{col 14}{c |}{res}{col 17}-.1541977{col 28}  .011873{col 40}-12.99{col 49}0.000{col 58}-.1774688{col 70}-.1309266
+{txt}{col 0}   state_NT{col 14}{c |}{res}{col 17} .0739518{col 28} .0478953{col 40} 1.54{col 49}0.123{col 58}-.0199229{col 70} .1678266
+{txt}{col 0}  state_TAS{col 14}{c |}{res}{col 17}-.1651295{col 28} .0176262{col 40}-9.37{col 49}0.000{col 58}-.1996769{col 70}-.1305821
+{txt}{col 0}  state_ACT{col 14}{c |}{res}{col 17} .1620274{col 28} .0253788{col 40} 6.38{col 49}0.000{col 58}  .112285{col 70} .2117699
+{txt}{col 0}shiftwork_~s{col 14}{c |}{res}{col 17} .1636036{col 28}   .01172{col 40}13.96{col 49}0.000{col 58} .1406324{col 70} .1865747
+{txt}{col 0}   parttime{col 14}{c |}{res}{col 17} .0331077{col 28} .0198882{col 40} 1.66{col 49}0.096{col 58}-.0058732{col 70} .0720886
+{txt}{col 0} long_hours{col 14}{c |}{res}{col 17} .0115209{col 28} .0080123{col 40} 1.44{col 49}0.150{col 58}-.0041833{col 70}  .027225
+{txt}{col 0}     casual{col 14}{c |}{res}{col 17}  .064918{col 28} .0154373{col 40} 4.21{col 49}0.000{col 58} .0346609{col 70} .0951751
+{txt}{col 0}occ_tech_t~e{col 14}{c |}{res}{col 17}-.2894572{col 28} .0144921{col 40}-19.97{col 49}0.000{col 58}-.3178618{col 70}-.2610527
+{txt}{col 0}occ_cleric~n{col 14}{c |}{res}{col 17}-.3560016{col 28} .0158984{col 40}-22.39{col 49}0.000{col 58}-.3871625{col 70}-.3248407
+{txt}{col 0}occ_machin~y{col 14}{c |}{res}{col 17}-.3907971{col 28}   .01794{col 40}-21.78{col 49}0.000{col 58}-.4259596{col 70}-.3556347
+{txt}{col 0}   occ_prof{col 14}{c |}{res}{col 17}-.0664694{col 28} .0130457{col 40}-5.10{col 49}0.000{col 58}-.0920389{col 70}-.0408999
+{txt}{col 0}occ_commun~e{col 14}{c |}{res}{col 17}-.4133387{col 28} .0174867{col 40}-23.64{col 49}0.000{col 58}-.4476127{col 70}-.3790648
+{txt}{col 0}  occ_sales{col 14}{c |}{res}{col 17}-.4648677{col 28} .0215442{col 40}-21.58{col 49}0.000{col 58}-.5070944{col 70}-.4226411
+{txt}{col 0}occ_labourer{col 14}{c |}{res}{col 17}-.5095355{col 28} .0199337{col 40}-25.56{col 49}0.000{col 58}-.5486056{col 70}-.4704654
+{txt}{col 0}      _cons{col 14}{c |}{res}{col 17} 3.580472{col 28} .0208795{col 40}171.48{col 49}0.000{col 58} 3.539548{col 70} 3.621396
+{txt}{hline 13}{c BT}{hline 64}
+
+{com}. 
+. // Women without occupation
+. qrprocess log_real_wage sector_public experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT shiftwork_yes parttime long_hours casual [pw=hhwtrp] if sex_male == 0, quantile(0.1, 0.25, 0.5, 0.75, 0.9)
+{res}
+{txt}{col 0}Quantile regression
+{col 0}No. of obs.{res}{col 20}66390   
+{txt}{col 0}Algorithm:{res}{col 20}Frisch-Newton interior point with preprocessing.
+{txt}{col 0}Variance:{res}{col 20}kernel estimate of the sandwich as proposed by Powell(1990).
+
+{txt}{hline 13}{c TT}{hline 64}
+{col 0}log_real_wage{col 14}{c |}{col 19}  Coef.   {col 29}Std. Err. {col 41}   t    {col 45} P>|t|  {col 59}[95% Conf. Interval]
+{hline 13}{c +}{hline 64}
+{col 0}Quant. 0{res}.1   {col 14}{c |}
+{txt}{col 0}sector_pub~c{col 14}{c |}{res}{col 17} .1317636{col 28} .0060614{col 40}21.74{col 49}0.000{col 58} .1198832{col 70}  .143644
+{txt}{col 0} experience{col 14}{c |}{res}{col 17} .0174188{col 28} .0011977{col 40}14.54{col 49}0.000{col 58} .0150712{col 70} .0197664
+{txt}{col 0}experience~q{col 14}{c |}{res}{col 17}-.0003038{col 28} .0000266{col 40}-11.43{col 49}0.000{col 58}-.0003559{col 70}-.0002517
+{txt}{col 0}    edu_uni{col 14}{c |}{res}{col 17} .2646581{col 28} .0083217{col 40}31.80{col 49}0.000{col 58} .2483476{col 70} .2809687
+{txt}{col 0}edu_diplom~t{col 14}{c |}{res}{col 17} .0975095{col 28}  .006517{col 40}14.96{col 49}0.000{col 58} .0847362{col 70} .1102829
+{txt}{col 0} children_1{col 14}{c |}{res}{col 17}-.0131491{col 28} .0079995{col 40}-1.64{col 49}0.100{col 58}-.0288282{col 70} .0025299
+{txt}{col 0} children_2{col 14}{c |}{res}{col 17} .0164599{col 28} .0076988{col 40} 2.14{col 49}0.033{col 58} .0013703{col 70} .0315496
+{txt}{col 0} children_3{col 14}{c |}{res}{col 17} .0185508{col 28} .0103006{col 40} 1.80{col 49}0.072{col 58}-.0016384{col 70} .0387401
+{txt}{col 0}children_4~s{col 14}{c |}{res}{col 17}-.0342061{col 28} .0234915{col 40}-1.46{col 49}0.145{col 58}-.0802495{col 70} .0118372
+{txt}{col 0}health_poor{col 14}{c |}{res}{col 17}-.0532422{col 28} .0078692{col 40}-6.77{col 49}0.000{col 58}-.0686658{col 70}-.0378186
+{txt}{col 0}  birth_eng{col 14}{c |}{res}{col 17} .0245127{col 28} .0152935{col 40} 1.60{col 49}0.109{col 58}-.0054625{col 70} .0544879
+{txt}{col 0} birth_neng{col 14}{c |}{res}{col 17}-.0663975{col 28} .0091695{col 40}-7.24{col 49}0.000{col 58}-.0843698{col 70}-.0484253
+{txt}{col 0}married_yes{col 14}{c |}{res}{col 17} .0226524{col 28} .0085474{col 40} 2.65{col 49}0.008{col 58} .0058994{col 70} .0394054
+{txt}{col 0}married_sep{col 14}{c |}{res}{col 17} .0049693{col 28} .0117697{col 40} 0.42{col 49}0.673{col 58}-.0180994{col 70}  .028038
+{txt}{col 0}   urban_no{col 14}{c |}{res}{col 17}-.0363585{col 28} .0102401{col 40}-3.55{col 49}0.000{col 58}-.0564291{col 70}-.0162879
+{txt}{col 0}  state_VIC{col 14}{c |}{res}{col 17}-.0262764{col 28} .0073752{col 40}-3.56{col 49}0.000{col 58}-.0407317{col 70}-.0118211
+{txt}{col 0}   state_WA{col 14}{c |}{res}{col 17} .0087557{col 28} .0105156{col 40} 0.83{col 49}0.405{col 58} -.011855{col 70} .0293664
+{txt}{col 0}  state_QLD{col 14}{c |}{res}{col 17}-.0337503{col 28} .0084815{col 40}-3.98{col 49}0.000{col 58}-.0503741{col 70}-.0171265
+{txt}{col 0}   state_SA{col 14}{c |}{res}{col 17} .0143971{col 28} .0105498{col 40} 1.36{col 49}0.172{col 58}-.0062805{col 70} .0350747
+{txt}{col 0}   state_NT{col 14}{c |}{res}{col 17}-.0671585{col 28} .0408926{col 40}-1.64{col 49}0.101{col 58} -.147308{col 70}  .012991
+{txt}{col 0}  state_TAS{col 14}{c |}{res}{col 17}-.0456094{col 28}  .014669{col 40}-3.11{col 49}0.002{col 58}-.0743607{col 70}-.0168582
+{txt}{col 0}  state_ACT{col 14}{c |}{res}{col 17} .1227221{col 28} .0190523{col 40} 6.44{col 49}0.000{col 58} .0853796{col 70} .1600646
+{txt}{col 0}shiftwork_~s{col 14}{c |}{res}{col 17} .0023229{col 28} .0083371{col 40} 0.28{col 49}0.781{col 58}-.0140178{col 70} .0186637
+{txt}{col 0}   parttime{col 14}{c |}{res}{col 17}-.0547481{col 28} .0065857{col 40}-8.31{col 49}0.000{col 58}-.0676561{col 70}-.0418401
+{txt}{col 0} long_hours{col 14}{c |}{res}{col 17}-.0676711{col 28} .0083925{col 40}-8.06{col 49}0.000{col 58}-.0841205{col 70}-.0512217
+{txt}{col 0}     casual{col 14}{c |}{res}{col 17} -.215892{col 28} .0122679{col 40}-17.60{col 49}0.000{col 58}-.2399371{col 70} -.191847
+{txt}{col 0}      _cons{col 14}{c |}{res}{col 17} 2.614137{col 28}  .013984{col 40}186.94{col 49}0.000{col 58} 2.586728{col 70} 2.641545
+{txt}{hline 13}{c BT}{hline 64}
+{col 0}Quant. 0{res}.25  {col 14}{c |}
+{txt}{col 0}sector_pub~c{col 14}{c |}{res}{col 17} .1511023{col 28} .0047446{col 40}31.85{col 49}0.000{col 58}  .141803{col 70} .1604017
+{txt}{col 0} experience{col 14}{c |}{res}{col 17}  .017057{col 28} .0008883{col 40}19.20{col 49}0.000{col 58}  .015316{col 70}  .018798
+{txt}{col 0}experience~q{col 14}{c |}{res}{col 17}-.0002871{col 28} .0000192{col 40}-14.96{col 49}0.000{col 58}-.0003247{col 70}-.0002495
+{txt}{col 0}    edu_uni{col 14}{c |}{res}{col 17} .2854202{col 28}  .006182{col 40}46.17{col 49}0.000{col 58} .2733034{col 70} .2975369
+{txt}{col 0}edu_diplom~t{col 14}{c |}{res}{col 17} .0990925{col 28} .0046948{col 40}21.11{col 49}0.000{col 58} .0898906{col 70} .1082944
+{txt}{col 0} children_1{col 14}{c |}{res}{col 17}-.0080188{col 28} .0057041{col 40}-1.41{col 49}0.160{col 58}-.0191989{col 70} .0031612
+{txt}{col 0} children_2{col 14}{c |}{res}{col 17} .0190487{col 28} .0057781{col 40} 3.30{col 49}0.001{col 58} .0077236{col 70} .0303738
+{txt}{col 0} children_3{col 14}{c |}{res}{col 17} .0112034{col 28} .0081103{col 40} 1.38{col 49}0.167{col 58}-.0046927{col 70} .0270995
+{txt}{col 0}children_4~s{col 14}{c |}{res}{col 17}-.0252387{col 28} .0177715{col 40}-1.42{col 49}0.156{col 58}-.0600709{col 70} .0095935
+{txt}{col 0}health_poor{col 14}{c |}{res}{col 17}-.0381404{col 28} .0058728{col 40}-6.49{col 49}0.000{col 58}-.0496511{col 70}-.0266296
+{txt}{col 0}  birth_eng{col 14}{c |}{res}{col 17} .0370552{col 28} .0090855{col 40} 4.08{col 49}0.000{col 58} .0192476{col 70} .0548629
+{txt}{col 0} birth_neng{col 14}{c |}{res}{col 17}-.0583919{col 28} .0083331{col 40}-7.01{col 49}0.000{col 58}-.0747247{col 70}-.0420591
+{txt}{col 0}married_yes{col 14}{c |}{res}{col 17} .0279627{col 28} .0061172{col 40} 4.57{col 49}0.000{col 58} .0159731{col 70} .0399523
+{txt}{col 0}married_sep{col 14}{c |}{res}{col 17}-.0062541{col 28} .0082944{col 40}-0.75{col 49}0.451{col 58}-.0225111{col 70} .0100029
+{txt}{col 0}   urban_no{col 14}{c |}{res}{col 17}-.0207658{col 28} .0062205{col 40}-3.34{col 49}0.001{col 58} -.032958{col 70}-.0085735
+{txt}{col 0}  state_VIC{col 14}{c |}{res}{col 17}-.0372051{col 28} .0055722{col 40}-6.68{col 49}0.000{col 58}-.0481267{col 70}-.0262835
+{txt}{col 0}   state_WA{col 14}{c |}{res}{col 17}-.0072923{col 28} .0081852{col 40}-0.89{col 49}0.373{col 58}-.0233353{col 70} .0087507
+{txt}{col 0}  state_QLD{col 14}{c |}{res}{col 17}-.0533976{col 28} .0060031{col 40}-8.89{col 49}0.000{col 58}-.0651638{col 70}-.0416314
+{txt}{col 0}   state_SA{col 14}{c |}{res}{col 17}-.0055261{col 28}  .007515{col 40}-0.74{col 49}0.462{col 58}-.0202555{col 70} .0092034
+{txt}{col 0}   state_NT{col 14}{c |}{res}{col 17}-.0705333{col 28} .0221229{col 40}-3.19{col 49}0.001{col 58}-.1138942{col 70}-.0271723
+{txt}{col 0}  state_TAS{col 14}{c |}{res}{col 17}-.0365118{col 28} .0108957{col 40}-3.35{col 49}0.001{col 58}-.0578674{col 70}-.0151563
+{txt}{col 0}  state_ACT{col 14}{c |}{res}{col 17} .1128696{col 28}  .015303{col 40} 7.38{col 49}0.000{col 58} .0828757{col 70} .1428635
+{txt}{col 0}shiftwork_~s{col 14}{c |}{res}{col 17} .0185794{col 28} .0059931{col 40} 3.10{col 49}0.002{col 58} .0068329{col 70} .0303259
+{txt}{col 0}   parttime{col 14}{c |}{res}{col 17}-.0483285{col 28} .0048724{col 40}-9.92{col 49}0.000{col 58}-.0578783{col 70}-.0387786
+{txt}{col 0} long_hours{col 14}{c |}{res}{col 17}-.0351791{col 28} .0064417{col 40}-5.46{col 49}0.000{col 58}-.0478048{col 70}-.0225535
+{txt}{col 0}     casual{col 14}{c |}{res}{col 17}-.0916825{col 28} .0071107{col 40}-12.89{col 49}0.000{col 58}-.1056194{col 70}-.0777455
+{txt}{col 0}      _cons{col 14}{c |}{res}{col 17} 2.752282{col 28} .0098698{col 40}278.86{col 49}0.000{col 58} 2.732938{col 70} 2.771627
+{txt}{hline 13}{c BT}{hline 64}
+{col 0}Quant. 0{res}.5   {col 14}{c |}
+{txt}{col 0}sector_pub~c{col 14}{c |}{res}{col 17} .1497613{col 28} .0039878{col 40}37.55{col 49}0.000{col 58} .1419452{col 70} .1575775
+{txt}{col 0} experience{col 14}{c |}{res}{col 17} .0174813{col 28} .0007705{col 40}22.69{col 49}0.000{col 58} .0159712{col 70} .0189915
+{txt}{col 0}experience~q{col 14}{c |}{res}{col 17}-.0002853{col 28} .0000176{col 40}-16.17{col 49}0.000{col 58}-.0003199{col 70}-.0002507
+{txt}{col 0}    edu_uni{col 14}{c |}{res}{col 17} .3251286{col 28} .0055497{col 40}58.58{col 49}0.000{col 58} .3142511{col 70} .3360061
+{txt}{col 0}edu_diplom~t{col 14}{c |}{res}{col 17} .1220752{col 28} .0043181{col 40}28.27{col 49}0.000{col 58} .1136118{col 70} .1305387
+{txt}{col 0} children_1{col 14}{c |}{res}{col 17}-.0145131{col 28} .0050628{col 40}-2.87{col 49}0.004{col 58}-.0244363{col 70}  -.00459
+{txt}{col 0} children_2{col 14}{c |}{res}{col 17} .0234725{col 28} .0054337{col 40} 4.32{col 49}0.000{col 58} .0128223{col 70} .0341226
+{txt}{col 0} children_3{col 14}{c |}{res}{col 17}  .007818{col 28} .0075323{col 40} 1.04{col 49}0.299{col 58}-.0069454{col 70} .0225814
+{txt}{col 0}children_4~s{col 14}{c |}{res}{col 17}  .001641{col 28} .0137756{col 40} 0.12{col 49}0.905{col 58}-.0253592{col 70} .0286411
+{txt}{col 0}health_poor{col 14}{c |}{res}{col 17}-.0330166{col 28} .0051322{col 40}-6.43{col 49}0.000{col 58}-.0430757{col 70}-.0229576
+{txt}{col 0}  birth_eng{col 14}{c |}{res}{col 17} .0452133{col 28} .0055974{col 40} 8.08{col 49}0.000{col 58} .0342424{col 70} .0561841
+{txt}{col 0} birth_neng{col 14}{c |}{res}{col 17} -.024059{col 28} .0072533{col 40}-3.32{col 49}0.001{col 58}-.0382754{col 70}-.0098426
+{txt}{col 0}married_yes{col 14}{c |}{res}{col 17} .0266583{col 28} .0057142{col 40} 4.67{col 49}0.000{col 58} .0154586{col 70} .0378581
+{txt}{col 0}married_sep{col 14}{c |}{res}{col 17}-.0244894{col 28} .0072594{col 40}-3.37{col 49}0.001{col 58}-.0387178{col 70} -.010261
+{txt}{col 0}   urban_no{col 14}{c |}{res}{col 17}-.0264655{col 28} .0056304{col 40}-4.70{col 49}0.000{col 58}-.0375012{col 70}-.0154299
+{txt}{col 0}  state_VIC{col 14}{c |}{res}{col 17}-.0368365{col 28} .0053101{col 40}-6.94{col 49}0.000{col 58}-.0472444{col 70}-.0264286
+{txt}{col 0}   state_WA{col 14}{c |}{res}{col 17}-.0127726{col 28} .0074872{col 40}-1.71{col 49}0.088{col 58}-.0274474{col 70} .0019023
+{txt}{col 0}  state_QLD{col 14}{c |}{res}{col 17}-.0641975{col 28} .0052031{col 40}-12.34{col 49}0.000{col 58}-.0743957{col 70}-.0539994
+{txt}{col 0}   state_SA{col 14}{c |}{res}{col 17}-.0293065{col 28} .0070579{col 40}-4.15{col 49}0.000{col 58}  -.04314{col 70}-.0154729
+{txt}{col 0}   state_NT{col 14}{c |}{res}{col 17}-.0946118{col 28} .0181753{col 40}-5.21{col 49}0.000{col 58}-.1302353{col 70}-.0589882
+{txt}{col 0}  state_TAS{col 14}{c |}{res}{col 17}-.0541542{col 28} .0085716{col 40}-6.32{col 49}0.000{col 58}-.0709546{col 70}-.0373538
+{txt}{col 0}  state_ACT{col 14}{c |}{res}{col 17} .1010152{col 28} .0128042{col 40} 7.89{col 49}0.000{col 58} .0759189{col 70} .1261115
+{txt}{col 0}shiftwork_~s{col 14}{c |}{res}{col 17} .0296156{col 28} .0056455{col 40} 5.25{col 49}0.000{col 58} .0185504{col 70} .0406808
+{txt}{col 0}   parttime{col 14}{c |}{res}{col 17}-.0342261{col 28} .0047299{col 40}-7.24{col 49}0.000{col 58}-.0434967{col 70}-.0249555
+{txt}{col 0} long_hours{col 14}{c |}{res}{col 17} -.018984{col 28} .0053641{col 40}-3.54{col 49}0.000{col 58}-.0294977{col 70}-.0084704
+{txt}{col 0}     casual{col 14}{c |}{res}{col 17}-.0485809{col 28} .0054632{col 40}-8.89{col 49}0.000{col 58}-.0592888{col 70}-.0378731
+{txt}{col 0}      _cons{col 14}{c |}{res}{col 17} 2.903422{col 28} .0088477{col 40}328.16{col 49}0.000{col 58} 2.886081{col 70} 2.920764
+{txt}{hline 13}{c BT}{hline 64}
+{col 0}Quant. 0{res}.75  {col 14}{c |}
+{txt}{col 0}sector_pub~c{col 14}{c |}{res}{col 17} .1257542{col 28} .0055896{col 40}22.50{col 49}0.000{col 58} .1147986{col 70} .1367098
+{txt}{col 0} experience{col 14}{c |}{res}{col 17} .0207888{col 28} .0010216{col 40}20.35{col 49}0.000{col 58} .0187864{col 70} .0227912
+{txt}{col 0}experience~q{col 14}{c |}{res}{col 17}-.0003303{col 28} .0000218{col 40}-15.16{col 49}0.000{col 58} -.000373{col 70}-.0002876
+{txt}{col 0}    edu_uni{col 14}{c |}{res}{col 17} .3531154{col 28} .0067533{col 40}52.29{col 49}0.000{col 58} .3398788{col 70} .3663519
+{txt}{col 0}edu_diplom~t{col 14}{c |}{res}{col 17} .1462018{col 28}  .006092{col 40}24.00{col 49}0.000{col 58} .1342614{col 70} .1581422
+{txt}{col 0} children_1{col 14}{c |}{res}{col 17}-.0194657{col 28} .0070947{col 40}-2.74{col 49}0.006{col 58}-.0333713{col 70}  -.00556
+{txt}{col 0} children_2{col 14}{c |}{res}{col 17} .0238843{col 28} .0073114{col 40} 3.27{col 49}0.001{col 58}  .009554{col 70} .0382145
+{txt}{col 0} children_3{col 14}{c |}{res}{col 17} .0286402{col 28}  .009522{col 40} 3.01{col 49}0.003{col 58}  .009977{col 70} .0473034
+{txt}{col 0}children_4~s{col 14}{c |}{res}{col 17} .0199577{col 28} .0152195{col 40} 1.31{col 49}0.190{col 58}-.0098724{col 70} .0497879
+{txt}{col 0}health_poor{col 14}{c |}{res}{col 17}-.0472381{col 28} .0063913{col 40}-7.39{col 49}0.000{col 58} -.059765{col 70}-.0347112
+{txt}{col 0}  birth_eng{col 14}{c |}{res}{col 17} .0422982{col 28} .0130234{col 40} 3.25{col 49}0.001{col 58} .0167723{col 70} .0678241
+{txt}{col 0} birth_neng{col 14}{c |}{res}{col 17} .0060025{col 28}  .008985{col 40} 0.67{col 49}0.504{col 58}-.0116082{col 70} .0236132
+{txt}{col 0}married_yes{col 14}{c |}{res}{col 17} .0312757{col 28} .0072182{col 40} 4.33{col 49}0.000{col 58} .0171281{col 70} .0454232
+{txt}{col 0}married_sep{col 14}{c |}{res}{col 17}-.0252069{col 28} .0109033{col 40}-2.31{col 49}0.021{col 58}-.0465773{col 70}-.0038365
+{txt}{col 0}   urban_no{col 14}{c |}{res}{col 17} -.028287{col 28} .0071353{col 40}-3.96{col 49}0.000{col 58}-.0422722{col 70}-.0143018
+{txt}{col 0}  state_VIC{col 14}{c |}{res}{col 17}-.0255496{col 28} .0066896{col 40}-3.82{col 49}0.000{col 58}-.0386612{col 70}-.0124381
+{txt}{col 0}   state_WA{col 14}{c |}{res}{col 17} .0138426{col 28} .0103874{col 40} 1.33{col 49}0.183{col 58}-.0065167{col 70} .0342019
+{txt}{col 0}  state_QLD{col 14}{c |}{res}{col 17}-.0857229{col 28} .0073201{col 40}-11.71{col 49}0.000{col 58}-.1000703{col 70}-.0713756
+{txt}{col 0}   state_SA{col 14}{c |}{res}{col 17}-.0608736{col 28} .0087731{col 40}-6.94{col 49}0.000{col 58}-.0780689{col 70}-.0436784
+{txt}{col 0}   state_NT{col 14}{c |}{res}{col 17}-.0837676{col 28} .0328475{col 40}-2.55{col 49}0.011{col 58}-.1481487{col 70}-.0193866
+{txt}{col 0}  state_TAS{col 14}{c |}{res}{col 17}-.0829076{col 28} .0110909{col 40}-7.48{col 49}0.000{col 58}-.1046457{col 70}-.0611694
+{txt}{col 0}  state_ACT{col 14}{c |}{res}{col 17} .0995713{col 28} .0203514{col 40} 4.89{col 49}0.000{col 58} .0596825{col 70} .1394601
+{txt}{col 0}shiftwork_~s{col 14}{c |}{res}{col 17} .0414876{col 28} .0072477{col 40} 5.72{col 49}0.000{col 58}  .027282{col 70} .0556931
+{txt}{col 0}   parttime{col 14}{c |}{res}{col 17}-.0156917{col 28} .0065364{col 40}-2.40{col 49}0.016{col 58} -.028503{col 70}-.0028803
+{txt}{col 0} long_hours{col 14}{c |}{res}{col 17} .0018911{col 28} .0073273{col 40} 0.26{col 49}0.796{col 58}-.0124705{col 70} .0162527
+{txt}{col 0}     casual{col 14}{c |}{res}{col 17}-.0273172{col 28} .0085912{col 40}-3.18{col 49}0.001{col 58} -.044156{col 70}-.0104784
+{txt}{col 0}      _cons{col 14}{c |}{res}{col 17} 3.045501{col 28} .0104418{col 40}291.66{col 49}0.000{col 58} 3.025035{col 70} 3.065967
+{txt}{hline 13}{c BT}{hline 64}
+{col 0}Quant. 0{res}.9   {col 14}{c |}
+{txt}{col 0}sector_pub~c{col 14}{c |}{res}{col 17} .0772219{col 28} .0073562{col 40}10.50{col 49}0.000{col 58} .0628037{col 70}   .09164
+{txt}{col 0} experience{col 14}{c |}{res}{col 17} .0248882{col 28} .0015458{col 40}16.10{col 49}0.000{col 58} .0218584{col 70}  .027918
+{txt}{col 0}experience~q{col 14}{c |}{res}{col 17}-.0003841{col 28} .0000317{col 40}-12.13{col 49}0.000{col 58}-.0004462{col 70} -.000322
+{txt}{col 0}    edu_uni{col 14}{c |}{res}{col 17} .3792587{col 28}  .009238{col 40}41.05{col 49}0.000{col 58} .3611522{col 70} .3973652
+{txt}{col 0}edu_diplom~t{col 14}{c |}{res}{col 17} .1739138{col 28} .0089802{col 40}19.37{col 49}0.000{col 58} .1563127{col 70} .1915149
+{txt}{col 0} children_1{col 14}{c |}{res}{col 17}-.0077573{col 28} .0097053{col 40}-0.80{col 49}0.424{col 58}-.0267796{col 70} .0112651
+{txt}{col 0} children_2{col 14}{c |}{res}{col 17} .0179663{col 28} .0103099{col 40} 1.74{col 49}0.081{col 58}-.0022411{col 70} .0381738
+{txt}{col 0} children_3{col 14}{c |}{res}{col 17} .0332181{col 28} .0172584{col 40} 1.92{col 49}0.054{col 58}-.0006084{col 70} .0670447
+{txt}{col 0}children_4~s{col 14}{c |}{res}{col 17} .0468516{col 28} .0281689{col 40} 1.66{col 49}0.096{col 58}-.0083595{col 70} .1020626
+{txt}{col 0}health_poor{col 14}{c |}{res}{col 17}-.0587714{col 28} .0089084{col 40}-6.60{col 49}0.000{col 58}-.0762319{col 70}-.0413109
+{txt}{col 0}  birth_eng{col 14}{c |}{res}{col 17} .0354064{col 28} .0143202{col 40} 2.47{col 49}0.013{col 58} .0073389{col 70}  .063474
+{txt}{col 0} birth_neng{col 14}{c |}{res}{col 17}  .044046{col 28} .0140935{col 40} 3.13{col 49}0.002{col 58} .0164227{col 70} .0716694
+{txt}{col 0}married_yes{col 14}{c |}{res}{col 17} .0268385{col 28} .0103787{col 40} 2.59{col 49}0.010{col 58} .0064963{col 70} .0471807
+{txt}{col 0}married_sep{col 14}{c |}{res}{col 17}-.0557141{col 28} .0143028{col 40}-3.90{col 49}0.000{col 58}-.0837477{col 70}-.0276805
+{txt}{col 0}   urban_no{col 14}{c |}{res}{col 17}-.0403275{col 28} .0102503{col 40}-3.93{col 49}0.000{col 58}-.0604181{col 70}-.0202369
+{txt}{col 0}  state_VIC{col 14}{c |}{res}{col 17} -.040482{col 28} .0099507{col 40}-4.07{col 49}0.000{col 58}-.0599853{col 70}-.0209787
+{txt}{col 0}   state_WA{col 14}{c |}{res}{col 17}-.0004417{col 28}  .013605{col 40}-0.03{col 49}0.974{col 58}-.0271076{col 70} .0262241
+{txt}{col 0}  state_QLD{col 14}{c |}{res}{col 17}-.1089909{col 28} .0109983{col 40}-9.91{col 49}0.000{col 58}-.1305476{col 70}-.0874341
+{txt}{col 0}   state_SA{col 14}{c |}{res}{col 17}-.1172233{col 28} .0118634{col 40}-9.88{col 49}0.000{col 58}-.1404756{col 70}-.0939711
+{txt}{col 0}   state_NT{col 14}{c |}{res}{col 17}-.0672768{col 28} .0350918{col 40}-1.92{col 49}0.055{col 58}-.1360566{col 70}  .001503
+{txt}{col 0}  state_TAS{col 14}{c |}{res}{col 17}-.1341016{col 28} .0156226{col 40}-8.58{col 49}0.000{col 58}-.1647218{col 70}-.1034814
+{txt}{col 0}  state_ACT{col 14}{c |}{res}{col 17} .0926727{col 28} .0214856{col 40} 4.31{col 49}0.000{col 58} .0505609{col 70} .1347846
+{txt}{col 0}shiftwork_~s{col 14}{c |}{res}{col 17} .0415143{col 28} .0106158{col 40} 3.91{col 49}0.000{col 58} .0207074{col 70} .0623213
+{txt}{col 0}   parttime{col 14}{c |}{res}{col 17} .0389273{col 28} .0094753{col 40} 4.11{col 49}0.000{col 58} .0203557{col 70}  .057499
+{txt}{col 0} long_hours{col 14}{c |}{res}{col 17} .0593837{col 28} .0122215{col 40} 4.86{col 49}0.000{col 58} .0354295{col 70} .0833379
+{txt}{col 0}     casual{col 14}{c |}{res}{col 17} .0380362{col 28} .0142067{col 40} 2.68{col 49}0.007{col 58} .0101911{col 70} .0658814
+{txt}{col 0}      _cons{col 14}{c |}{res}{col 17} 3.201046{col 28} .0161108{col 40}198.69{col 49}0.000{col 58} 3.169469{col 70} 3.232623
+{txt}{hline 13}{c BT}{hline 64}
+
+{com}. 
+. // Women with occupation
+. qrprocess log_real_wage sector_public experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT shiftwork_yes parttime long_hours casual occ_tech_trade occ_clerical_admin occ_machinery occ_prof occ_community_personal_service occ_sales occ_labourer [pw=hhwtrp] if sex_male == 0, quantile(0.1, 0.25, 0.5, 0.75, 0.9)
+{res}
+{txt}{col 0}Quantile regression
+{col 0}No. of obs.{res}{col 20}66390   
+{txt}{col 0}Algorithm:{res}{col 20}Frisch-Newton interior point with preprocessing.
+{txt}{col 0}Variance:{res}{col 20}kernel estimate of the sandwich as proposed by Powell(1990).
+
+{txt}{hline 13}{c TT}{hline 64}
+{col 0}log_real_wage{col 14}{c |}{col 19}  Coef.   {col 29}Std. Err. {col 41}   t    {col 45} P>|t|  {col 59}[95% Conf. Interval]
+{hline 13}{c +}{hline 64}
+{col 0}Quant. 0{res}.1   {col 14}{c |}
+{txt}{col 0}sector_pub~c{col 14}{c |}{res}{col 17} .1034326{col 28} .0064323{col 40}16.08{col 49}0.000{col 58} .0908253{col 70} .1160398
+{txt}{col 0} experience{col 14}{c |}{res}{col 17} .0166912{col 28} .0011981{col 40}13.93{col 49}0.000{col 58}  .014343{col 70} .0190394
+{txt}{col 0}experience~q{col 14}{c |}{res}{col 17} -.000285{col 28} .0000257{col 40}-11.09{col 49}0.000{col 58}-.0003354{col 70}-.0002346
+{txt}{col 0}    edu_uni{col 14}{c |}{res}{col 17} .1677492{col 28} .0095955{col 40}17.48{col 49}0.000{col 58} .1489421{col 70} .1865563
+{txt}{col 0}edu_diplom~t{col 14}{c |}{res}{col 17}  .075713{col 28} .0064665{col 40}11.71{col 49}0.000{col 58} .0630386{col 70} .0883873
+{txt}{col 0} children_1{col 14}{c |}{res}{col 17}-.0062237{col 28} .0073523{col 40}-0.85{col 49}0.397{col 58}-.0206343{col 70} .0081868
+{txt}{col 0} children_2{col 14}{c |}{res}{col 17} .0199398{col 28} .0074744{col 40} 2.67{col 49}0.008{col 58}   .00529{col 70} .0345896
+{txt}{col 0} children_3{col 14}{c |}{res}{col 17} .0104705{col 28} .0113078{col 40} 0.93{col 49}0.354{col 58}-.0116927{col 70} .0326338
+{txt}{col 0}children_4~s{col 14}{c |}{res}{col 17}-.0243077{col 28} .0234073{col 40}-1.04{col 49}0.299{col 58} -.070186{col 70} .0215707
+{txt}{col 0}health_poor{col 14}{c |}{res}{col 17}-.0501533{col 28} .0072864{col 40}-6.88{col 49}0.000{col 58}-.0644347{col 70} -.035872
+{txt}{col 0}  birth_eng{col 14}{c |}{res}{col 17} .0093379{col 28} .0104634{col 40} 0.89{col 49}0.372{col 58}-.0111704{col 70} .0298462
+{txt}{col 0} birth_neng{col 14}{c |}{res}{col 17}-.0239331{col 28} .0095985{col 40}-2.49{col 49}0.013{col 58}-.0427462{col 70}  -.00512
+{txt}{col 0}married_yes{col 14}{c |}{res}{col 17} .0374732{col 28} .0091517{col 40} 4.09{col 49}0.000{col 58} .0195359{col 70} .0554106
+{txt}{col 0}married_sep{col 14}{c |}{res}{col 17} .0264704{col 28} .0103343{col 40} 2.56{col 49}0.010{col 58} .0062152{col 70} .0467257
+{txt}{col 0}   urban_no{col 14}{c |}{res}{col 17}-.0363984{col 28} .0083733{col 40}-4.35{col 49}0.000{col 58}-.0528101{col 70}-.0199867
+{txt}{col 0}  state_VIC{col 14}{c |}{res}{col 17}-.0359687{col 28} .0074323{col 40}-4.84{col 49}0.000{col 58} -.050536{col 70}-.0214014
+{txt}{col 0}   state_WA{col 14}{c |}{res}{col 17}-.0018737{col 28}  .010024{col 40}-0.19{col 49}0.852{col 58}-.0215206{col 70} .0177733
+{txt}{col 0}  state_QLD{col 14}{c |}{res}{col 17}-.0270366{col 28}  .007747{col 40}-3.49{col 49}0.000{col 58}-.0422207{col 70}-.0118526
+{txt}{col 0}   state_SA{col 14}{c |}{res}{col 17}-.0060559{col 28} .0105332{col 40}-0.57{col 49}0.565{col 58}-.0267011{col 70} .0145892
+{txt}{col 0}   state_NT{col 14}{c |}{res}{col 17}-.0578305{col 28} .0462782{col 40}-1.25{col 49}0.211{col 58}-.1485357{col 70} .0328747
+{txt}{col 0}  state_TAS{col 14}{c |}{res}{col 17}-.0553868{col 28} .0158788{col 40}-3.49{col 49}0.000{col 58}-.0865093{col 70}-.0242642
+{txt}{col 0}  state_ACT{col 14}{c |}{res}{col 17} .0852315{col 28} .0205773{col 40} 4.14{col 49}0.000{col 58}    .0449{col 70} .1255629
+{txt}{col 0}shiftwork_~s{col 14}{c |}{res}{col 17} .0295898{col 28} .0086196{col 40} 3.43{col 49}0.001{col 58} .0126954{col 70} .0464842
+{txt}{col 0}   parttime{col 14}{c |}{res}{col 17}-.0338731{col 28} .0063118{col 40}-5.37{col 49}0.000{col 58}-.0462442{col 70} -.021502
+{txt}{col 0} long_hours{col 14}{c |}{res}{col 17}-.1195978{col 28} .0077462{col 40}-15.44{col 49}0.000{col 58}-.1347803{col 70}-.1044153
+{txt}{col 0}     casual{col 14}{c |}{res}{col 17} -.181303{col 28} .0127273{col 40}-14.25{col 49}0.000{col 58}-.2062485{col 70}-.1563575
+{txt}{col 0}occ_tech_t~e{col 14}{c |}{res}{col 17}-.1669302{col 28} .0161239{col 40}-10.35{col 49}0.000{col 58}-.1985331{col 70}-.1353274
+{txt}{col 0}occ_cleric~n{col 14}{c |}{res}{col 17}-.0935327{col 28} .0090526{col 40}-10.33{col 49}0.000{col 58}-.1112758{col 70}-.0757895
+{txt}{col 0}occ_machin~y{col 14}{c |}{res}{col 17}-.1846886{col 28} .0206964{col 40}-8.92{col 49}0.000{col 58}-.2252536{col 70}-.1441237
+{txt}{col 0}   occ_prof{col 14}{c |}{res}{col 17} .0444596{col 28} .0114454{col 40} 3.88{col 49}0.000{col 58} .0220267{col 70} .0668925
+{txt}{col 0}occ_commun~e{col 14}{c |}{res}{col 17}-.2321605{col 28} .0109555{col 40}-21.19{col 49}0.000{col 58}-.2536333{col 70}-.2106878
+{txt}{col 0}  occ_sales{col 14}{c |}{res}{col 17}-.1975934{col 28} .0117039{col 40}-16.88{col 49}0.000{col 58}-.2205331{col 70}-.1746538
+{txt}{col 0}occ_labourer{col 14}{c |}{res}{col 17}-.2898812{col 28} .0161745{col 40}-17.92{col 49}0.000{col 58}-.3215831{col 70}-.2581792
+{txt}{col 0}      _cons{col 14}{c |}{res}{col 17} 2.747473{col 28} .0147063{col 40}186.82{col 49}0.000{col 58} 2.718648{col 70} 2.776297
+{txt}{hline 13}{c BT}{hline 64}
+{col 0}Quant. 0{res}.25  {col 14}{c |}
+{txt}{col 0}sector_pub~c{col 14}{c |}{res}{col 17} .1140609{col 28} .0046775{col 40}24.38{col 49}0.000{col 58} .1048929{col 70} .1232289
+{txt}{col 0} experience{col 14}{c |}{res}{col 17} .0168537{col 28} .0008736{col 40}19.29{col 49}0.000{col 58} .0151414{col 70} .0185659
+{txt}{col 0}experience~q{col 14}{c |}{res}{col 17}-.0002821{col 28} .0000193{col 40}-14.65{col 49}0.000{col 58}-.0003198{col 70}-.0002443
+{txt}{col 0}    edu_uni{col 14}{c |}{res}{col 17} .1607006{col 28} .0064218{col 40}25.02{col 49}0.000{col 58} .1481139{col 70} .1732874
+{txt}{col 0}edu_diplom~t{col 14}{c |}{res}{col 17} .0744031{col 28} .0046555{col 40}15.98{col 49}0.000{col 58} .0652783{col 70} .0835278
+{txt}{col 0} children_1{col 14}{c |}{res}{col 17}-.0025165{col 28}  .005236{col 40}-0.48{col 49}0.631{col 58}-.0127791{col 70}  .007746
+{txt}{col 0} children_2{col 14}{c |}{res}{col 17} .0176414{col 28} .0054214{col 40} 3.25{col 49}0.001{col 58} .0070154{col 70} .0282673
+{txt}{col 0} children_3{col 14}{c |}{res}{col 17} .0191431{col 28} .0079011{col 40} 2.42{col 49}0.015{col 58}  .003657{col 70} .0346293
+{txt}{col 0}children_4~s{col 14}{c |}{res}{col 17} -.017663{col 28} .0154682{col 40}-1.14{col 49}0.254{col 58}-.0479808{col 70} .0126547
+{txt}{col 0}health_poor{col 14}{c |}{res}{col 17}-.0281696{col 28} .0054775{col 40}-5.14{col 49}0.000{col 58}-.0389054{col 70}-.0174337
+{txt}{col 0}  birth_eng{col 14}{c |}{res}{col 17}  .033301{col 28} .0078268{col 40} 4.25{col 49}0.000{col 58} .0179605{col 70} .0486416
+{txt}{col 0} birth_neng{col 14}{c |}{res}{col 17}-.0073715{col 28} .0073181{col 40}-1.01{col 49}0.314{col 58}-.0217149{col 70} .0069719
+{txt}{col 0}married_yes{col 14}{c |}{res}{col 17} .0227167{col 28} .0062534{col 40} 3.63{col 49}0.000{col 58}   .01046{col 70} .0349734
+{txt}{col 0}married_sep{col 14}{c |}{res}{col 17}-.0065601{col 28} .0087336{col 40}-0.75{col 49}0.453{col 58}-.0236779{col 70} .0105577
+{txt}{col 0}   urban_no{col 14}{c |}{res}{col 17} -.018065{col 28} .0059758{col 40}-3.02{col 49}0.003{col 58}-.0297775{col 70}-.0063524
+{txt}{col 0}  state_VIC{col 14}{c |}{res}{col 17}-.0370078{col 28} .0054177{col 40}-6.83{col 49}0.000{col 58}-.0476265{col 70} -.026389
+{txt}{col 0}   state_WA{col 14}{c |}{res}{col 17} -.007753{col 28} .0075408{col 40}-1.03{col 49}0.304{col 58} -.022533{col 70}  .007027
+{txt}{col 0}  state_QLD{col 14}{c |}{res}{col 17}-.0413036{col 28} .0057394{col 40}-7.20{col 49}0.000{col 58}-.0525528{col 70}-.0300544
+{txt}{col 0}   state_SA{col 14}{c |}{res}{col 17}-.0134428{col 28} .0067725{col 40}-1.98{col 49}0.047{col 58}-.0267168{col 70}-.0001688
+{txt}{col 0}   state_NT{col 14}{c |}{res}{col 17} -.053279{col 28} .0153267{col 40}-3.48{col 49}0.001{col 58}-.0833193{col 70}-.0232386
+{txt}{col 0}  state_TAS{col 14}{c |}{res}{col 17}-.0420389{col 28} .0105012{col 40}-4.00{col 49}0.000{col 58}-.0626212{col 70}-.0214566
+{txt}{col 0}  state_ACT{col 14}{c |}{res}{col 17} .0792531{col 28} .0154915{col 40} 5.12{col 49}0.000{col 58} .0488898{col 70} .1096165
+{txt}{col 0}shiftwork_~s{col 14}{c |}{res}{col 17} .0480075{col 28}  .005759{col 40} 8.34{col 49}0.000{col 58} .0367198{col 70} .0592952
+{txt}{col 0}   parttime{col 14}{c |}{res}{col 17}-.0216762{col 28} .0047385{col 40}-4.57{col 49}0.000{col 58}-.0309636{col 70}-.0123888
+{txt}{col 0} long_hours{col 14}{c |}{res}{col 17}-.0931753{col 28} .0059319{col 40}-15.71{col 49}0.000{col 58}-.1048019{col 70}-.0815488
+{txt}{col 0}     casual{col 14}{c |}{res}{col 17}-.0689122{col 28} .0070699{col 40}-9.75{col 49}0.000{col 58}-.0827692{col 70}-.0550553
+{txt}{col 0}occ_tech_t~e{col 14}{c |}{res}{col 17}-.2220437{col 28} .0123941{col 40}-17.92{col 49}0.000{col 58}-.2463361{col 70}-.1977513
+{txt}{col 0}occ_cleric~n{col 14}{c |}{res}{col 17}-.1378718{col 28}  .009208{col 40}-14.97{col 49}0.000{col 58}-.1559195{col 70}-.1198242
+{txt}{col 0}occ_machin~y{col 14}{c |}{res}{col 17}-.2376219{col 28} .0238071{col 40}-9.98{col 49}0.000{col 58}-.2842838{col 70}-.1909601
+{txt}{col 0}   occ_prof{col 14}{c |}{res}{col 17} .0426084{col 28} .0104048{col 40} 4.10{col 49}0.000{col 58} .0222151{col 70} .0630017
+{txt}{col 0}occ_commun~e{col 14}{c |}{res}{col 17}-.2521542{col 28} .0104304{col 40}-24.18{col 49}0.000{col 58}-.2725977{col 70}-.2317107
+{txt}{col 0}  occ_sales{col 14}{c |}{res}{col 17}-.2467924{col 28} .0104893{col 40}-23.53{col 49}0.000{col 58}-.2673514{col 70}-.2262335
+{txt}{col 0}occ_labourer{col 14}{c |}{res}{col 17}-.3142584{col 28} .0114989{col 40}-27.33{col 49}0.000{col 58}-.3367962{col 70}-.2917206
+{txt}{col 0}      _cons{col 14}{c |}{res}{col 17} 2.927131{col 28} .0121329{col 40}241.26{col 49}0.000{col 58} 2.903351{col 70} 2.950911
+{txt}{hline 13}{c BT}{hline 64}
+{col 0}Quant. 0{res}.5   {col 14}{c |}
+{txt}{col 0}sector_pub~c{col 14}{c |}{res}{col 17} .0983255{col 28}  .003971{col 40}24.76{col 49}0.000{col 58} .0905423{col 70} .1061086
+{txt}{col 0} experience{col 14}{c |}{res}{col 17} .0159136{col 28} .0007262{col 40}21.91{col 49}0.000{col 58} .0144903{col 70} .0173369
+{txt}{col 0}experience~q{col 14}{c |}{res}{col 17}-.0002557{col 28} .0000165{col 40}-15.52{col 49}0.000{col 58} -.000288{col 70}-.0002234
+{txt}{col 0}    edu_uni{col 14}{c |}{res}{col 17} .1614109{col 28} .0060538{col 40}26.66{col 49}0.000{col 58} .1495454{col 70} .1732764
+{txt}{col 0}edu_diplom~t{col 14}{c |}{res}{col 17} .0784615{col 28} .0042687{col 40}18.38{col 49}0.000{col 58} .0700948{col 70} .0868283
+{txt}{col 0} children_1{col 14}{c |}{res}{col 17}-.0072642{col 28}  .004894{col 40}-1.48{col 49}0.138{col 58}-.0168565{col 70} .0023281
+{txt}{col 0} children_2{col 14}{c |}{res}{col 17}  .019594{col 28} .0050468{col 40} 3.88{col 49}0.000{col 58} .0097024{col 70} .0294857
+{txt}{col 0} children_3{col 14}{c |}{res}{col 17}  .013687{col 28}  .006871{col 40} 1.99{col 49}0.046{col 58} .0002198{col 70} .0271541
+{txt}{col 0}children_4~s{col 14}{c |}{res}{col 17} .0100381{col 28} .0111608{col 40} 0.90{col 49}0.368{col 58}-.0118371{col 70} .0319133
+{txt}{col 0}health_poor{col 14}{c |}{res}{col 17}-.0243208{col 28} .0045821{col 40}-5.31{col 49}0.000{col 58}-.0333018{col 70}-.0153399
+{txt}{col 0}  birth_eng{col 14}{c |}{res}{col 17} .0374826{col 28} .0062153{col 40} 6.03{col 49}0.000{col 58} .0253007{col 70} .0496646
+{txt}{col 0} birth_neng{col 14}{c |}{res}{col 17} .0178955{col 28} .0071647{col 40} 2.50{col 49}0.013{col 58} .0038527{col 70} .0319384
+{txt}{col 0}married_yes{col 14}{c |}{res}{col 17} .0215096{col 28} .0051462{col 40} 4.18{col 49}0.000{col 58}  .011423{col 70} .0315962
+{txt}{col 0}married_sep{col 14}{c |}{res}{col 17} -.006454{col 28} .0067116{col 40}-0.96{col 49}0.336{col 58}-.0196087{col 70} .0067008
+{txt}{col 0}   urban_no{col 14}{c |}{res}{col 17} -.009527{col 28} .0053135{col 40}-1.79{col 49}0.073{col 58}-.0199415{col 70} .0008876
+{txt}{col 0}  state_VIC{col 14}{c |}{res}{col 17} -.038664{col 28} .0047933{col 40}-8.07{col 49}0.000{col 58}-.0480588{col 70}-.0292692
+{txt}{col 0}   state_WA{col 14}{c |}{res}{col 17}-.0152038{col 28} .0067748{col 40}-2.24{col 49}0.025{col 58}-.0284823{col 70}-.0019252
+{txt}{col 0}  state_QLD{col 14}{c |}{res}{col 17}-.0540793{col 28} .0050323{col 40}-10.75{col 49}0.000{col 58}-.0639427{col 70}-.0442159
+{txt}{col 0}   state_SA{col 14}{c |}{res}{col 17}-.0271872{col 28} .0062684{col 40}-4.34{col 49}0.000{col 58}-.0394732{col 70}-.0149013
+{txt}{col 0}   state_NT{col 14}{c |}{res}{col 17}-.0429119{col 28} .0221354{col 40}-1.94{col 49}0.053{col 58}-.0862972{col 70} .0004734
+{txt}{col 0}  state_TAS{col 14}{c |}{res}{col 17} -.047212{col 28} .0080693{col 40}-5.85{col 49}0.000{col 58} -.063028{col 70}-.0313961
+{txt}{col 0}  state_ACT{col 14}{c |}{res}{col 17} .0712698{col 28} .0122978{col 40} 5.80{col 49}0.000{col 58} .0471662{col 70} .0953735
+{txt}{col 0}shiftwork_~s{col 14}{c |}{res}{col 17} .0655897{col 28} .0049972{col 40}13.13{col 49}0.000{col 58} .0557951{col 70} .0753843
+{txt}{col 0}   parttime{col 14}{c |}{res}{col 17}-.0073622{col 28} .0040578{col 40}-1.81{col 49}0.070{col 58}-.0153156{col 70} .0005911
+{txt}{col 0} long_hours{col 14}{c |}{res}{col 17}-.0802412{col 28}  .005476{col 40}-14.65{col 49}0.000{col 58}-.0909741{col 70}-.0695084
+{txt}{col 0}     casual{col 14}{c |}{res}{col 17}-.0033594{col 28} .0053544{col 40}-0.63{col 49}0.530{col 58} -.013854{col 70} .0071351
+{txt}{col 0}occ_tech_t~e{col 14}{c |}{res}{col 17}-.3190188{col 28} .0118396{col 40}-26.95{col 49}0.000{col 58}-.3422243{col 70}-.2958133
+{txt}{col 0}occ_cleric~n{col 14}{c |}{res}{col 17}-.2273485{col 28} .0097085{col 40}-23.42{col 49}0.000{col 58}-.2463771{col 70}-.2083199
+{txt}{col 0}occ_machin~y{col 14}{c |}{res}{col 17}-.3354457{col 28}  .020628{col 40}-16.26{col 49}0.000{col 58}-.3758767{col 70}-.2950148
+{txt}{col 0}   occ_prof{col 14}{c |}{res}{col 17}-.0065877{col 28} .0093027{col 40}-0.71{col 49}0.479{col 58} -.024821{col 70} .0116456
+{txt}{col 0}occ_commun~e{col 14}{c |}{res}{col 17}-.3374578{col 28} .0102563{col 40}-32.90{col 49}0.000{col 58}-.3575602{col 70}-.3173554
+{txt}{col 0}  occ_sales{col 14}{c |}{res}{col 17}-.3627421{col 28} .0108142{col 40}-33.54{col 49}0.000{col 58} -.383938{col 70}-.3415462
+{txt}{col 0}occ_labourer{col 14}{c |}{res}{col 17}-.4106051{col 28} .0119607{col 40}-34.33{col 49}0.000{col 58}-.4340481{col 70}-.3871621
+{txt}{col 0}      _cons{col 14}{c |}{res}{col 17}  3.16476{col 28} .0131523{col 40}240.62{col 49}0.000{col 58} 3.138981{col 70} 3.190538
+{txt}{hline 13}{c BT}{hline 64}
+{col 0}Quant. 0{res}.75  {col 14}{c |}
+{txt}{col 0}sector_pub~c{col 14}{c |}{res}{col 17} .0636871{col 28} .0046288{col 40}13.76{col 49}0.000{col 58} .0546147{col 70} .0727595
+{txt}{col 0} experience{col 14}{c |}{res}{col 17} .0163485{col 28} .0008729{col 40}18.73{col 49}0.000{col 58} .0146376{col 70} .0180594
+{txt}{col 0}experience~q{col 14}{c |}{res}{col 17}-.0002591{col 28} .0000187{col 40}-13.88{col 49}0.000{col 58}-.0002957{col 70}-.0002225
+{txt}{col 0}    edu_uni{col 14}{c |}{res}{col 17} .1600784{col 28} .0073374{col 40}21.82{col 49}0.000{col 58} .1456971{col 70} .1744597
+{txt}{col 0}edu_diplom~t{col 14}{c |}{res}{col 17} .0768517{col 28} .0053881{col 40}14.26{col 49}0.000{col 58}  .066291{col 70} .0874123
+{txt}{col 0} children_1{col 14}{c |}{res}{col 17}-.0059162{col 28} .0059497{col 40}-0.99{col 49}0.320{col 58}-.0175776{col 70} .0057451
+{txt}{col 0} children_2{col 14}{c |}{res}{col 17} .0156177{col 28} .0058435{col 40} 2.67{col 49}0.008{col 58} .0041644{col 70} .0270711
+{txt}{col 0} children_3{col 14}{c |}{res}{col 17} .0239072{col 28} .0090278{col 40} 2.65{col 49}0.008{col 58} .0062128{col 70} .0416017
+{txt}{col 0}children_4~s{col 14}{c |}{res}{col 17} .0284249{col 28} .0162825{col 40} 1.75{col 49}0.081{col 58}-.0034887{col 70} .0603386
+{txt}{col 0}health_poor{col 14}{c |}{res}{col 17}-.0273811{col 28} .0055293{col 40}-4.95{col 49}0.000{col 58}-.0382184{col 70}-.0165437
+{txt}{col 0}  birth_eng{col 14}{c |}{res}{col 17} .0214909{col 28} .0072156{col 40} 2.98{col 49}0.003{col 58} .0073484{col 70} .0356334
+{txt}{col 0} birth_neng{col 14}{c |}{res}{col 17} .0269959{col 28} .0075642{col 40} 3.57{col 49}0.000{col 58} .0121701{col 70} .0418216
+{txt}{col 0}married_yes{col 14}{c |}{res}{col 17} .0261489{col 28}  .006279{col 40} 4.16{col 49}0.000{col 58} .0138421{col 70} .0384557
+{txt}{col 0}married_sep{col 14}{c |}{res}{col 17}-.0105339{col 28} .0092185{col 40}-1.14{col 49}0.253{col 58}-.0286022{col 70} .0075344
+{txt}{col 0}   urban_no{col 14}{c |}{res}{col 17} -.013687{col 28}  .006038{col 40}-2.27{col 49}0.023{col 58}-.0255214{col 70}-.0018526
+{txt}{col 0}  state_VIC{col 14}{c |}{res}{col 17}-.0259549{col 28} .0055917{col 40}-4.64{col 49}0.000{col 58}-.0369147{col 70}-.0149951
+{txt}{col 0}   state_WA{col 14}{c |}{res}{col 17} .0070959{col 28} .0082234{col 40} 0.86{col 49}0.388{col 58}-.0090219{col 70} .0232138
+{txt}{col 0}  state_QLD{col 14}{c |}{res}{col 17}-.0586588{col 28} .0062579{col 40}-9.37{col 49}0.000{col 58}-.0709242{col 70}-.0463933
+{txt}{col 0}   state_SA{col 14}{c |}{res}{col 17} -.043163{col 28} .0067292{col 40}-6.41{col 49}0.000{col 58}-.0563523{col 70}-.0299737
+{txt}{col 0}   state_NT{col 14}{c |}{res}{col 17}-.0276503{col 28} .0277217{col 40}-1.00{col 49}0.319{col 58}-.0819848{col 70} .0266843
+{txt}{col 0}  state_TAS{col 14}{c |}{res}{col 17}-.0589524{col 28} .0095507{col 40}-6.17{col 49}0.000{col 58}-.0776717{col 70}-.0402331
+{txt}{col 0}  state_ACT{col 14}{c |}{res}{col 17}  .077276{col 28} .0154304{col 40} 5.01{col 49}0.000{col 58} .0470326{col 70} .1075195
+{txt}{col 0}shiftwork_~s{col 14}{c |}{res}{col 17} .0863255{col 28} .0062557{col 40}13.80{col 49}0.000{col 58} .0740644{col 70} .0985866
+{txt}{col 0}   parttime{col 14}{c |}{res}{col 17} .0081162{col 28} .0048682{col 40} 1.67{col 49}0.095{col 58}-.0014256{col 70} .0176579
+{txt}{col 0} long_hours{col 14}{c |}{res}{col 17}-.0541728{col 28} .0074452{col 40}-7.28{col 49}0.000{col 58}-.0687653{col 70}-.0395802
+{txt}{col 0}     casual{col 14}{c |}{res}{col 17}  .025304{col 28} .0067012{col 40} 3.78{col 49}0.000{col 58} .0121697{col 70} .0384383
+{txt}{col 0}occ_tech_t~e{col 14}{c |}{res}{col 17}-.4381961{col 28} .0138519{col 40}-31.63{col 49}0.000{col 58}-.4653458{col 70}-.4110464
+{txt}{col 0}occ_cleric~n{col 14}{c |}{res}{col 17}-.3334906{col 28} .0107691{col 40}-30.97{col 49}0.000{col 58} -.354598{col 70}-.3123832
+{txt}{col 0}occ_machin~y{col 14}{c |}{res}{col 17}-.4677099{col 28} .0206359{col 40}-22.66{col 49}0.000{col 58}-.5081563{col 70}-.4272635
+{txt}{col 0}   occ_prof{col 14}{c |}{res}{col 17}-.0884127{col 28} .0100269{col 40}-8.82{col 49}0.000{col 58}-.1080653{col 70}  -.06876
+{txt}{col 0}occ_commun~e{col 14}{c |}{res}{col 17}-.4499783{col 28} .0123961{col 40}-36.30{col 49}0.000{col 58}-.4742748{col 70}-.4256819
+{txt}{col 0}  occ_sales{col 14}{c |}{res}{col 17}-.4959476{col 28} .0128922{col 40}-38.47{col 49}0.000{col 58}-.5212164{col 70}-.4706789
+{txt}{col 0}occ_labourer{col 14}{c |}{res}{col 17}-.5456342{col 28} .0139581{col 40}-39.09{col 49}0.000{col 58} -.572992{col 70}-.5182764
+{txt}{col 0}      _cons{col 14}{c |}{res}{col 17} 3.428813{col 28} .0153392{col 40}223.53{col 49}0.000{col 58} 3.398748{col 70} 3.458878
+{txt}{hline 13}{c BT}{hline 64}
+{col 0}Quant. 0{res}.9   {col 14}{c |}
+{txt}{col 0}sector_pub~c{col 14}{c |}{res}{col 17} .0320199{col 28} .0065286{col 40} 4.90{col 49}0.000{col 58} .0192238{col 70}  .044816
+{txt}{col 0} experience{col 14}{c |}{res}{col 17} .0193178{col 28} .0013045{col 40}14.81{col 49}0.000{col 58} .0167611{col 70} .0218745
+{txt}{col 0}experience~q{col 14}{c |}{res}{col 17}-.0003105{col 28} .0000278{col 40}-11.16{col 49}0.000{col 58}-.0003651{col 70} -.000256
+{txt}{col 0}    edu_uni{col 14}{c |}{res}{col 17} .1720797{col 28} .0096021{col 40}17.92{col 49}0.000{col 58} .1532595{col 70} .1908998
+{txt}{col 0}edu_diplom~t{col 14}{c |}{res}{col 17} .0779068{col 28}  .008176{col 40} 9.53{col 49}0.000{col 58} .0618817{col 70} .0939318
+{txt}{col 0} children_1{col 14}{c |}{res}{col 17}  .005145{col 28} .0091314{col 40} 0.56{col 49}0.573{col 58}-.0127526{col 70} .0230425
+{txt}{col 0} children_2{col 14}{c |}{res}{col 17} .0143678{col 28} .0087337{col 40} 1.65{col 49}0.100{col 58}-.0027503{col 70} .0314859
+{txt}{col 0} children_3{col 14}{c |}{res}{col 17} .0314081{col 28} .0137049{col 40} 2.29{col 49}0.022{col 58} .0045466{col 70} .0582697
+{txt}{col 0}children_4~s{col 14}{c |}{res}{col 17} .0270677{col 28} .0201674{col 40} 1.34{col 49}0.180{col 58}-.0124604{col 70} .0665957
+{txt}{col 0}health_poor{col 14}{c |}{res}{col 17} -.036982{col 28} .0076341{col 40}-4.84{col 49}0.000{col 58}-.0519449{col 70}-.0220191
+{txt}{col 0}  birth_eng{col 14}{c |}{res}{col 17} .0104679{col 28} .0129791{col 40} 0.81{col 49}0.420{col 58}-.0149712{col 70}  .035907
+{txt}{col 0} birth_neng{col 14}{c |}{res}{col 17} .0293124{col 28} .0113239{col 40} 2.59{col 49}0.010{col 58} .0071175{col 70} .0515073
+{txt}{col 0}married_yes{col 14}{c |}{res}{col 17} .0328324{col 28} .0088483{col 40} 3.71{col 49}0.000{col 58} .0154899{col 70}  .050175
+{txt}{col 0}married_sep{col 14}{c |}{res}{col 17}-.0162693{col 28} .0137214{col 40}-1.19{col 49}0.236{col 58}-.0431633{col 70} .0106247
+{txt}{col 0}   urban_no{col 14}{c |}{res}{col 17}-.0155122{col 28} .0093307{col 40}-1.66{col 49}0.096{col 58}-.0338003{col 70}  .002776
+{txt}{col 0}  state_VIC{col 14}{c |}{res}{col 17} -.042165{col 28} .0093155{col 40}-4.53{col 49}0.000{col 58}-.0604235{col 70}-.0239066
+{txt}{col 0}   state_WA{col 14}{c |}{res}{col 17}-.0107085{col 28} .0123703{col 40}-0.87{col 49}0.387{col 58}-.0349543{col 70} .0135374
+{txt}{col 0}  state_QLD{col 14}{c |}{res}{col 17}-.0852241{col 28} .0100281{col 40}-8.50{col 49}0.000{col 58}-.1048791{col 70}-.0655691
+{txt}{col 0}   state_SA{col 14}{c |}{res}{col 17}-.1067533{col 28}  .010611{col 40}-10.06{col 49}0.000{col 58}-.1275508{col 70}-.0859558
+{txt}{col 0}   state_NT{col 14}{c |}{res}{col 17}-.0205169{col 28} .0320449{col 40}-0.64{col 49}0.522{col 58}-.0833249{col 70} .0422912
+{txt}{col 0}  state_TAS{col 14}{c |}{res}{col 17}-.1100907{col 28}  .013824{col 40}-7.96{col 49}0.000{col 58}-.1371858{col 70}-.0829956
+{txt}{col 0}  state_ACT{col 14}{c |}{res}{col 17} .0535132{col 28} .0210431{col 40} 2.54{col 49}0.011{col 58} .0122686{col 70} .0947578
+{txt}{col 0}shiftwork_~s{col 14}{c |}{res}{col 17} .1151154{col 28} .0106346{col 40}10.82{col 49}0.000{col 58} .0942715{col 70} .1359593
+{txt}{col 0}   parttime{col 14}{c |}{res}{col 17} .0332093{col 28}  .007605{col 40} 4.37{col 49}0.000{col 58} .0183036{col 70} .0481151
+{txt}{col 0} long_hours{col 14}{c |}{res}{col 17}-.0060232{col 28}   .01032{col 40}-0.58{col 49}0.559{col 58}-.0262504{col 70}  .014204
+{txt}{col 0}     casual{col 14}{c |}{res}{col 17} .1070026{col 28} .0122716{col 40} 8.72{col 49}0.000{col 58} .0829502{col 70}  .131055
+{txt}{col 0}occ_tech_t~e{col 14}{c |}{res}{col 17}-.4880379{col 28} .0191589{col 40}-25.47{col 49}0.000{col 58}-.5255894{col 70}-.4504864
+{txt}{col 0}occ_cleric~n{col 14}{c |}{res}{col 17}-.3787721{col 28} .0142556{col 40}-26.57{col 49}0.000{col 58} -.406713{col 70}-.3508312
+{txt}{col 0}occ_machin~y{col 14}{c |}{res}{col 17}-.5037077{col 28} .0358382{col 40}-14.06{col 49}0.000{col 58}-.5739506{col 70}-.4334648
+{txt}{col 0}   occ_prof{col 14}{c |}{res}{col 17}-.1207898{col 28} .0141015{col 40}-8.57{col 49}0.000{col 58}-.1484288{col 70}-.0931508
+{txt}{col 0}occ_commun~e{col 14}{c |}{res}{col 17} -.499965{col 28} .0162782{col 40}-30.71{col 49}0.000{col 58}-.5318702{col 70}-.4680598
+{txt}{col 0}  occ_sales{col 14}{c |}{res}{col 17}-.5366129{col 28} .0176965{col 40}-30.32{col 49}0.000{col 58} -.571298{col 70}-.5019278
+{txt}{col 0}occ_labourer{col 14}{c |}{res}{col 17}-.5931639{col 28} .0205172{col 40}-28.91{col 49}0.000{col 58}-.6333777{col 70}-.5529502
+{txt}{col 0}      _cons{col 14}{c |}{res}{col 17} 3.621288{col 28} .0192231{col 40}188.38{col 49}0.000{col 58} 3.583611{col 70} 3.658965
+{txt}{hline 13}{c BT}{hline 64}
+
+{com}. 
+. 
+. // decompositions
+. // men without occupation
+. cdeco log_real_wage experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT shiftwork_yes parttime long_hours casual [pw=hhwtrp] if sex_male == 1, group(sector_private) quantile(0.1, 0.25, 0.5, 0.75, 0.9) method(qr) noboot
+{res}
+{txt}{col 0}Conditional model{res}{col 43}linear quantile regression
+{txt}{col 0}Number of regressions estimated{res}{col 43}100     
+
+{txt}The variance has not been computed.
+Do not turn the option boot off if you want to compute it.
+
+{col 0}No. of obs. in the reference group{res}{col 43}15044   
+{txt}{col 0}No. of obs. in the counterfactual group{res}{col 43}49237   
+
+
+{txt}Differences between the observable distributions (based on the conditional model)
+{hline 12}{c TT}{hline 68}
+{col 13}{c |}{col 15} Quantile {col 28}Pointwise {col 46}Pointwise{col 62}     Functional      
+{col 0}Quantile{col 13}{c |}{col 15}  effect  {col 28}Std. Err. {col 41}[95% Conf. Interval]{col 62}[95% Conf. Interval] 
+{hline 12}{c +}{hline 68}
+{col 0}.1{col 13}{c |}{col 16}{res} .228524{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.25{col 13}{c |}{col 16}{res} .230066{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.5{col 13}{c |}{col 16}{res} .200852{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.75{col 13}{c |}{col 16}{res} .117479{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.9{col 13}{c |}{col 16}{res} .004093{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{hline 12}{c BT}{hline 68}
+
+
+Effects of characteristics
+{hline 12}{c TT}{hline 68}
+{col 13}{c |}{col 15} Quantile {col 28}Pointwise {col 46}Pointwise{col 62}     Functional      
+{col 0}Quantile{col 13}{c |}{col 15}  effect  {col 28}Std. Err. {col 41}[95% Conf. Interval]{col 62}[95% Conf. Interval] 
+{hline 12}{c +}{hline 68}
+{col 0}.1{col 13}{c |}{col 16}{res} .116317{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.25{col 13}{c |}{col 16}{res} .102259{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.5{col 13}{c |}{col 16}{res} .091442{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.75{col 13}{c |}{col 16}{res} .073369{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.9{col 13}{c |}{col 16}{res} .052182{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{hline 12}{c BT}{hline 68}
+
+
+Effects of coefficients
+{hline 12}{c TT}{hline 68}
+{col 13}{c |}{col 15} Quantile {col 28}Pointwise {col 46}Pointwise{col 62}     Functional      
+{col 0}Quantile{col 13}{c |}{col 15}  effect  {col 28}Std. Err. {col 41}[95% Conf. Interval]{col 62}[95% Conf. Interval] 
+{hline 12}{c +}{hline 68}
+{col 0}.1{col 13}{c |}{col 16}{res} .112207{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.25{col 13}{c |}{col 16}{res} .127807{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.5{col 13}{c |}{col 16}{res}  .10941{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.75{col 13}{c |}{col 16}{res}  .04411{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.9{col 13}{c |}{col 16}{res}-.048089{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{hline 12}{c BT}{hline 68}
+
+{com}. 
+. // men with occupation
+. cdeco log_real_wage experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT shiftwork_yes parttime long_hours casual occ_tech_trade occ_clerical_admin occ_machinery occ_prof occ_community_personal_service occ_sales occ_labourer [pw=hhwtrp] if sex_male == 1, group(sector_private) quantile(0.1, 0.25, 0.5, 0.75, 0.9) method(qr) noboot
+{res}
+{txt}{col 0}Conditional model{res}{col 43}linear quantile regression
+{txt}{col 0}Number of regressions estimated{res}{col 43}100     
+
+{txt}The variance has not been computed.
+Do not turn the option boot off if you want to compute it.
+
+{col 0}No. of obs. in the reference group{res}{col 43}15044   
+{txt}{col 0}No. of obs. in the counterfactual group{res}{col 43}49237   
+
+
+{txt}Differences between the observable distributions (based on the conditional model)
+{hline 12}{c TT}{hline 68}
+{col 13}{c |}{col 15} Quantile {col 28}Pointwise {col 46}Pointwise{col 62}     Functional      
+{col 0}Quantile{col 13}{c |}{col 15}  effect  {col 28}Std. Err. {col 41}[95% Conf. Interval]{col 62}[95% Conf. Interval] 
+{hline 12}{c +}{hline 68}
+{col 0}.1{col 13}{c |}{col 16}{res} .228312{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.25{col 13}{c |}{col 16}{res} .228812{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.5{col 13}{c |}{col 16}{res} .198977{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.75{col 13}{c |}{col 16}{res} .113703{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.9{col 13}{c |}{col 16}{res}  .01006{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{hline 12}{c BT}{hline 68}
+
+
+Effects of characteristics
+{hline 12}{c TT}{hline 68}
+{col 13}{c |}{col 15} Quantile {col 28}Pointwise {col 46}Pointwise{col 62}     Functional      
+{col 0}Quantile{col 13}{c |}{col 15}  effect  {col 28}Std. Err. {col 41}[95% Conf. Interval]{col 62}[95% Conf. Interval] 
+{hline 12}{c +}{hline 68}
+{col 0}.1{col 13}{c |}{col 16}{res} .168346{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.25{col 13}{c |}{col 16}{res} .148044{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.5{col 13}{c |}{col 16}{res} .118829{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.75{col 13}{c |}{col 16}{res} .080798{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.9{col 13}{c |}{col 16}{res} .058488{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{hline 12}{c BT}{hline 68}
+
+
+Effects of coefficients
+{hline 12}{c TT}{hline 68}
+{col 13}{c |}{col 15} Quantile {col 28}Pointwise {col 46}Pointwise{col 62}     Functional      
+{col 0}Quantile{col 13}{c |}{col 15}  effect  {col 28}Std. Err. {col 41}[95% Conf. Interval]{col 62}[95% Conf. Interval] 
+{hline 12}{c +}{hline 68}
+{col 0}.1{col 13}{c |}{col 16}{res} .059966{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.25{col 13}{c |}{col 16}{res} .080768{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.5{col 13}{c |}{col 16}{res} .080149{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.75{col 13}{c |}{col 16}{res} .032904{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.9{col 13}{c |}{col 16}{res}-.048428{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{hline 12}{c BT}{hline 68}
+
+{com}. 
+. 
+. // women without occupation
+. cdeco log_real_wage experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT shiftwork_yes parttime long_hours casual [pw=hhwtrp] if sex_male == 0, group(sector_private) quantile(0.1, 0.25, 0.5, 0.75, 0.9) method(qr) noboot
+{res}
+{txt}{col 0}Conditional model{res}{col 43}linear quantile regression
+{txt}{col 0}Number of regressions estimated{res}{col 43}100     
+
+{txt}The variance has not been computed.
+Do not turn the option boot off if you want to compute it.
+
+{col 0}No. of obs. in the reference group{res}{col 43}22745   
+{txt}{col 0}No. of obs. in the counterfactual group{res}{col 43}43645   
+
+
+{txt}Differences between the observable distributions (based on the conditional model)
+{hline 12}{c TT}{hline 68}
+{col 13}{c |}{col 15} Quantile {col 28}Pointwise {col 46}Pointwise{col 62}     Functional      
+{col 0}Quantile{col 13}{c |}{col 15}  effect  {col 28}Std. Err. {col 41}[95% Conf. Interval]{col 62}[95% Conf. Interval] 
+{hline 12}{c +}{hline 68}
+{col 0}.1{col 13}{c |}{col 16}{res} .207914{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.25{col 13}{c |}{col 16}{res} .236406{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.5{col 13}{c |}{col 16}{res} .261648{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.75{col 13}{c |}{col 16}{res} .229303{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.9{col 13}{c |}{col 16}{res} .139524{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{hline 12}{c BT}{hline 68}
+
+
+Effects of characteristics
+{hline 12}{c TT}{hline 68}
+{col 13}{c |}{col 15} Quantile {col 28}Pointwise {col 46}Pointwise{col 62}     Functional      
+{col 0}Quantile{col 13}{c |}{col 15}  effect  {col 28}Std. Err. {col 41}[95% Conf. Interval]{col 62}[95% Conf. Interval] 
+{hline 12}{c +}{hline 68}
+{col 0}.1{col 13}{c |}{col 16}{res} .117627{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.25{col 13}{c |}{col 16}{res} .103603{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.5{col 13}{c |}{col 16}{res} .093442{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.75{col 13}{c |}{col 16}{res} .075997{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.9{col 13}{c |}{col 16}{res} .053459{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{hline 12}{c BT}{hline 68}
+
+
+Effects of coefficients
+{hline 12}{c TT}{hline 68}
+{col 13}{c |}{col 15} Quantile {col 28}Pointwise {col 46}Pointwise{col 62}     Functional      
+{col 0}Quantile{col 13}{c |}{col 15}  effect  {col 28}Std. Err. {col 41}[95% Conf. Interval]{col 62}[95% Conf. Interval] 
+{hline 12}{c +}{hline 68}
+{col 0}.1{col 13}{c |}{col 16}{res} .090287{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.25{col 13}{c |}{col 16}{res} .132803{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.5{col 13}{c |}{col 16}{res} .168206{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.75{col 13}{c |}{col 16}{res} .153306{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.9{col 13}{c |}{col 16}{res} .086066{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{hline 12}{c BT}{hline 68}
+
+{com}. 
+. // women with occupation
+. cdeco log_real_wage experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT shiftwork_yes parttime long_hours casual occ_tech_trade occ_clerical_admin occ_machinery occ_prof occ_community_personal_service occ_sales occ_labourer [pw=hhwtrp] if sex_male == 0, group(sector_private) quantile(0.1, 0.25, 0.5, 0.75, 0.9) method(qr) noboot
+{res}
+{txt}{col 0}Conditional model{res}{col 43}linear quantile regression
+{txt}{col 0}Number of regressions estimated{res}{col 43}100     
+
+{txt}The variance has not been computed.
+Do not turn the option boot off if you want to compute it.
+
+{col 0}No. of obs. in the reference group{res}{col 43}22745   
+{txt}{col 0}No. of obs. in the counterfactual group{res}{col 43}43645   
+
+
+{txt}Differences between the observable distributions (based on the conditional model)
+{hline 12}{c TT}{hline 68}
+{col 13}{c |}{col 15} Quantile {col 28}Pointwise {col 46}Pointwise{col 62}     Functional      
+{col 0}Quantile{col 13}{c |}{col 15}  effect  {col 28}Std. Err. {col 41}[95% Conf. Interval]{col 62}[95% Conf. Interval] 
+{hline 12}{c +}{hline 68}
+{col 0}.1{col 13}{c |}{col 16}{res} .213273{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.25{col 13}{c |}{col 16}{res} .237205{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.5{col 13}{c |}{col 16}{res} .260803{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.75{col 13}{c |}{col 16}{res} .228449{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.9{col 13}{c |}{col 16}{res} .138823{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{hline 12}{c BT}{hline 68}
+
+
+Effects of characteristics
+{hline 12}{c TT}{hline 68}
+{col 13}{c |}{col 15} Quantile {col 28}Pointwise {col 46}Pointwise{col 62}     Functional      
+{col 0}Quantile{col 13}{c |}{col 15}  effect  {col 28}Std. Err. {col 41}[95% Conf. Interval]{col 62}[95% Conf. Interval] 
+{hline 12}{c +}{hline 68}
+{col 0}.1{col 13}{c |}{col 16}{res} .142712{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.25{col 13}{c |}{col 16}{res} .125567{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.5{col 13}{c |}{col 16}{res} .130758{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.75{col 13}{c |}{col 16}{res} .115929{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.9{col 13}{c |}{col 16}{res} .083832{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{hline 12}{c BT}{hline 68}
+
+
+Effects of coefficients
+{hline 12}{c TT}{hline 68}
+{col 13}{c |}{col 15} Quantile {col 28}Pointwise {col 46}Pointwise{col 62}     Functional      
+{col 0}Quantile{col 13}{c |}{col 15}  effect  {col 28}Std. Err. {col 41}[95% Conf. Interval]{col 62}[95% Conf. Interval] 
+{hline 12}{c +}{hline 68}
+{col 0}.1{col 13}{c |}{col 16}{res} .070561{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.25{col 13}{c |}{col 16}{res} .111638{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.5{col 13}{c |}{col 16}{res} .130045{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.75{col 13}{c |}{col 16}{res}  .11252{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{col 0}.9{col 13}{c |}{col 16}{res} .054991{col 28}       .{col 40}       .{col 51}       .{col 63}       .{col 73}       .
+{txt}{hline 12}{c BT}{hline 68}
+
+{com}. 
+. 
+. 
+. 
+. 
+{txt}end of do-file
+
+{com}. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/Users/arbor/Documents/github repos/hons-project/data analysis/august_logs/Quantile.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res}29 Aug 2023, 23:44:02
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

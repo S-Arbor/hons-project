@@ -1,0 +1,319 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/Users/arbor/Documents/github repos/hons-project/data analysis/august_logs/OLS.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}29 Aug 2023, 23:30:07
+
+{com}. do "/var/folders/d7/2n8wylhx08g71ycdjqqj0pmw0000gn/T//SD02295.000000"
+{txt}
+{com}. // This file contains the basic OLS regressions of the project by gender and then presents decompositions
+. // Current issues:
+. // Include tenure as specificity test
+. // Should errors be boot strapped rather than robust
+. // Should I drop waves 20-21
+. // i.wave???
+. 
+. use "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v3/basic_cleaned.dta", clear
+{txt}
+{com}. 
+. 
+. // 1. Basic OLS
+. 
+. // Men without occupation
+. regress log_real_wage sector_public experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT shiftwork_yes parttime long_hours casual if sex_male == 1 [pw=hhwtrp], vce(robust)
+{txt}(sum of wgt is 77,661,545.952652)
+
+Linear regression                               Number of obs     = {res}    64,281
+                                                {txt}F(26, 64254)      =  {res}   356.43
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.2203
+                                                {txt}Root MSE          =    {res} .42793
+
+{txt}{hline 17}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 18}{c |}{col 30}    Robust
+{col 1}   log_real_wage{col 18}{c |} Coefficient{col 30}  std. err.{col 42}      t{col 50}   P>|t|{col 58}     [95% con{col 71}f. interval]
+{hline 17}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}sector_public {c |}{col 18}{res}{space 2} .0513063{col 30}{space 2} .0054095{col 41}{space 1}    9.48{col 50}{space 3}0.000{col 58}{space 4} .0407037{col 71}{space 3} .0619089
+{txt}{space 6}experience {c |}{col 18}{res}{space 2} .0207976{col 30}{space 2} .0008983{col 41}{space 1}   23.15{col 50}{space 3}0.000{col 58}{space 4} .0190369{col 71}{space 3} .0225582
+{txt}{space 3}experience_sq {c |}{col 18}{res}{space 2}-.0003188{col 30}{space 2} .0000182{col 41}{space 1}  -17.50{col 50}{space 3}0.000{col 58}{space 4}-.0003545{col 71}{space 3}-.0002831
+{txt}{space 9}edu_uni {c |}{col 18}{res}{space 2} .3932478{col 30}{space 2} .0070096{col 41}{space 1}   56.10{col 50}{space 3}0.000{col 58}{space 4}  .379509{col 71}{space 3} .4069866
+{txt}edu_diploma_cert {c |}{col 18}{res}{space 2} .1458112{col 30}{space 2} .0053661{col 41}{space 1}   27.17{col 50}{space 3}0.000{col 58}{space 4} .1352936{col 71}{space 3} .1563288
+{txt}{space 6}children_1 {c |}{col 18}{res}{space 2}  .028385{col 30}{space 2} .0066117{col 41}{space 1}    4.29{col 50}{space 3}0.000{col 58}{space 4}  .015426{col 71}{space 3} .0413439
+{txt}{space 6}children_2 {c |}{col 18}{res}{space 2} .0783128{col 30}{space 2} .0065363{col 41}{space 1}   11.98{col 50}{space 3}0.000{col 58}{space 4} .0655016{col 71}{space 3}  .091124
+{txt}{space 6}children_3 {c |}{col 18}{res}{space 2} .0960665{col 30}{space 2} .0087965{col 41}{space 1}   10.92{col 50}{space 3}0.000{col 58}{space 4} .0788253{col 71}{space 3} .1133077
+{txt}{space 1}children_4_plus {c |}{col 18}{res}{space 2} .0082421{col 30}{space 2} .0144121{col 41}{space 1}    0.57{col 50}{space 3}0.567{col 58}{space 4}-.0200056{col 71}{space 3} .0364898
+{txt}{space 5}health_poor {c |}{col 18}{res}{space 2}-.1039146{col 30}{space 2}  .007167{col 41}{space 1}  -14.50{col 50}{space 3}0.000{col 58}{space 4} -.117962{col 71}{space 3}-.0898673
+{txt}{space 7}birth_eng {c |}{col 18}{res}{space 2} .0497087{col 30}{space 2} .0071079{col 41}{space 1}    6.99{col 50}{space 3}0.000{col 58}{space 4} .0357772{col 71}{space 3} .0636401
+{txt}{space 6}birth_neng {c |}{col 18}{res}{space 2}-.1043451{col 30}{space 2} .0079775{col 41}{space 1}  -13.08{col 50}{space 3}0.000{col 58}{space 4}-.1199809{col 71}{space 3}-.0887092
+{txt}{space 5}married_yes {c |}{col 18}{res}{space 2} .1108511{col 30}{space 2} .0069695{col 41}{space 1}   15.91{col 50}{space 3}0.000{col 58}{space 4} .0971909{col 71}{space 3} .1245114
+{txt}{space 5}married_sep {c |}{col 18}{res}{space 2} .0355737{col 30}{space 2} .0132006{col 41}{space 1}    2.69{col 50}{space 3}0.007{col 58}{space 4} .0097005{col 71}{space 3}  .061447
+{txt}{space 8}urban_no {c |}{col 18}{res}{space 2}-.0688118{col 30}{space 2} .0068615{col 41}{space 1}  -10.03{col 50}{space 3}0.000{col 58}{space 4}-.0822602{col 71}{space 3}-.0553633
+{txt}{space 7}state_VIC {c |}{col 18}{res}{space 2}-.0201423{col 30}{space 2} .0060254{col 41}{space 1}   -3.34{col 50}{space 3}0.001{col 58}{space 4}-.0319522{col 71}{space 3}-.0083325
+{txt}{space 8}state_WA {c |}{col 18}{res}{space 2} .0482203{col 30}{space 2} .0091116{col 41}{space 1}    5.29{col 50}{space 3}0.000{col 58}{space 4} .0303616{col 71}{space 3} .0660791
+{txt}{space 7}state_QLD {c |}{col 18}{res}{space 2}-.0262239{col 30}{space 2} .0065861{col 41}{space 1}   -3.98{col 50}{space 3}0.000{col 58}{space 4}-.0391326{col 71}{space 3}-.0133152
+{txt}{space 8}state_SA {c |}{col 18}{res}{space 2}-.1186241{col 30}{space 2} .0086336{col 41}{space 1}  -13.74{col 50}{space 3}0.000{col 58}{space 4} -.135546{col 71}{space 3}-.1017023
+{txt}{space 8}state_NT {c |}{col 18}{res}{space 2}-.0220401{col 30}{space 2} .0274579{col 41}{space 1}   -0.80{col 50}{space 3}0.422{col 58}{space 4}-.0758576{col 71}{space 3} .0317773
+{txt}{space 7}state_TAS {c |}{col 18}{res}{space 2}-.1117352{col 30}{space 2} .0105203{col 41}{space 1}  -10.62{col 50}{space 3}0.000{col 58}{space 4} -.132355{col 71}{space 3}-.0911153
+{txt}{space 7}state_ACT {c |}{col 18}{res}{space 2} .1917336{col 30}{space 2} .0139984{col 41}{space 1}   13.70{col 50}{space 3}0.000{col 58}{space 4} .1642967{col 71}{space 3} .2191706
+{txt}{space 3}shiftwork_yes {c |}{col 18}{res}{space 2} .0506952{col 30}{space 2}   .00617{col 41}{space 1}    8.22{col 50}{space 3}0.000{col 58}{space 4}  .038602{col 71}{space 3} .0627884
+{txt}{space 8}parttime {c |}{col 18}{res}{space 2}-.0800855{col 30}{space 2} .0108517{col 41}{space 1}   -7.38{col 50}{space 3}0.000{col 58}{space 4}-.1013548{col 71}{space 3}-.0588163
+{txt}{space 6}long_hours {c |}{col 18}{res}{space 2} .0080092{col 30}{space 2} .0047043{col 41}{space 1}    1.70{col 50}{space 3}0.089{col 58}{space 4}-.0012113{col 71}{space 3} .0172297
+{txt}{space 10}casual {c |}{col 18}{res}{space 2}-.0556747{col 30}{space 2} .0090899{col 41}{space 1}   -6.12{col 50}{space 3}0.000{col 58}{space 4}-.0734909{col 71}{space 3}-.0378585
+{txt}{space 11}_cons {c |}{col 18}{res}{space 2}  2.90798{col 30}{space 2} .0101433{col 41}{space 1}  286.69{col 50}{space 3}0.000{col 58}{space 4} 2.888099{col 71}{space 3} 2.927861
+{txt}{hline 17}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. // Men with occupation
+. regress log_real_wage sector_public experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT shiftwork_yes parttime long_hours casual occ_tech_trade occ_clerical_admin occ_machinery occ_prof occ_community_personal_service occ_sales occ_labourer [pw=hhwtrp] if sex_male == 1, vce(robust)
+{txt}(sum of wgt is 77,661,545.952652)
+
+Linear regression                               Number of obs     = {res}    64,281
+                                                {txt}F(33, 64247)      =  {res}   407.13
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.2847
+                                                {txt}Root MSE          =    {res}  .4099
+
+{txt}{hline 28}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 29}{c |}{col 41}    Robust
+{col 1}              log_real_wage{col 29}{c |} Coefficient{col 41}  std. err.{col 53}      t{col 61}   P>|t|{col 69}     [95% con{col 82}f. interval]
+{hline 28}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 14}sector_public {c |}{col 29}{res}{space 2} .0310551{col 41}{space 2} .0055942{col 52}{space 1}    5.55{col 61}{space 3}0.000{col 69}{space 4} .0200905{col 82}{space 3} .0420198
+{txt}{space 17}experience {c |}{col 29}{res}{space 2} .0196302{col 41}{space 2} .0008715{col 52}{space 1}   22.53{col 61}{space 3}0.000{col 69}{space 4} .0179221{col 82}{space 3} .0213382
+{txt}{space 14}experience_sq {c |}{col 29}{res}{space 2}-.0002956{col 41}{space 2} .0000176{col 52}{space 1}  -16.76{col 61}{space 3}0.000{col 69}{space 4}-.0003301{col 82}{space 3} -.000261
+{txt}{space 20}edu_uni {c |}{col 29}{res}{space 2} .2458326{col 41}{space 2} .0075016{col 52}{space 1}   32.77{col 61}{space 3}0.000{col 69}{space 4} .2311294{col 82}{space 3} .2605358
+{txt}{space 11}edu_diploma_cert {c |}{col 29}{res}{space 2} .0982209{col 41}{space 2} .0053723{col 52}{space 1}   18.28{col 61}{space 3}0.000{col 69}{space 4} .0876912{col 82}{space 3} .1087506
+{txt}{space 17}children_1 {c |}{col 29}{res}{space 2} .0306306{col 41}{space 2} .0063022{col 52}{space 1}    4.86{col 61}{space 3}0.000{col 69}{space 4} .0182783{col 82}{space 3} .0429828
+{txt}{space 17}children_2 {c |}{col 29}{res}{space 2} .0699619{col 41}{space 2} .0062837{col 52}{space 1}   11.13{col 61}{space 3}0.000{col 69}{space 4} .0576457{col 82}{space 3}  .082278
+{txt}{space 17}children_3 {c |}{col 29}{res}{space 2}  .091613{col 41}{space 2} .0083309{col 52}{space 1}   11.00{col 61}{space 3}0.000{col 69}{space 4} .0752844{col 82}{space 3} .1079416
+{txt}{space 12}children_4_plus {c |}{col 29}{res}{space 2} .0026835{col 41}{space 2}  .013639{col 52}{space 1}    0.20{col 61}{space 3}0.844{col 69}{space 4}-.0240489{col 82}{space 3} .0294158
+{txt}{space 16}health_poor {c |}{col 29}{res}{space 2}-.0923339{col 41}{space 2} .0069259{col 52}{space 1}  -13.33{col 61}{space 3}0.000{col 69}{space 4}-.1059087{col 82}{space 3}-.0787591
+{txt}{space 18}birth_eng {c |}{col 29}{res}{space 2} .0386256{col 41}{space 2}  .006961{col 52}{space 1}    5.55{col 61}{space 3}0.000{col 69}{space 4} .0249819{col 82}{space 3} .0522693
+{txt}{space 17}birth_neng {c |}{col 29}{res}{space 2}-.0729062{col 41}{space 2} .0076903{col 52}{space 1}   -9.48{col 61}{space 3}0.000{col 69}{space 4}-.0879792{col 82}{space 3}-.0578332
+{txt}{space 16}married_yes {c |}{col 29}{res}{space 2} .0965956{col 41}{space 2} .0066779{col 52}{space 1}   14.46{col 61}{space 3}0.000{col 69}{space 4} .0835069{col 82}{space 3} .1096843
+{txt}{space 16}married_sep {c |}{col 29}{res}{space 2} .0380399{col 41}{space 2} .0123947{col 52}{space 1}    3.07{col 61}{space 3}0.002{col 69}{space 4} .0137464{col 82}{space 3} .0623335
+{txt}{space 19}urban_no {c |}{col 29}{res}{space 2}-.0505147{col 41}{space 2} .0067235{col 52}{space 1}   -7.51{col 61}{space 3}0.000{col 69}{space 4}-.0636929{col 82}{space 3}-.0373365
+{txt}{space 18}state_VIC {c |}{col 29}{res}{space 2}-.0199175{col 41}{space 2} .0057219{col 52}{space 1}   -3.48{col 61}{space 3}0.000{col 69}{space 4}-.0311323{col 82}{space 3}-.0087026
+{txt}{space 19}state_WA {c |}{col 29}{res}{space 2} .0535424{col 41}{space 2} .0085903{col 52}{space 1}    6.23{col 61}{space 3}0.000{col 69}{space 4} .0367055{col 82}{space 3} .0703793
+{txt}{space 18}state_QLD {c |}{col 29}{res}{space 2}-.0140409{col 41}{space 2} .0065379{col 52}{space 1}   -2.15{col 61}{space 3}0.032{col 69}{space 4}-.0268552{col 82}{space 3}-.0012267
+{txt}{space 19}state_SA {c |}{col 29}{res}{space 2}-.0979794{col 41}{space 2}  .008361{col 52}{space 1}  -11.72{col 61}{space 3}0.000{col 69}{space 4} -.114367{col 82}{space 3}-.0815919
+{txt}{space 19}state_NT {c |}{col 29}{res}{space 2} .0124077{col 41}{space 2} .0242545{col 52}{space 1}    0.51{col 61}{space 3}0.609{col 69}{space 4} -.035131{col 82}{space 3} .0599465
+{txt}{space 18}state_TAS {c |}{col 29}{res}{space 2}-.0910722{col 41}{space 2} .0100385{col 52}{space 1}   -9.07{col 61}{space 3}0.000{col 69}{space 4}-.1107477{col 82}{space 3}-.0713966
+{txt}{space 18}state_ACT {c |}{col 29}{res}{space 2} .1485812{col 41}{space 2} .0127583{col 52}{space 1}   11.65{col 61}{space 3}0.000{col 69}{space 4}  .123575{col 82}{space 3} .1735875
+{txt}{space 14}shiftwork_yes {c |}{col 29}{res}{space 2}  .099756{col 41}{space 2} .0062403{col 52}{space 1}   15.99{col 61}{space 3}0.000{col 69}{space 4}  .087525{col 82}{space 3}  .111987
+{txt}{space 19}parttime {c |}{col 29}{res}{space 2}-.0640931{col 41}{space 2} .0106092{col 52}{space 1}   -6.04{col 61}{space 3}0.000{col 69}{space 4}-.0848871{col 82}{space 3} -.043299
+{txt}{space 17}long_hours {c |}{col 29}{res}{space 2}-.0221191{col 41}{space 2} .0046034{col 52}{space 1}   -4.80{col 61}{space 3}0.000{col 69}{space 4}-.0311418{col 82}{space 3}-.0130964
+{txt}{space 21}casual {c |}{col 29}{res}{space 2}-.0118616{col 41}{space 2} .0089309{col 52}{space 1}   -1.33{col 61}{space 3}0.184{col 69}{space 4}-.0293661{col 82}{space 3} .0056429
+{txt}{space 13}occ_tech_trade {c |}{col 29}{res}{space 2}-.2109262{col 41}{space 2} .0075701{col 52}{space 1}  -27.86{col 61}{space 3}0.000{col 69}{space 4}-.2257636{col 82}{space 3}-.1960888
+{txt}{space 9}occ_clerical_admin {c |}{col 29}{res}{space 2}-.2505144{col 41}{space 2} .0083717{col 52}{space 1}  -29.92{col 61}{space 3}0.000{col 69}{space 4}-.2669229{col 82}{space 3}-.2341059
+{txt}{space 14}occ_machinery {c |}{col 29}{res}{space 2}-.3001133{col 41}{space 2} .0097934{col 52}{space 1}  -30.64{col 61}{space 3}0.000{col 69}{space 4}-.3193083{col 82}{space 3}-.2809183
+{txt}{space 19}occ_prof {c |}{col 29}{res}{space 2}-.0248957{col 41}{space 2} .0075928{col 52}{space 1}   -3.28{col 61}{space 3}0.001{col 69}{space 4}-.0397776{col 82}{space 3}-.0100139
+{txt}occ_community_personal_se~e {c |}{col 29}{res}{space 2}-.2835041{col 41}{space 2} .0110662{col 52}{space 1}  -25.62{col 61}{space 3}0.000{col 69}{space 4}-.3051938{col 82}{space 3}-.2618143
+{txt}{space 18}occ_sales {c |}{col 29}{res}{space 2}-.3575595{col 41}{space 2} .0107751{col 52}{space 1}  -33.18{col 61}{space 3}0.000{col 69}{space 4}-.3786788{col 82}{space 3}-.3364402
+{txt}{space 15}occ_labourer {c |}{col 29}{res}{space 2}-.4189804{col 41}{space 2} .0107318{col 52}{space 1}  -39.04{col 61}{space 3}0.000{col 69}{space 4}-.4400147{col 82}{space 3} -.397946
+{txt}{space 22}_cons {c |}{col 29}{res}{space 2} 3.158947{col 41}{space 2} .0122541{col 52}{space 1}  257.79{col 61}{space 3}0.000{col 69}{space 4} 3.134929{col 82}{space 3} 3.182965
+{txt}{hline 28}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. // Women without occupation
+. regress log_real_wage sector_public experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT shiftwork_yes parttime long_hours casual [pw=hhwtrp] if sex_male == 0, vce(robust)
+{txt}(sum of wgt is 73,554,170.894839)
+
+Linear regression                               Number of obs     = {res}    66,390
+                                                {txt}F(26, 66363)      =  {res}   398.28
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.1907
+                                                {txt}Root MSE          =    {res} .38876
+
+{txt}{hline 17}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 18}{c |}{col 30}    Robust
+{col 1}   log_real_wage{col 18}{c |} Coefficient{col 30}  std. err.{col 42}      t{col 50}   P>|t|{col 58}     [95% con{col 71}f. interval]
+{hline 17}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}sector_public {c |}{col 18}{res}{space 2} .1235287{col 30}{space 2} .0044714{col 41}{space 1}   27.63{col 50}{space 3}0.000{col 58}{space 4} .1147647{col 71}{space 3} .1322927
+{txt}{space 6}experience {c |}{col 18}{res}{space 2} .0207881{col 30}{space 2} .0010465{col 41}{space 1}   19.87{col 50}{space 3}0.000{col 58}{space 4}  .018737{col 71}{space 3} .0228392
+{txt}{space 3}experience_sq {c |}{col 18}{res}{space 2}-.0003431{col 30}{space 2} .0000235{col 41}{space 1}  -14.60{col 50}{space 3}0.000{col 58}{space 4}-.0003892{col 71}{space 3}-.0002971
+{txt}{space 9}edu_uni {c |}{col 18}{res}{space 2} .3373662{col 30}{space 2} .0056713{col 41}{space 1}   59.49{col 50}{space 3}0.000{col 58}{space 4} .3262504{col 71}{space 3}  .348482
+{txt}edu_diploma_cert {c |}{col 18}{res}{space 2} .1379473{col 30}{space 2} .0051426{col 41}{space 1}   26.82{col 50}{space 3}0.000{col 58}{space 4} .1278677{col 71}{space 3} .1480268
+{txt}{space 6}children_1 {c |}{col 18}{res}{space 2}-.0063345{col 30}{space 2} .0058932{col 41}{space 1}   -1.07{col 50}{space 3}0.282{col 58}{space 4}-.0178851{col 71}{space 3} .0052161
+{txt}{space 6}children_2 {c |}{col 18}{res}{space 2} .0243342{col 30}{space 2} .0056909{col 41}{space 1}    4.28{col 50}{space 3}0.000{col 58}{space 4}   .01318{col 71}{space 3} .0354883
+{txt}{space 6}children_3 {c |}{col 18}{res}{space 2} .0266343{col 30}{space 2} .0079076{col 41}{space 1}    3.37{col 50}{space 3}0.001{col 58}{space 4} .0111354{col 71}{space 3} .0421332
+{txt}{space 1}children_4_plus {c |}{col 18}{res}{space 2} .0014489{col 30}{space 2} .0141627{col 41}{space 1}    0.10{col 50}{space 3}0.919{col 58}{space 4}-.0263099{col 71}{space 3} .0292077
+{txt}{space 5}health_poor {c |}{col 18}{res}{space 2}-.0584659{col 30}{space 2} .0060357{col 41}{space 1}   -9.69{col 50}{space 3}0.000{col 58}{space 4}-.0702959{col 71}{space 3}-.0466359
+{txt}{space 7}birth_eng {c |}{col 18}{res}{space 2} .0325907{col 30}{space 2}  .008218{col 41}{space 1}    3.97{col 50}{space 3}0.000{col 58}{space 4} .0164835{col 71}{space 3}  .048698
+{txt}{space 6}birth_neng {c |}{col 18}{res}{space 2}-.0216466{col 30}{space 2} .0076962{col 41}{space 1}   -2.81{col 50}{space 3}0.005{col 58}{space 4}-.0367311{col 71}{space 3} -.006562
+{txt}{space 5}married_yes {c |}{col 18}{res}{space 2} .0393866{col 30}{space 2} .0071951{col 41}{space 1}    5.47{col 50}{space 3}0.000{col 58}{space 4} .0252841{col 71}{space 3}  .053489
+{txt}{space 5}married_sep {c |}{col 18}{res}{space 2}-.0137373{col 30}{space 2} .0093976{col 41}{space 1}   -1.46{col 50}{space 3}0.144{col 58}{space 4}-.0321566{col 71}{space 3}  .004682
+{txt}{space 8}urban_no {c |}{col 18}{res}{space 2}-.0380936{col 30}{space 2} .0059621{col 41}{space 1}   -6.39{col 50}{space 3}0.000{col 58}{space 4}-.0497794{col 71}{space 3}-.0264079
+{txt}{space 7}state_VIC {c |}{col 18}{res}{space 2}-.0347469{col 30}{space 2} .0059407{col 41}{space 1}   -5.85{col 50}{space 3}0.000{col 58}{space 4}-.0463907{col 71}{space 3}-.0231032
+{txt}{space 8}state_WA {c |}{col 18}{res}{space 2}-.0010937{col 30}{space 2} .0077303{col 41}{space 1}   -0.14{col 50}{space 3}0.887{col 58}{space 4}-.0162451{col 71}{space 3} .0140577
+{txt}{space 7}state_QLD {c |}{col 18}{res}{space 2}-.0668912{col 30}{space 2}  .005958{col 41}{space 1}  -11.23{col 50}{space 3}0.000{col 58}{space 4}-.0785688{col 71}{space 3}-.0552136
+{txt}{space 8}state_SA {c |}{col 18}{res}{space 2}-.0545664{col 30}{space 2}  .007899{col 41}{space 1}   -6.91{col 50}{space 3}0.000{col 58}{space 4}-.0700483{col 71}{space 3}-.0390844
+{txt}{space 8}state_NT {c |}{col 18}{res}{space 2}-.0881812{col 30}{space 2} .0182179{col 41}{space 1}   -4.84{col 50}{space 3}0.000{col 58}{space 4}-.1238884{col 71}{space 3} -.052474
+{txt}{space 7}state_TAS {c |}{col 18}{res}{space 2}-.0806584{col 30}{space 2} .0096734{col 41}{space 1}   -8.34{col 50}{space 3}0.000{col 58}{space 4}-.0996182{col 71}{space 3}-.0616986
+{txt}{space 7}state_ACT {c |}{col 18}{res}{space 2} .1062256{col 30}{space 2} .0144589{col 41}{space 1}    7.35{col 50}{space 3}0.000{col 58}{space 4} .0778861{col 71}{space 3}  .134565
+{txt}{space 3}shiftwork_yes {c |}{col 18}{res}{space 2} .0321473{col 30}{space 2} .0056878{col 41}{space 1}    5.65{col 50}{space 3}0.000{col 58}{space 4} .0209992{col 71}{space 3} .0432954
+{txt}{space 8}parttime {c |}{col 18}{res}{space 2}-.0235822{col 30}{space 2} .0053297{col 41}{space 1}   -4.42{col 50}{space 3}0.000{col 58}{space 4}-.0340283{col 71}{space 3}-.0131361
+{txt}{space 6}long_hours {c |}{col 18}{res}{space 2}-.0107922{col 30}{space 2} .0056802{col 41}{space 1}   -1.90{col 50}{space 3}0.057{col 58}{space 4}-.0219255{col 71}{space 3}  .000341
+{txt}{space 10}casual {c |}{col 18}{res}{space 2}-.0647174{col 30}{space 2} .0071672{col 41}{space 1}   -9.03{col 50}{space 3}0.000{col 58}{space 4}-.0787651{col 71}{space 3}-.0506697
+{txt}{space 11}_cons {c |}{col 18}{res}{space 2} 2.870004{col 30}{space 2} .0102295{col 41}{space 1}  280.56{col 50}{space 3}0.000{col 58}{space 4} 2.849954{col 71}{space 3} 2.890054
+{txt}{hline 17}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. // Women with occupation
+. regress log_real_wage sector_public experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT shiftwork_yes parttime long_hours casual occ_tech_trade occ_clerical_admin occ_machinery occ_prof occ_community_personal_service occ_sales occ_labourer [pw=hhwtrp] if sex_male == 0, vce(robust)
+{txt}(sum of wgt is 73,554,170.894839)
+
+Linear regression                               Number of obs     = {res}    66,390
+                                                {txt}F(33, 66356)      =  {res}   503.40
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.2796
+                                                {txt}Root MSE          =    {res} .36682
+
+{txt}{hline 28}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 29}{c |}{col 41}    Robust
+{col 1}              log_real_wage{col 29}{c |} Coefficient{col 41}  std. err.{col 53}      t{col 61}   P>|t|{col 69}     [95% con{col 82}f. interval]
+{hline 28}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 14}sector_public {c |}{col 29}{res}{space 2} .0764523{col 41}{space 2} .0043383{col 52}{space 1}   17.62{col 61}{space 3}0.000{col 69}{space 4} .0679493{col 82}{space 3} .0849553
+{txt}{space 17}experience {c |}{col 29}{res}{space 2} .0183609{col 41}{space 2} .0009704{col 52}{space 1}   18.92{col 61}{space 3}0.000{col 69}{space 4} .0164589{col 82}{space 3}  .020263
+{txt}{space 14}experience_sq {c |}{col 29}{res}{space 2}-.0003026{col 41}{space 2} .0000217{col 52}{space 1}  -13.98{col 61}{space 3}0.000{col 69}{space 4}-.0003451{col 82}{space 3}-.0002602
+{txt}{space 20}edu_uni {c |}{col 29}{res}{space 2} .1837396{col 41}{space 2} .0064653{col 52}{space 1}   28.42{col 61}{space 3}0.000{col 69}{space 4} .1710675{col 82}{space 3} .1964116
+{txt}{space 11}edu_diploma_cert {c |}{col 29}{res}{space 2} .0887859{col 41}{space 2} .0052349{col 52}{space 1}   16.96{col 61}{space 3}0.000{col 69}{space 4} .0785256{col 82}{space 3} .0990462
+{txt}{space 17}children_1 {c |}{col 29}{res}{space 2} .0027773{col 41}{space 2}  .005499{col 52}{space 1}    0.51{col 61}{space 3}0.614{col 69}{space 4}-.0080008{col 82}{space 3} .0135554
+{txt}{space 17}children_2 {c |}{col 29}{res}{space 2} .0204532{col 41}{space 2} .0052702{col 52}{space 1}    3.88{col 61}{space 3}0.000{col 69}{space 4} .0101237{col 82}{space 3} .0307827
+{txt}{space 17}children_3 {c |}{col 29}{res}{space 2} .0236918{col 41}{space 2} .0074365{col 52}{space 1}    3.19{col 61}{space 3}0.001{col 69}{space 4} .0091164{col 82}{space 3} .0382673
+{txt}{space 12}children_4_plus {c |}{col 29}{res}{space 2} .0027655{col 41}{space 2}  .013807{col 52}{space 1}    0.20{col 61}{space 3}0.841{col 69}{space 4}-.0242961{col 82}{space 3} .0298271
+{txt}{space 16}health_poor {c |}{col 29}{res}{space 2}-.0475994{col 41}{space 2} .0057197{col 52}{space 1}   -8.32{col 61}{space 3}0.000{col 69}{space 4}-.0588099{col 82}{space 3}-.0363888
+{txt}{space 18}birth_eng {c |}{col 29}{res}{space 2} .0223834{col 41}{space 2} .0075363{col 52}{space 1}    2.97{col 61}{space 3}0.003{col 69}{space 4} .0076122{col 82}{space 3} .0371545
+{txt}{space 17}birth_neng {c |}{col 29}{res}{space 2} .0123796{col 41}{space 2} .0071842{col 52}{space 1}    1.72{col 61}{space 3}0.085{col 69}{space 4}-.0017015{col 82}{space 3} .0264606
+{txt}{space 16}married_yes {c |}{col 29}{res}{space 2}  .037696{col 41}{space 2} .0065459{col 52}{space 1}    5.76{col 61}{space 3}0.000{col 69}{space 4}  .024866{col 82}{space 3} .0505259
+{txt}{space 16}married_sep {c |}{col 29}{res}{space 2} .0054685{col 41}{space 2} .0085511{col 52}{space 1}    0.64{col 61}{space 3}0.522{col 69}{space 4}-.0112916{col 82}{space 3} .0222286
+{txt}{space 19}urban_no {c |}{col 29}{res}{space 2}-.0263024{col 41}{space 2} .0056721{col 52}{space 1}   -4.64{col 61}{space 3}0.000{col 69}{space 4}-.0374197{col 82}{space 3}-.0151851
+{txt}{space 18}state_VIC {c |}{col 29}{res}{space 2}-.0362588{col 41}{space 2} .0055241{col 52}{space 1}   -6.56{col 61}{space 3}0.000{col 69}{space 4}-.0470862{col 82}{space 3}-.0254315
+{txt}{space 19}state_WA {c |}{col 29}{res}{space 2}-.0053442{col 41}{space 2} .0071868{col 52}{space 1}   -0.74{col 61}{space 3}0.457{col 69}{space 4}-.0194303{col 82}{space 3} .0087418
+{txt}{space 18}state_QLD {c |}{col 29}{res}{space 2} -.052753{col 41}{space 2}  .005554{col 52}{space 1}   -9.50{col 61}{space 3}0.000{col 69}{space 4}-.0636389{col 82}{space 3}-.0418671
+{txt}{space 19}state_SA {c |}{col 29}{res}{space 2}-.0504536{col 41}{space 2} .0073524{col 52}{space 1}   -6.86{col 61}{space 3}0.000{col 69}{space 4}-.0648643{col 82}{space 3} -.036043
+{txt}{space 19}state_NT {c |}{col 29}{res}{space 2}-.0476256{col 41}{space 2}  .017498{col 52}{space 1}   -2.72{col 61}{space 3}0.006{col 69}{space 4}-.0819217{col 82}{space 3}-.0133295
+{txt}{space 18}state_TAS {c |}{col 29}{res}{space 2} -.065847{col 41}{space 2} .0092686{col 52}{space 1}   -7.10{col 61}{space 3}0.000{col 69}{space 4}-.0840135{col 82}{space 3}-.0476805
+{txt}{space 18}state_ACT {c |}{col 29}{res}{space 2} .0792126{col 41}{space 2} .0135159{col 52}{space 1}    5.86{col 61}{space 3}0.000{col 69}{space 4} .0527215{col 82}{space 3} .1057038
+{txt}{space 14}shiftwork_yes {c |}{col 29}{res}{space 2} .0685865{col 41}{space 2} .0055503{col 52}{space 1}   12.36{col 61}{space 3}0.000{col 69}{space 4} .0577078{col 82}{space 3} .0794652
+{txt}{space 19}parttime {c |}{col 29}{res}{space 2}-.0003778{col 41}{space 2} .0049459{col 52}{space 1}   -0.08{col 61}{space 3}0.939{col 69}{space 4}-.0100717{col 82}{space 3} .0093162
+{txt}{space 17}long_hours {c |}{col 29}{res}{space 2}-.0676029{col 41}{space 2} .0053762{col 52}{space 1}  -12.57{col 61}{space 3}0.000{col 69}{space 4}-.0781402{col 82}{space 3}-.0570657
+{txt}{space 21}casual {c |}{col 29}{res}{space 2}-.0228982{col 41}{space 2} .0069337{col 52}{space 1}   -3.30{col 61}{space 3}0.001{col 69}{space 4}-.0364882{col 82}{space 3}-.0093082
+{txt}{space 13}occ_tech_trade {c |}{col 29}{res}{space 2}-.3280974{col 41}{space 2}  .010613{col 52}{space 1}  -30.91{col 61}{space 3}0.000{col 69}{space 4}-.3488989{col 82}{space 3}-.3072959
+{txt}{space 9}occ_clerical_admin {c |}{col 29}{res}{space 2} -.227885{col 41}{space 2} .0084116{col 52}{space 1}  -27.09{col 61}{space 3}0.000{col 69}{space 4}-.2443718{col 82}{space 3}-.2113983
+{txt}{space 14}occ_machinery {c |}{col 29}{res}{space 2}-.3218238{col 41}{space 2} .0172094{col 52}{space 1}  -18.70{col 61}{space 3}0.000{col 69}{space 4}-.3555542{col 82}{space 3}-.2880934
+{txt}{space 19}occ_prof {c |}{col 29}{res}{space 2} -.016076{col 41}{space 2} .0086052{col 52}{space 1}   -1.87{col 61}{space 3}0.062{col 69}{space 4}-.0329422{col 82}{space 3} .0007902
+{txt}occ_community_personal_se~e {c |}{col 29}{res}{space 2}-.3491899{col 41}{space 2}  .009368{col 52}{space 1}  -37.27{col 61}{space 3}0.000{col 69}{space 4}-.3675512{col 82}{space 3}-.3308285
+{txt}{space 18}occ_sales {c |}{col 29}{res}{space 2}-.3598563{col 41}{space 2} .0103022{col 52}{space 1}  -34.93{col 61}{space 3}0.000{col 69}{space 4}-.3800486{col 82}{space 3} -.339664
+{txt}{space 15}occ_labourer {c |}{col 29}{res}{space 2}-.4398309{col 41}{space 2} .0140506{col 52}{space 1}  -31.30{col 61}{space 3}0.000{col 69}{space 4}-.4673701{col 82}{space 3}-.4122918
+{txt}{space 22}_cons {c |}{col 29}{res}{space 2} 3.136422{col 41}{space 2} .0134037{col 52}{space 1}  234.00{col 61}{space 3}0.000{col 69}{space 4} 3.110151{col 82}{space 3} 3.162693
+{txt}{hline 28}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. 
+. // 2. BO decomposition
+. // weight(1) ensures that public sector coefficients are used as the reference group
+. 
+. // Men without occupation
+. oaxaca log_real_wage experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT shiftwork_yes parttime long_hours casual if sex_male == 1 [pw=hhwtrp], by(sector_private) weight(1) nodetail
+{res}
+{txt}{col 1}Blinder-Oaxaca decomposition{col 49}{lalign 17:Number of obs}{col 66} = {res}{ralign 10:64,281}
+{txt}{col 49}Model{col 67}={col 69}    {res}linear
+{txt}Group 1: sector_private = {res}0{txt}{col 49}N of obs 1{col 67}={col 69}{res}    15,044
+{txt}Group 2: sector_private = {res}1{txt}{col 49}N of obs 2{col 67}={col 69}{res}    49,237
+
+{txt}    explained: (X1 - X2) * {bf:b1}
+  unexplained: {bf:X2} * (b1 - b2)
+
+{res}{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}log_real_w~e{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      z{col 46}   P>|z|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}overall      {txt}{c |}
+{space 5}group_1 {c |}{col 14}{res}{space 2} 3.514513{col 26}{space 2} .0045813{col 37}{space 1}  767.15{col 46}{space 3}0.000{col 54}{space 4} 3.505534{col 67}{space 3} 3.523493
+{txt}{space 5}group_2 {c |}{col 14}{res}{space 2} 3.360052{col 26}{space 2} .0030442{col 37}{space 1} 1103.75{col 46}{space 3}0.000{col 54}{space 4} 3.354086{col 67}{space 3} 3.366019
+{txt}{space 2}difference {c |}{col 14}{res}{space 2} .1544614{col 26}{space 2} .0055005{col 37}{space 1}   28.08{col 46}{space 3}0.000{col 54}{space 4} .1436806{col 67}{space 3} .1652422
+{txt}{space 3}explained {c |}{col 14}{res}{space 2} .0936929{col 26}{space 2} .0042727{col 37}{space 1}   21.93{col 46}{space 3}0.000{col 54}{space 4} .0853186{col 67}{space 3} .1020672
+{txt}{space 1}unexplained {c |}{col 14}{res}{space 2} .0607685{col 26}{space 2} .0066616{col 37}{space 1}    9.12{col 46}{space 3}0.000{col 54}{space 4}  .047712{col 67}{space 3} .0738249
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. *xi: oaxaca log_real_wage experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT shiftwork_yes parttime long_hours casual i.wave if sex_male == 1, by(sector_private) weight(1) nodetail
+. 
+. // Men with occupation
+. oaxaca log_real_wage experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT shiftwork_yes parttime long_hours casual occ_tech_trade occ_clerical_admin occ_machinery occ_prof occ_community_personal_service occ_sales occ_labourer if sex_male == 1 [pw=hhwtrp], by(sector_private) weight(1) nodetail
+{res}
+{txt}{col 1}Blinder-Oaxaca decomposition{col 49}{lalign 17:Number of obs}{col 66} = {res}{ralign 10:64,281}
+{txt}{col 49}Model{col 67}={col 69}    {res}linear
+{txt}Group 1: sector_private = {res}0{txt}{col 49}N of obs 1{col 67}={col 69}{res}    15,044
+{txt}Group 2: sector_private = {res}1{txt}{col 49}N of obs 2{col 67}={col 69}{res}    49,237
+
+{txt}    explained: (X1 - X2) * {bf:b1}
+  unexplained: {bf:X2} * (b1 - b2)
+
+{res}{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}log_real_w~e{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      z{col 46}   P>|z|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}overall      {txt}{c |}
+{space 5}group_1 {c |}{col 14}{res}{space 2} 3.514513{col 26}{space 2} .0045225{col 37}{space 1}  777.12{col 46}{space 3}0.000{col 54}{space 4}  3.50565{col 67}{space 3} 3.523377
+{txt}{space 5}group_2 {c |}{col 14}{res}{space 2} 3.360052{col 26}{space 2} .0030495{col 37}{space 1} 1101.84{col 46}{space 3}0.000{col 54}{space 4} 3.354075{col 67}{space 3} 3.366029
+{txt}{space 2}difference {c |}{col 14}{res}{space 2} .1544614{col 26}{space 2} .0054546{col 37}{space 1}   28.32{col 46}{space 3}0.000{col 54}{space 4} .1437706{col 67}{space 3} .1651522
+{txt}{space 3}explained {c |}{col 14}{res}{space 2} .1306393{col 26}{space 2} .0066638{col 37}{space 1}   19.60{col 46}{space 3}0.000{col 54}{space 4} .1175785{col 67}{space 3}    .1437
+{txt}{space 1}unexplained {c |}{col 14}{res}{space 2} .0238221{col 26}{space 2} .0084968{col 37}{space 1}    2.80{col 46}{space 3}0.005{col 54}{space 4} .0071687{col 67}{space 3} .0404756
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. 
+. // Women without occupation
+. oaxaca log_real_wage experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT shiftwork_yes parttime long_hours casual if sex_male == 0 [pw=hhwtrp], by(sector_private) weight(1) nodetail
+{res}
+{txt}{col 1}Blinder-Oaxaca decomposition{col 49}{lalign 17:Number of obs}{col 66} = {res}{ralign 10:66,390}
+{txt}{col 49}Model{col 67}={col 69}    {res}linear
+{txt}Group 1: sector_private = {res}0{txt}{col 49}N of obs 1{col 67}={col 69}{res}    22,745
+{txt}Group 2: sector_private = {res}1{txt}{col 49}N of obs 2{col 67}={col 69}{res}    43,645
+
+{txt}    explained: (X1 - X2) * {bf:b1}
+  unexplained: {bf:X2} * (b1 - b2)
+
+{res}{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}log_real_w~e{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      z{col 46}   P>|z|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}overall      {txt}{c |}
+{space 5}group_1 {c |}{col 14}{res}{space 2} 3.413256{col 26}{space 2} .0032813{col 37}{space 1} 1040.22{col 46}{space 3}0.000{col 54}{space 4} 3.406825{col 67}{space 3} 3.419687
+{txt}{space 5}group_2 {c |}{col 14}{res}{space 2} 3.193912{col 26}{space 2} .0029558{col 37}{space 1} 1080.57{col 46}{space 3}0.000{col 54}{space 4} 3.188119{col 67}{space 3} 3.199706
+{txt}{space 2}difference {c |}{col 14}{res}{space 2} .2193435{col 26}{space 2} .0044163{col 37}{space 1}   49.67{col 46}{space 3}0.000{col 54}{space 4} .2106877{col 67}{space 3} .2279992
+{txt}{space 3}explained {c |}{col 14}{res}{space 2} .0959926{col 26}{space 2} .0037257{col 37}{space 1}   25.77{col 46}{space 3}0.000{col 54}{space 4} .0886904{col 67}{space 3} .1032948
+{txt}{space 1}unexplained {c |}{col 14}{res}{space 2} .1233509{col 26}{space 2} .0059766{col 37}{space 1}   20.64{col 46}{space 3}0.000{col 54}{space 4}  .111637{col 67}{space 3} .1350648
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. 
+. // Women with occupation
+. oaxaca log_real_wage experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT shiftwork_yes parttime long_hours casual occ_tech_trade occ_clerical_admin occ_machinery occ_prof occ_community_personal_service occ_sales occ_labourer if sex_male == 0 [pw=hhwtrp], by(sector_private) weight(1) nodetail
+{res}
+{txt}{col 1}Blinder-Oaxaca decomposition{col 49}{lalign 17:Number of obs}{col 66} = {res}{ralign 10:66,390}
+{txt}{col 49}Model{col 67}={col 69}    {res}linear
+{txt}Group 1: sector_private = {res}0{txt}{col 49}N of obs 1{col 67}={col 69}{res}    22,745
+{txt}Group 2: sector_private = {res}1{txt}{col 49}N of obs 2{col 67}={col 69}{res}    43,645
+
+{txt}    explained: (X1 - X2) * {bf:b1}
+  unexplained: {bf:X2} * (b1 - b2)
+
+{res}{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}log_real_w~e{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      z{col 46}   P>|z|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}overall      {txt}{c |}
+{space 5}group_1 {c |}{col 14}{res}{space 2} 3.413256{col 26}{space 2} .0033198{col 37}{space 1} 1028.16{col 46}{space 3}0.000{col 54}{space 4} 3.406749{col 67}{space 3} 3.419762
+{txt}{space 5}group_2 {c |}{col 14}{res}{space 2} 3.193912{col 26}{space 2} .0028816{col 37}{space 1} 1108.39{col 46}{space 3}0.000{col 54}{space 4} 3.188265{col 67}{space 3}  3.19956
+{txt}{space 2}difference {c |}{col 14}{res}{space 2} .2193435{col 26}{space 2}  .004396{col 37}{space 1}   49.90{col 46}{space 3}0.000{col 54}{space 4} .2107276{col 67}{space 3} .2279594
+{txt}{space 3}explained {c |}{col 14}{res}{space 2}  .130891{col 26}{space 2} .0057506{col 37}{space 1}   22.76{col 46}{space 3}0.000{col 54}{space 4}   .11962{col 67}{space 3}  .142162
+{txt}{space 1}unexplained {c |}{col 14}{res}{space 2} .0884525{col 26}{space 2} .0071251{col 37}{space 1}   12.41{col 46}{space 3}0.000{col 54}{space 4} .0744876{col 67}{space 3} .1024173
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. 
+{txt}end of do-file
+
+{com}. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/Users/arbor/Documents/github repos/hons-project/data analysis/august_logs/OLS.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res}29 Aug 2023, 23:30:29
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

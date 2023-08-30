@@ -31,7 +31,7 @@ grouped_df <- income.males %>%
   filter(n_pub > min_obs & n_priv > min_obs) %>%
   filter(mean_log_rl_wg > 1.5) ######### DROP 52 OBSERVATIONS OF SOCIAL ASSISTANCE SERVICE FACTORY PROCESS WORKERS?!?!
 
-ggplot(data=grouped_df,aes(y = wage_gap, x = prop_pub, size=n_obs, colour=colour)) +
+ggplot(data=grouped_df,aes(y = wage_gap, x = prop_pub, size=n_obs)) +
   geom_point()
 ggplot(data=grouped_df,aes(y = mean_log_rl_wg, x = prop_pub, size=n_obs, colour=colour)) +
   geom_point() +
