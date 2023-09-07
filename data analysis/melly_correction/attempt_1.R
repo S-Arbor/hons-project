@@ -34,6 +34,8 @@ sectoral_movers <- income %>%
 income.males.mover <- income.males[income.males$xwaveid %in% sectoral_movers$xwaveid[sectoral_movers$mover],]
 income.females.mover <- income.females[income.females$xwaveid %in% sectoral_movers$xwaveid[sectoral_movers$mover],]
 
+length(unique(income.males.mover[income.males.mover$n_obs >= 15,]$xwaveid))
+
 ## ANALYSIS
 
 formula.1 <- formula(log_real_wage ~ experience + experience_sq + edu + sector)
@@ -64,16 +66,12 @@ fe_qr <- function(dataset, base_formula, tau, extended_formula = "none", fe_deta
   fixed.effs <- fixef(m.prelim)
   fixed.effs.df <- data.frame(xwaveid = names(fixed.effs), fixed.effs = fixed.effs)
   
-  print(min(fixed.effs))
-  print(max(fixed.effs))
-  print(any(is.na(fixed.effs)))
-  
   extended_df <- merge(dataset, fixed.effs.df, by="xwaveid")
   if (extended_formula == "none") {
     extended_formula <- update(base_formula, .~. + fixed.effs)
   }
   
-  if (fe_details != "none") {
+  if (fe_details == TRUE) {
     ggplot(data=fixed.effs.df, aes(x=fixed.effs)) +
       geom_density()
     print(min(fixed.effs))
@@ -279,10 +277,11 @@ for (min_nobs in 1:21) {
 }
 
 par(mfrow=c(2,2))
-plot(1:21, v.males.all, main='Males, all')
-plot(1:21, v.males.mover, main="Males, mover")
-plot(1:21, v.females.all, main='Females, all')
-plot(1:21, v.females.mover, main="Females, mover")
+mtext("0.5 Quantile, Convergence by Restricting n_obs, Unbalanced")
+plot(1:19, v.males.all, main='Males, all')
+plot(1:19, v.males.mover, main="Males, mover")
+plot(1:19, v.females.all, main='Females, all')
+plot(1:19, v.females.mover, main="Females, mover")
 
 ## Males, by wave
 ###### All, quantile 0.5
@@ -300,16 +299,40 @@ for (min_nobs in 2:21) {
 plot(2:21, v.males.all)
 
 ## Males, by wave
-###### All, quantile 0.5
-v.males.all <- c(0, 0, 0, 0)
-for (wave in 5:21) {
+###### Experimental
+
+####### THIS IS VERY SENSITIVE TO THE ORDER THAT WAVES ARE FED IN!?!?!
+v.males.all <- c()
+set.seed(2020202)
+waves = sample(1:19,size=19)
+for (wave in 5:19) {
   formula.b.1 <- formula(log_real_wage ~ sector + experience + experience_sq + married_yes + married_sep +
                            urban_no + state + shiftwork_yes + parttime + long_hours + casual + tenure + occupation)
   
-  test_df <- income.males[income.males$wave <= wave & income.males$n_obs >= 5,]
+  #test_df <- income.males[income.males$wave <= wave & income.males$n_obs >= 3,]
+  test_df <- income.males[income.males$wave %in% waves[1:wave] & income.males$n_obs > 3 & income.males$edu == "uni",]
+  
+  m.more_obs <- fe_qr(test_df, formula.b.1, tau=0.75)
+  #summary(lm.1)
+  v.males.all[wave-4] <- m.more_obs$coefficients[2]
+  print(wave)
+}
+plot(5:19, v.males.all)
+
+## females, test
+females.tester <- c()
+for (wave in 5:19) {
+  formula.b.1 <- formula(log_real_wage ~ sector + experience + experience_sq + married_yes + married_sep +
+                           urban_no + state + shiftwork_yes + parttime + long_hours + casual + tenure + occupation)
+  
+  #test_df <- income.males[income.males$wave <= wave & income.males$n_obs >= 3,]
+  test_df <- income.females[income.females$wave %in% waves[1:wave] & income.females$n_obs > 15,]
   
   m.more_obs <- fe_qr(test_df, formula.b.1, tau=0.5)
   #summary(lm.1)
-  v.males.all[min_nobs] <- m.more_obs$coefficients[2]
+  females.tester[wave-4] <- m.more_obs$coefficients[2]
+  print(wave)
 }
-plot(5:21, v.males.all[5:21])
+plot(5:19, females.tester)
+
+## 

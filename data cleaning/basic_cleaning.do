@@ -13,6 +13,9 @@ rename (jbhruc wscei hgsex hhtup) (all_hours all_wages sex top_up)
 *drop variables that were only used for cleaning in the rfile
 drop esbrd edfts
 
+// Drop waves 20 and 21 due to data quality issues
+keep if wave < 20
+
 *generate sector data
 generate sector_public = 0
 replace sector_public = 1 if jbmmpl == 3 | jbmmplr == 3 | jbmmply == 2 | jbmmpl == 5 | jbmmplr == 5 | jbmmply == 5

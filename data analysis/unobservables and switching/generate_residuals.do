@@ -3,7 +3,7 @@ clear
 *use "/home/sean/Code/honours/hons-project/cleaned_data/v3/basic_cleaned.dta"
 use "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v3/basic_cleaned.dta"
 
-keep if sex_female == 1
+keep if sex_male == 1
 
 bysort xwaveid (wave): gen leading_sector_public_reported = sector_public[_n+1] == 1 if sector_public[_n+1] != .
 bysort xwaveid (wave): gen leading_employer_change_reported = changed_employer[_n+1] == 1 if changed_employer[_n+1] != .
@@ -93,7 +93,6 @@ ttest real_wage if leading_employer_change_reported==1 & real_wage < 100 & real_
 ttest real_wage, by(leading_moved_public)
 
 tab leading_moved_public, summarize(m5_res)
-ttest m5_res if leading_employer_change_reported==1 & wave==19, by(leading_moved_public)
 
 ttest m6_res if leading_employer_change_reported==1, by(leading_moved_public)
 
@@ -102,6 +101,9 @@ ttest m6_res if leading_employer_change_reported==1, by(leading_moved_public)
 
 
 probit leading_moved_public m5_res experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT, vce(robust)
+
+predict probit_preds
+generate pred_moved_pub = probit_preds > 0.5
 
 probit leading_moved_public m5_res experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT if leading_employer_change_reported == 1, vce(robust)
 
