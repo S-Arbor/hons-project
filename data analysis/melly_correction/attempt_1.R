@@ -229,9 +229,16 @@ plot(1:21, v.females.mover, main="Females, mover")
 
 ###### All, quantile 0.5
 v.males.all <- c()
+formula.b.1 <- formula(log_real_wage ~ sector + experience + experience_sq + married_yes + married_sep +
+                         urban_no + state + shiftwork_yes + parttime + long_hours + casual + tenure + occupation)
+formula.b.2 <- formula(log_real_wage ~ sector + experience + experience_sq + married_yes + married_sep +
+                         urban_no + state + shiftwork_yes + parttime + long_hours + casual + tenure)
+formula.b.3 <- formula(log_real_wage ~ sector + experience + experience_sq + married_yes + married_sep +
+                         urban_no + state + shiftwork_yes + parttime + long_hours + casual)
+formula.b.4 <- formula(log_real_wage ~ sector + experience + experience_sq + married_yes + married_sep +
+                         urban_no + state + shiftwork_yes + parttime + long_hours + casual + wave)
 for (min_nobs in 1:21) {
-  formula.b.1 <- formula(log_real_wage ~ sector + experience + experience_sq + married_yes + married_sep +
-                           urban_no + state + shiftwork_yes + parttime + long_hours + casual + tenure + occupation)
+  
   
   test_df <- income.males[income.males$n_obs >= min_nobs,]
   
@@ -310,9 +317,9 @@ for (wave in 5:19) {
                            urban_no + state + shiftwork_yes + parttime + long_hours + casual + tenure + occupation)
   
   #test_df <- income.males[income.males$wave <= wave & income.males$n_obs >= 3,]
-  test_df <- income.males[income.males$wave %in% waves[1:wave] & income.males$n_obs > 3 & income.males$edu == "uni",]
+  test_df <- income.males[income.males$wave %in% waves[1:wave] & income.males$n_obs > 18 & income.males$edu == "uni",]
   
-  m.more_obs <- fe_qr(test_df, formula.b.1, tau=0.75)
+  m.more_obs <- fe_qr(test_df, formula.b.1, tau=0.5)
   #summary(lm.1)
   v.males.all[wave-4] <- m.more_obs$coefficients[2]
   print(wave)
@@ -335,4 +342,30 @@ for (wave in 5:19) {
 }
 plot(5:19, females.tester)
 
-## 
+## New algorithm!?!?
+v.males.all <- c()
+income.males$sampling_id <- 1
+set.seed(2020202)
+sampling_ids = sample(1:19,size=19)
+for (xwaveid in unique(income.males$xwaveid)) {
+  income.males$sampling_id[income.males$xwaveid == xwaveid] = sample(1:19, size=nrow(income.males[income.males$xwaveid == xwaveid,]), replace=FALSE)
+}
+
+for (wave in 5:19) {
+  formula.b.1 <- formula(log_real_wage ~ sector + experience + experience_sq + married_yes + married_sep +
+                           urban_no + state + shiftwork_yes + parttime + long_hours + casual + tenure + occupation)
+  
+  #test_df <- income.males[income.males$wave <= wave & income.males$n_obs >= 3,]
+  test_df <- income.males[income.males$sampling_id %in% sampling_ids[1:wave] & income.males$n_obs > 17 & income.males$edu == "uni",]
+  
+  m.more_obs <- fe_qr(test_df, formula.b.1, tau=0.5)
+  #summary(lm.1)
+  v.males.all[wave-4] <- m.more_obs$coefficients[2]
+  print(wave)
+}
+plot(5:19, v.males.all)
+
+
+## Initialise at year of change
+
+## Alter pub to priv and priv to pub

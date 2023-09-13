@@ -2,8 +2,8 @@
 * It then drops missing observations, codes dummies and cleans up categorical variables to have the correct levels
 
 clear
-*use "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v3/base_longfile.dta"
-use "/home/sean/Code/honours/hons-project/cleaned_data/v3/base_longfile.dta"
+use "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v3/base_longfile.dta"
+*use "/home/sean/Code/honours/hons-project/cleaned_data/v3/base_longfile.dta"
 
 *rename variables
 
@@ -323,9 +323,12 @@ rename (jbmplej jbmpgj jbmsall jbmspay) (chance_volun_leave chance_find_geq_job_
 
 * Addressing movers
 // This code takes the leading sector and leading employer change, if sector changed without employer changing then all observations from the individual are dropped from the data set.
-bysort xwaveid (wave): gen leading_sector_public = sector_public[_n+1] if sector_public[_n+1] != . & wave[_n+1] == wave + 1
-bysort xwaveid (wave): gen leading_employer_change_reported = changed_employer[_n+1] == 1 if changed_employer[_n+1] != . & wave[_n+1] == wave + 1
+bysort xwaveid (wave): gen leading_sector_public = sector_public[_n+1] if sector_public[_n+1] != .
+bysort xwaveid (wave): gen leading_employer_change_reported = changed_employer[_n+1] == 1 if changed_employer[_n+1] != .
 bysort xwaveid (wave): gen leading_sector_change = leading_sector_public != sector_public & leading_sector_public != . if changed_employer[_n+1] != .
+bysort xwaveid (wave): gen leading_wave_1_off = wave[_n+1] == wave + 1
+
+gen missing_leading_emp_change = leading_employer_change_reported == .
 
 generate bad_obs = leading_sector_change == 1 & leading_employer_change_reported == 0
 
@@ -340,5 +343,5 @@ generate leading_moved_private = leading_sector_public == 0 & leading_sector_cha
 
 summarize
 
-save "/home/sean/Code/honours/hons-project/cleaned_data/v3/basic_cleaned.dta", replace
-*save "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v3/basic_cleaned.dta", replace
+*save "/home/sean/Code/honours/hons-project/cleaned_data/v3/basic_cleaned.dta", replace
+save "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v3/basic_cleaned.dta", replace
