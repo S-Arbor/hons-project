@@ -1,6 +1,6 @@
 # Purpose of the program:
-# =======================
-# This program creates one long file on a subset of variables across all HILDA waves.
+# This code converts the Hilda waves into one longfile, selecting only a subset of variables.
+# This is because the file sizes are too large for Stata's cheaper versions to handle
 #
 # Based on code from the Hilda program library by Mossamet Nesa
 
@@ -9,22 +9,23 @@ rm(list = ls())
 library(haven)
 library(tidyverse)
 
+# Hilda parameters
 last_wave <- 21 # Last wave to analyse
 maxwave <- 21   # Update to the latest wave.
 rls <- 210      # Update to the latest release.
-# to set current dir can use dirname(rstudioapi::getActiveDocumentContext()$path) but varies based on whether in Rstudio
-rel_origdatdir <- "../hilda_data/stata_combined"
-rel_xtradatdir <- "../supplementary_data"
-rel_newdatdir <- "../cleaned_data/v3" # Location of writing new data files
 
+# File structure parameters
+rel_origdatdir <- "../hilda_data/stata_combined" # Relative location of Hilda
+rel_xtradatdir <- "../supplementary_data"        # Relative location of cpi, wpi data
+rel_newdatdir <- "../cleaned_data/v4"            # Relative location of where to store results
 
-# SECTION 1: Creating an unbalanced dataset (long-format)
+# Set absolute directory variables
 doc_dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
 origdatdir <- paste(doc_dir, "/", rel_origdatdir, sep="")
 xtradatdir <- paste(doc_dir, "/", rel_xtradatdir, sep="")
 newdatdir <- paste(doc_dir, "/", rel_newdatdir, sep="")
 
-# Load CPI data
+# Load CPI, WPI data
 setwd(xtradatdir)
 aus_cpi <- read.csv("aus_cpi.csv")
 aus_cpi$year <- sub("^[^-]+-", "", aus_cpi$Quarter)
@@ -41,6 +42,7 @@ annual_wpi <- aus_wpi %>%
 
 # Load main data
 setwd(origdatdir)
+
 var <- c("jbmhruc", "wscmei", "jbhruc", "wscei", # income variables
          "jbmmply", "jbmmpl", "jbmmplr",         # sector
          "hgage", "ehtjb",                       # age and experience
@@ -49,17 +51,13 @@ var <- c("jbmhruc", "wscmei", "jbhruc", "wscei", # income variables
          "hhssos",                               # urban
          "jbmi61", "jbmo61",                     # industry and occupation
          "aneab", "hgeab",                       # English proficiency
-         "jbmsch",                               # shiftwork and day worked
-         "jbmtuea", #"jbmtabs",                  # union, trade union membership (left out since non comprehensive, review later)
+         "jbmsch", "jbmtuea",                    # shiftwork, union
          "tcr", "tcr04", "hhyng",                # number of children
          "edfts", "esbrd", "esempst",            # full time student, employed, ft/pt, self employed / own business
-         #"alpd", "alsk",                        # paid annual and sick leave in last 12 months (left out since non comprehensive)
-         "jbempt", "pjsemp",                     # tenure
-         "jbmwpsz", "jbmwps", #"jbmemsz",        # firm size
+         "jbempt", "pjsemp",                     # tenure, changed employer
+         "jbmwpsz", "jbmwps", "jbmemsz",         # firm size (office, early waves), firm size (office, late waves), firm size (across Aus)
          "jbcasab",                              # casual
-         "jbmplej", "jbmpgj",                    # chance to leave job
-         "jbmsall", "jbmspay",                   # []/pay satisfaction
-         "hhtup", "hhwtrp", "wleta_ts",          # top up sample, cross-sectional weights
+         "hhtup", "hhwtrp",                      # top up sample, cross-sectional weights
          "jbmi62", "jbmo62"                      # more detailed industry / occupation
         )
 
@@ -74,37 +72,39 @@ for( i in 1:last_wave) {
   temp$cpi <- annual_cpi$annual_cpi[annual_cpi$year == 2000+i]
   temp$wpi <- annual_wpi$annual_wpi[annual_wpi$year == 2000+i]
   
-  # add restrictions to the data:
-  #  1. Only those are employed
-  #  2. Only those who are 22-64
-  #  3. No full time students
-  #  4. Has data on sector
-  #  5. Has data on wage (i.e. hours and pay for main job)
-  employed = temp$esbrd == 1
-  over21 = temp$hgage > 21
-  under65 = temp$hgage < 65
-  not_fulltimestudent = temp$edfts == 0
-  wage_data = temp$jbmhruc >= 0 & temp$wscmei >=0
+  # Previously restrictions on the sample were done here. This meant data on the previous wave was occassionally missing,
+  # this data is necessary for data quality (did the reported sector change after a change in employer)
+  # Therefore a larger dataset is now selected and then restrictions are done in Stata
   
-  if (i == 1) {
-    sector_data = temp$jbmmpl > 0
-  } else if (i == 2) {
-    sector_data = temp$jbmmplr > 0
-  } else {
-    sector_data = temp$jbmmply > 0
-  }
-  
-  reduced_temp <- temp[employed & over21 & under65 & not_fulltimestudent & sector_data & wage_data,]
+  # # add restrictions to the data:
+  # #  1. Only those are employed
+  # #  2. Only those who are 22-64
+  # #  3. No full time students
+  # #  4. Has data on sector
+  # #  5. Has data on wage (i.e. hours and pay for main job)
+  # employed = temp$esbrd == 1
+  # over21 = temp$hgage > 21
+  # under65 = temp$hgage < 65
+  # not_fulltimestudent = temp$edfts == 0
+  # wage_data = temp$jbmhruc >= 0 & temp$wscmei >=0
+  # 
+  # if (i == 1) {
+  #   sector_data = temp$jbmmpl > 0
+  # } else if (i == 2) {
+  #   sector_data = temp$jbmmplr > 0
+  # } else {
+  #   sector_data = temp$jbmmply > 0
+  # }
+  # 
+  # reduced_temp <- temp[employed & over21 & under65 & not_fulltimestudent & sector_data & wage_data,]
   
   if (i == 1 ){
-    longfile <- reduced_temp
+    longfile <- temp
   } else {
-    longfile <- bind_rows(longfile, reduced_temp) # Append the data file from each wave
+    longfile <- bind_rows(longfile, temp) # Append the data file from each wave
   }
 }
 
-
-
 # Save new data set
 setwd(newdatdir)
-write_dta(longfile, "base_longfile.dta") # Could save as a stata data file
+write_dta(longfile, "base_longfile.dta")
