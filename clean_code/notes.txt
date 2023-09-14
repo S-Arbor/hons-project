@@ -1,0 +1,2 @@
+Other files not included here:
+For analysis of why wave 20 and 21 dropped go to old_data_analysis/clean_v2/0.1_Covid_Time_Trends.R

@@ -8,6 +8,8 @@
 // 4. Cleaning each variable in detail: dropping observations with missing data
 //    on core variables and generating dummies and rebalancing categorical
 //    variables where necessary
+// 5. Create additional variables for real and logged wages as well as leading
+//    indicators of whether somebody changed job
 
 
 ///////////////////////////////////////////
@@ -20,8 +22,12 @@ use "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v4/base_longf
 rename (jbmhruc wscmei hgage ehtjb tcr tcr04 jbempt jbmi61 jbmo61) (main_hours main_income age experience n_resident_children n_children_under_5 tenure industry occupation)
 rename (jbhruc wscei hgsex hhtup) (all_hours all_wages sex top_up)
 
+// Just use waves 1-19 so I drop all other waves here
+
+keep if wave < 20
+
 ///////////////////////////////////////////
-// 1. Aggregating Split Variables /////////
+// 2. Aggregating Split Variables /////////
 ///////////////////////////////////////////
 
 // Some variables names change across waves, this code merges those variables
@@ -38,12 +44,11 @@ replace sector_private = 1 if jbmmpl == 1 | jbmmplr == 1 | jbmmply == 1 | jbmmpl
 replace sector_public = 0 if sector_private == 1
 replace sector_private = 0 if sector_public == 1
 
-// This variable is just for cleaning purposes, dropped later (includes other commercial and other noncommercial)
-generate sector_other_unknown = .
-replace sector_other_unknown = 0 if sector_public == 1 | sector_private == 1
-replace sector_other_unknown = 1 if 
-
-drop jbmmpl jbmmplr jbmmply
+// Variable for cleaning only
+generate sector_factor = .
+replace sector_factor = 1 if sector_public == 1
+replace sector_factor = 2 if sector_private == 1
+replace sector_factor = 3 if jbmmpl == 4 | jbmmpl == 6 | jbmmplr == 4 | jbmmplr == 6 | jbmmply == 3 | jbmmply == 6
 
 
 // Poor English
@@ -60,63 +65,67 @@ drop aneab hgeab
 
 
 ///////////////////////////////////////////
-// 1. Restrict Sample /////////////////////
+// 3. Restrict Sample /////////////////////
 ///////////////////////////////////////////
 
-// Data quality restriction: drop any individuals who report switching from
-// public to private but do not report switching employer
+// Data quality risks in the sample
+// We drop all individuals who:
+//     1. Report changing sector without changing employer
+//     2. Ever report not knowing sector
 
 generate changed_employer = .
 replace changed_employer = 1 if pjsemp == 2
 replace changed_employer = 0 if pjsemp == 1
 drop pjsemp
 
-bysort xwaveid (wave): gen lagged_sector_public = sector_public[_n-1] if sector_public[_n-1] != .
-bysort xwaveid (wave): gen lagged_sector_private = sector_private[_n-1] if sector_private[_n-1] != .
+bysort xwaveid (wave): gen changed_sector = sector_factor[_n-1] != sector_factor if sector_factor[_n-1] != . & sector_factor != .
 
-gen sector_change = sector_public != lagged_sector_public | sector_private != sector_private if sector_public != . & lagged_sector_public != .
+generate sector_misreport_risk = changed_sector == 1 & changed_employer == 0
+gen sector_dont_know = jbmmpl == -3 | jbmmplr == -3 | jbmmply == -3
 
-gen changed_sector_unknown = sector_change == .
+bysort xwaveid (wave): egen tot_sector_misreport_risk = total(sector_misreport_risk)
+bysort xwaveid (wave): egen tot_sector_dont_know = total(sector_dont_know)
 
+keep if tot_sector_misreport_risk < 1
+keep if tot_sector_dont_know < 1
 
+drop jbmmpl jbmmplr jbmmply
+drop tot_sector_dont_know tot_sector_misreport_risk changed_sector sector_dont_know
 
+// Additional restrictions:
+//     1. Employed
+//     2. Age 22-64
+//     3. Not studying full time
+//     4. Has data on sector private or public
+//     5. Worked 5-60 hours and earned at least $1
+//     6. Not employed by own business or self-employed or unpaid family worker
 
-bysort xwaveid (wave): gen leading_wave_1_off = wave[_n+1] == wave + 1
+keep if esbrd == 1
+keep if age >= 22 & age <= 64
+keep if edfts == 0
+keep if sector_public == 1 | sector_private == 1
+keep if main_hours >= 5 & main_hours <= 60 & main_income > 1
+keep if esempst == 1
 
-gen missing_leading_emp_change = leading_employer_change_reported == .
+drop esbrd edfts sector_factor esempst
 
-generate bad_obs = leading_sector_change == 1 & leading_employer_change_reported == 0
+///////////////////////////////////////////
+// 4. Clean Each Variable /////////////////
+///////////////////////////////////////////
 
-bysort xwaveid (wave): egen tot_bad_obs = total(bad_obs)
+// For each variable in analysis:
+//     1. Create dummies or relevel var where necessary
+//     2. Drop observations with missing data
 
-keep if tot_bad_obs == 0
-
-generate leading_moved_public = leading_sector_public == 1 & leading_sector_change == 1
-generate leading_moved_private = leading_sector_public == 0 & leading_sector_change == 1
-
-
-// Drop waves 20 and 21 due to data quality issues
-keep if wave < 20
-drop if sector_private == 0 & sector_public == 0
-*drop variables that were only used for cleaning in the rfile
-drop esbrd edfts
-
-
-
-*experience
+// experience
 keep if experience >= 0
 generate experience_sq = experience^2
 
+// sex
+generate sex_male = sex == 1
+generate sex_female = sex == 0
 
-*sex
-generate sex_male = 0
-replace sex_male = 1 if sex == 1
-
-generate sex_female = 0
-replace sex_female = 1 if sex == 2
-
-
-*children
+// children
 generate children_0 = n_resident_children == 0
 generate children_1 = n_resident_children == 1
 generate children_2 = n_resident_children == 2
@@ -131,18 +140,17 @@ replace children_cat = "2" if children_2 == 1
 replace children_cat = "3" if children_3 == 1
 replace children_cat = "4" if children_4_plus == 1
 
-
 generate children_under_5 = n_children_under_5 > 0
 generate children_under_5_no = n_children_under_5 == 0
 
 generate residents_under_5 = hhyng < 5
 
-*education
+// education
 generate edu = "uni"
 
-generate edu_uni = edhigh1 == 1 | edhigh1 == 3
+generate edu_uni = edhigh1 >= 1 & edhigh1 <= 3
 
-generate edu_diploma_cert = edhigh1 == 2 | edhigh1 == 4 | edhigh1 == 5
+generate edu_diploma_cert = edhigh1 == 4 | edhigh1 == 5
 replace edu = "diploma_cert" if edu_diploma_cert == 1
 
 generate edu_y12_or_less = edhigh1 == 8 | edhigh1 == 9
@@ -152,7 +160,7 @@ keep if edu_uni == 1 | edu_diploma_cert == 1 | edu_y12_or_less == 1
 drop edhigh1
 
 
-*health
+// health
 generate health_good = 0
 replace health_good = 1 if helth == 2
 
@@ -181,7 +189,7 @@ replace birth = "non eng" if birth_neng == 1
 drop anbcob
 
 
-*industry
+// industry
 replace industry = 19 if industry < 0
 gen ind_agri = 1.industry
 gen ind_mine = 2.industry
@@ -203,8 +211,7 @@ gen ind_health = 17.industry
 gen ind_arts_rec = 18.industry
 gen ind_other_unknown = 19.industry
 
-
-*occupation
+// occupation
 keep if occupation > 0
 gen occ_manage = 1.occupation
 gen occ_prof = 2.occupation
@@ -217,7 +224,7 @@ gen occ_labourer = 8.occupation
 *tabulate occupation, summarize(psec)
 
 
-*marriage
+// marriage
 gen married = "yes"
 
 gen married_yes = mrcurr == 1 | mrcurr == 2
@@ -231,15 +238,8 @@ replace married = "never" if married_never == 1
 drop if mrcurr < 0
 drop mrcurr
 
-*large capital (using hhssos instead)
-drop hhsgcc
-**generate large_capital = 0
-**replace large_capital = 1 if hhsgcc == 11 | hhsgcc == 21 | hhsgcc == 31 | hhsgcc == 41 | hhsgcc == 51
-**generate large_capital_unknown = 0
-**replace large_capital_unknown = 1 if hhsgcc < 0
-
-
-* urban
+// urban
+// tabbing revealed hhssos was always 0-3 except 10 occurences of -7
 generate urban_yes = 0
 replace urban = 1 if hhssos == 0 | hhssos == 1
 
@@ -248,7 +248,7 @@ generate urban_no = hhssos > 1
 drop if hhssos < 0
 drop hhssos
 
-*state
+// state
 keep if hhstate > 0
 gen state_NSW = 1.hhstate
 gen state_VIC = 2.hhstate
@@ -261,8 +261,7 @@ gen state_ACT = 8.hhstate
 
 rename hhstate state
 
-
-*shiftwork
+// shiftwork
 keep if jbmsch > 0
 
 generate shiftwork_yes = 1
@@ -302,21 +301,12 @@ generate firm_size_unknown = firm_size == "unknown"
 
 drop jbmwps jbmwpsz
 
-*drop if firm_size == "unknown"
-*<20, 20-99, 100-199, 200-499, 500+, unknown
-
-
-*self employed
-keep if esempst == 1
-drop esempst
-
-
-*tenure
+// tenure
 keep if tenure>=0
 
-
-*union
-keep if jbmtuea > 0
+// union
+// Not a core variable so I do not restrict sample based on it
+// keep if jbmtuea > 0
 generate union_yes = 0
 replace union_yes = 1 if jbmtuea == 1
 
@@ -325,33 +315,24 @@ replace union_no = 1 if union_yes == 0
 
 drop jbmtuea
 
-*part time and long hours
+// part time and long hours
 generate parttime = main_hours < 35
 generate partime_no = main_hours >= 35
 
 generate long_hours = main_hours >= 41
 
-
-*casual
+// casual
 generate casual = jbcasab == 1
 generate casual_no = jbcasab == 2
-drop if casual ==0 & casual_no == 0
+drop if casual == 0 & casual_no == 0
 drop jbcasab
 
 
-*changed employer
-generate changed_employer = .
-replace changed_employer = 1 if pjsemp == 2
-replace changed_employer = 0 if pjsemp == 1
-drop pjsemp
+///////////////////////////////////////////
+// 2. Generate Additional Variables ///////
+///////////////////////////////////////////
 
-
-*income and wage
-keep if main_hours >= 5
-keep if main_hours <= 60
-
-keep if main_income >= 1
-
+// transformed wage
 generate wage = main_income / main_hours
 generate log_wage = log(wage)
 
@@ -362,38 +343,25 @@ generate wpi_adj_wage = wage * 100 / wpi
 generate log_wpi_adj_wage = log(wpi_adj_wage)
 
 
-*job satisfaction
-replace jbmplej = . if jbmplej < 0 | jbmplej == 999
+// generate 1 year movers
+// create a leading indicator of someone's switch in sector for use in switching analysis
+// additionally, create leading changing in wages
+bysort xwaveid (wave): gen leading_sector_change_1_year = sector_public[_n+1] != sector_public if wave[_n+1] == wave + 1
+bysort xwaveid (wave): gen leading_real_wage = real_wage[_n+1]
+bysort xwaveid (wave): gen leading_log_real_wage = log_real_wage[_n+1]
+bysort xwaveid (wave): gen leading_changed_emp_1_year = changed_employer[_n+1] if wave[_n+1] == wave + 1
 
-replace jbmpgj = . if jbmpgj < 0 | jbmpgj > 100
+gen leading_real_wage_change = leading_real_wage - real_wage
+gen leading_log_real_wage_change = leading_log_real_wage - log_real_wage
+gen leading_moved_public_1_year = sector_public == 1 & leading_sector_change_1_year == 1 if leading_sector_change_1_year < .
+gen leading_moved_private_1_year = sector_public == 0 & leading_sector_change_1_year == 1 if leading_sector_change_1_year < .
 
-replace jbmsall = . if jbmsall < 0
 
-replace jbmspay = . if jbmspay < 0
-
-rename (jbmplej jbmpgj jbmsall jbmspay) (chance_volun_leave chance_find_geq_job_if_lose job_satisfaction pay_satisfaction)
-
-* Addressing movers
-// This code takes the leading sector and leading employer change, if sector changed without employer changing then all observations from the individual are dropped from the data set.
-bysort xwaveid (wave): gen leading_sector_public = sector_public[_n+1] if sector_public[_n+1] != .
-bysort xwaveid (wave): gen leading_employer_change_reported = changed_employer[_n+1] == 1 if changed_employer[_n+1] != .
-bysort xwaveid (wave): gen leading_sector_change = leading_sector_public != sector_public & leading_sector_public != . if changed_employer[_n+1] != .
-bysort xwaveid (wave): gen leading_wave_1_off = wave[_n+1] == wave + 1
-
-gen missing_leading_emp_change = leading_employer_change_reported == .
-
-generate bad_obs = leading_sector_change == 1 & leading_employer_change_reported == 0
-
-bysort xwaveid (wave): egen tot_bad_obs = total(bad_obs)
-
-keep if tot_bad_obs == 0
-
-generate leading_moved_public = leading_sector_public == 1 & leading_sector_change == 1
-generate leading_moved_private = leading_sector_public == 0 & leading_sector_change == 1
-
-* summarize and save
+///////////////////////////////////////////
+// 6. Summarize & Save ////////////////////
+///////////////////////////////////////////
 
 summarize
 
-*save "/home/sean/Code/honours/hons-project/cleaned_data/v3/basic_cleaned.dta", replace
-save "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v3/basic_cleaned.dta", replace
+*save "/home/sean/Code/honours/hons-project/cleaned_data/v4/basic_cleaned.dta", replace
+save "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v4/basic_cleaned.dta", replace
