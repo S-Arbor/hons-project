@@ -327,10 +327,15 @@ generate casual_no = jbcasab == 2
 drop if casual == 0 & casual_no == 0
 drop jbcasab
 
+// wave
+tabulate wave, generate(w)
 
 ///////////////////////////////////////////
 // 2. Generate Additional Variables ///////
 ///////////////////////////////////////////
+
+// xwaveid as factor for qrprocess
+encode xwaveid, gen(xwaveid_factor)
 
 // transformed wage
 generate wage = main_income / main_hours
@@ -341,7 +346,6 @@ generate log_real_wage = log(real_wage)
 
 generate wpi_adj_wage = wage * 100 / wpi
 generate log_wpi_adj_wage = log(wpi_adj_wage)
-
 
 // generate 1 year movers
 // create a leading indicator of someone's switch in sector for use in switching analysis
