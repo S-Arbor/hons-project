@@ -123,7 +123,7 @@ generate experience_sq = experience^2
 
 // sex
 generate sex_male = sex == 1
-generate sex_female = sex == 0
+generate sex_female = sex_male == 0
 
 // children
 generate children_0 = n_resident_children == 0
@@ -357,8 +357,8 @@ bysort xwaveid (wave): gen leading_changed_emp_1_year = changed_employer[_n+1] i
 
 gen leading_real_wage_change = leading_real_wage - real_wage
 gen leading_log_real_wage_change = leading_log_real_wage - log_real_wage
-gen leading_moved_public_1_year = sector_public == 1 & leading_sector_change_1_year == 1 if leading_sector_change_1_year < .
-gen leading_moved_private_1_year = sector_public == 0 & leading_sector_change_1_year == 1 if leading_sector_change_1_year < .
+gen leading_moved_public_1_year = sector_public == 0 & leading_sector_change_1_year == 1 if leading_sector_change_1_year < .
+gen leading_moved_private_1_year = sector_public == 1 & leading_sector_change_1_year == 1 if leading_sector_change_1_year < .
 
 
 ///////////////////////////////////////////

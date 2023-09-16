@@ -1,7 +1,7 @@
 clear
 
 *use "/home/sean/Code/honours/hons-project/cleaned_data/v3/basic_cleaned.dta"
-use "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v3/basic_cleaned.dta"
+use "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v4/basic_cleaned.dta", replace
 
 keep if sex_male == 1
 
