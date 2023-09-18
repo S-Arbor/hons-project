@@ -16,8 +16,8 @@
 // 1. Loading and Renaming ////////////////
 ///////////////////////////////////////////
 
-use "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v4/base_longfile.dta", clear
-// use "/home/sean/Code/honours/hons-project/cleaned_data/v4/base_longfile.dta", clear
+// use "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v4/base_longfile.dta", clear
+use "/home/sean/Code/honours/hons-project/cleaned_data/v4/base_longfile.dta", clear
 
 rename (jbmhruc wscmei hgage ehtjb tcr tcr04 jbempt jbmi61 jbmo61) (main_hours main_income age experience n_resident_children n_children_under_5 tenure industry occupation)
 rename (jbhruc wscei hgsex hhtup) (all_hours all_wages sex top_up)
@@ -337,6 +337,9 @@ tabulate wave, generate(w)
 // xwaveid as factor for qrprocess
 encode xwaveid, gen(xwaveid_factor)
 
+// wave_sq for simpler model
+gen wave_sq = wave*wave
+
 // transformed wage
 generate wage = main_income / main_hours
 generate log_wage = log(wage)
@@ -367,5 +370,5 @@ gen leading_moved_private_1_year = sector_public == 1 & leading_sector_change_1_
 
 summarize
 
-*save "/home/sean/Code/honours/hons-project/cleaned_data/v4/basic_cleaned.dta", replace
-save "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v4/basic_cleaned.dta", replace
+save "/home/sean/Code/honours/hons-project/cleaned_data/v4/basic_cleaned.dta", replace
+// save "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v4/basic_cleaned.dta", replace

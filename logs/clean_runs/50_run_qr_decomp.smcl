@@ -1,0 +1,528 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/home/sean/Code/honours/hons-project/logs/clean_runs/50_run_qr_decomp.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}17 Sep 2023, 20:45:37
+
+{com}. do "/tmp/SD14815.000000"
+{txt}
+{com}. // This file contains the basic OLS regressions of the project by gender and then presents decompositions
+. 
+. // Controls:
+. // M1: sector_public experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT shiftwork_yes parttime long_hours casual tenure i.wave
+. // M2: sector_public experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT shiftwork_yes parttime long_hours casual tenure i.wave occ_tech_trade occ_clerical_admin occ_machinery occ_prof occ_community_personal_service occ_sales occ_labourer
+. 
+. // For oaxaca replace i.wave with w2 w3 w4 w5 w6 w7 w8 w9 w10 w11 w12 w13 w14 w15 w16 w17 w18 w19 since it does not accept factors
+. 
+. // use "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v4/basic_cleaned.dta", clear
+. use "/home/sean/Code/honours/hons-project/cleaned_data/v4/basic_cleaned.dta", clear
+{txt}
+{com}. 
+. eststo clear
+{txt}
+{com}. 
+. // 1. QR decomposition
+. // Men without occupation
+. cdeco log_real_wage experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT shiftwork_yes parttime long_hours casual tenure i.wave if sex_male == 1 [pw=hhwtrp], group(sector_private) quantile(0.1, 0.25, 0.5, 0.75, 0.9) reps(50)
+{res}{txt}(bootstrapping {res}{txt}.{res}{txt}.{res}{txt}.{err}x{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{err}x{res}{txt}.{res}{txt}.{err}x{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{err}xx{res}{txt}.{res}{txt}.{err}x{res}{txt}.{res}{txt}.{err}x{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{err}x{res}{txt}.)
+{res}
+{txt}{col 0}Conditional model{res}{col 43}linear quantile regression
+{txt}{col 0}Number of regressions estimated{res}{col 43}100     
+
+{txt}The variance has been estimated by bootstraping the results {res}50{txt} times.
+
+{col 0}No. of obs. in the reference group{res}{col 43}10083   
+{txt}{col 0}No. of obs. in the counterfactual group{res}{col 43}39515   
+
+
+{txt}Differences between the observable distributions (based on the conditional model)
+{hline 12}{c TT}{hline 68}
+{col 13}{c |}{col 15} Quantile {col 28}Pointwise {col 46}Pointwise{col 62}     Functional      
+{col 0}Quantile{col 13}{c |}{col 15}  effect  {col 28}Std. Err. {col 41}[95% Conf. Interval]{col 62}[95% Conf. Interval] 
+{hline 12}{c +}{hline 68}
+{col 0}.1{col 13}{c |}{col 16}{res} .264619{col 28} .006411{col 40} .252053{col 51} .277184{col 63} .250766{col 73} .278471
+{txt}{col 0}.25{col 13}{c |}{col 16}{res} .259537{col 28} .006039{col 40} .247701{col 51} .271373{col 63} .246489{col 73} .272585
+{txt}{col 0}.5{col 13}{c |}{col 16}{res}  .22237{col 28} .005728{col 40} .211142{col 51} .233597{col 63} .209992{col 73} .234747
+{txt}{col 0}.75{col 13}{c |}{col 16}{res} .134587{col 28} .006127{col 40} .122579{col 51} .146596{col 63} .121349{col 73} .147826
+{txt}{col 0}.9{col 13}{c |}{col 16}{res} .020445{col 28} .007954{col 40} .004856{col 51} .036035{col 63} .003259{col 73} .037631
+{txt}{hline 12}{c BT}{hline 68}
+
+
+Effects of characteristics
+{hline 12}{c TT}{hline 68}
+{col 13}{c |}{col 15} Quantile {col 28}Pointwise {col 46}Pointwise{col 62}     Functional      
+{col 0}Quantile{col 13}{c |}{col 15}  effect  {col 28}Std. Err. {col 41}[95% Conf. Interval]{col 62}[95% Conf. Interval] 
+{hline 12}{c +}{hline 68}
+{col 0}.1{col 13}{c |}{col 16}{res} .143548{col 28} .008162{col 40} .127551{col 51} .159546{col 63} .126592{col 73} .160505
+{txt}{col 0}.25{col 13}{c |}{col 16}{res} .140269{col 28}  .00612{col 40} .128274{col 51} .152263{col 63} .127556{col 73} .152982
+{txt}{col 0}.5{col 13}{c |}{col 16}{res} .132423{col 28} .005519{col 40} .121606{col 51}  .14324{col 63} .120957{col 73} .143889
+{txt}{col 0}.75{col 13}{c |}{col 16}{res} .112882{col 28} .006602{col 40} .099942{col 51} .125823{col 63} .099166{col 73} .126599
+{txt}{col 0}.9{col 13}{c |}{col 16}{res} .091868{col 28} .008798{col 40} .074625{col 51} .109112{col 63} .073591{col 73} .110145
+{txt}{hline 12}{c BT}{hline 68}
+
+
+Effects of coefficients
+{hline 12}{c TT}{hline 68}
+{col 13}{c |}{col 15} Quantile {col 28}Pointwise {col 46}Pointwise{col 62}     Functional      
+{col 0}Quantile{col 13}{c |}{col 15}  effect  {col 28}Std. Err. {col 41}[95% Conf. Interval]{col 62}[95% Conf. Interval] 
+{hline 12}{c +}{hline 68}
+{col 0}.1{col 13}{c |}{col 16}{res}  .12107{col 28} .010838{col 40} .099828{col 51} .142313{col 63} .098298{col 73} .143842
+{txt}{col 0}.25{col 13}{c |}{col 16}{res} .119268{col 28} .008199{col 40} .103197{col 51} .135339{col 63}  .10204{col 73} .136496
+{txt}{col 0}.5{col 13}{c |}{col 16}{res} .089947{col 28} .007352{col 40} .075538{col 51} .104356{col 63} .074501{col 73} .105393
+{txt}{col 0}.75{col 13}{c |}{col 16}{res} .021705{col 28} .009242{col 40} .003591{col 51} .039819{col 63} .002287{col 73} .041123
+{txt}{col 0}.9{col 13}{c |}{col 16}{res}-.071423{col 28} .011698{col 40}-.094352{col 51}-.048495{col 63}-.096002{col 73}-.046844
+{txt}{hline 12}{c BT}{hline 68}
+
+
+Bootstrap inference on the counterfactual quantile processes
+{hline 51}{c TT}{hline 29}
+{col 52}{c |}{col 62} P-values 
+{col 0}Null-hypothesis{col 52}{c |}{col 54}KS-statistic{col 69}CMS-statistic
+{hline 51}{c +}{hline 29}
+{col 0}Correct specification of the parametric model 0{col 52}{c |}{col 54}{res} .095238{col 69} .142857
+{txt}{col 0}Correct specification of the parametric model 1{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 0}Differences between the observable distributions{col 52}{c |}
+{col 5}No effect: QE(tau)=0 for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 5}Constant effect: QE(tau)=QE(0.5) for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 5}Stochastic dominance: QE(tau)>0 for all taus{col 52}{c |}{col 54}{res} .738095{col 69} .738095
+{txt}{col 5}Stochastic dominance: QE(tau)<0 for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 0}Effects of characteristics{col 52}{c |}
+{col 5}No effect: QTE(tau)=0 for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 5}Constant effect: QE(tau)=QE(0.5) for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 5}Stochastic dominance: QE(tau)>0 for all taus{col 52}{c |}{col 54}{res} .690476{col 69} .690476
+{txt}{col 5}Stochastic dominance: QE(tau)<0 for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 0}Effects of coefficients{col 52}{c |}
+{col 5}No effect: QE(tau)=0 for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 5}Constant effect: QE(tau)=QE(0.5) for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 5}Stochastic dominance: QE(tau)>0 for all taus{col 52}{c |}{col 54}{res}       0{col 69}  .47619
+{txt}{col 5}Stochastic dominance: QE(tau)<0 for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{hline 51}{c BT}{hline 29}
+
+{com}. eststo qrd_men_noc
+{txt}
+{com}. 
+. // Men with occupation
+. cdeco log_real_wage experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT shiftwork_yes parttime long_hours casual tenure i.wave occ_tech_trade occ_clerical_admin occ_machinery occ_prof occ_community_personal_service occ_sales occ_labourer if sex_male == 1 [pw=hhwtrp], group(sector_private) quantile(0.1, 0.25, 0.5, 0.75, 0.9) reps(50)
+{res}{txt}(bootstrapping {res}{txt}.{err}x{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{err}xxx{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{err}xx{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{err}x{res}{txt}.{res}{txt}.{err}x{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{err}xx{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{err}x{res}{txt}.{res}{txt}.{res}{txt}.)
+{res}
+{txt}{col 0}Conditional model{res}{col 43}linear quantile regression
+{txt}{col 0}Number of regressions estimated{res}{col 43}100     
+
+{txt}The variance has been estimated by bootstraping the results {res}50{txt} times.
+
+{col 0}No. of obs. in the reference group{res}{col 43}10083   
+{txt}{col 0}No. of obs. in the counterfactual group{res}{col 43}39515   
+
+
+{txt}Differences between the observable distributions (based on the conditional model)
+{hline 12}{c TT}{hline 68}
+{col 13}{c |}{col 15} Quantile {col 28}Pointwise {col 46}Pointwise{col 62}     Functional      
+{col 0}Quantile{col 13}{c |}{col 15}  effect  {col 28}Std. Err. {col 41}[95% Conf. Interval]{col 62}[95% Conf. Interval] 
+{hline 12}{c +}{hline 68}
+{col 0}.1{col 13}{c |}{col 16}{res} .265929{col 28} .007997{col 40} .250254{col 51} .281603{col 63} .245447{col 73} .286411
+{txt}{col 0}.25{col 13}{c |}{col 16}{res} .259118{col 28}  .00504{col 40} .249239{col 51} .268996{col 63}  .24621{col 73} .272026
+{txt}{col 0}.5{col 13}{c |}{col 16}{res} .221966{col 28} .005388{col 40} .211407{col 51} .232526{col 63} .208168{col 73} .235765
+{txt}{col 0}.75{col 13}{c |}{col 16}{res} .131726{col 28} .006727{col 40} .118541{col 51} .144912{col 63} .114497{col 73} .148956
+{txt}{col 0}.9{col 13}{c |}{col 16}{res}  .02221{col 28} .007864{col 40} .006798{col 51} .037623{col 63}  .00207{col 73}  .04235
+{txt}{hline 12}{c BT}{hline 68}
+
+
+Effects of characteristics
+{hline 12}{c TT}{hline 68}
+{col 13}{c |}{col 15} Quantile {col 28}Pointwise {col 46}Pointwise{col 62}     Functional      
+{col 0}Quantile{col 13}{c |}{col 15}  effect  {col 28}Std. Err. {col 41}[95% Conf. Interval]{col 62}[95% Conf. Interval] 
+{hline 12}{c +}{hline 68}
+{col 0}.1{col 13}{c |}{col 16}{res} .184287{col 28} .009501{col 40} .165666{col 51} .202908{col 63} .158532{col 73} .210042
+{txt}{col 0}.25{col 13}{c |}{col 16}{res} .171848{col 28} .007338{col 40} .157466{col 51}  .18623{col 63} .151956{col 73}  .19174
+{txt}{col 0}.5{col 13}{c |}{col 16}{res} .148082{col 28} .006556{col 40} .135232{col 51} .160932{col 63} .130309{col 73} .165855
+{txt}{col 0}.75{col 13}{c |}{col 16}{res} .115435{col 28} .006811{col 40} .102085{col 51} .128785{col 63} .096971{col 73} .133899
+{txt}{col 0}.9{col 13}{c |}{col 16}{res} .087535{col 28} .008415{col 40} .071042{col 51} .104027{col 63} .064724{col 73} .110346
+{txt}{hline 12}{c BT}{hline 68}
+
+
+Effects of coefficients
+{hline 12}{c TT}{hline 68}
+{col 13}{c |}{col 15} Quantile {col 28}Pointwise {col 46}Pointwise{col 62}     Functional      
+{col 0}Quantile{col 13}{c |}{col 15}  effect  {col 28}Std. Err. {col 41}[95% Conf. Interval]{col 62}[95% Conf. Interval] 
+{hline 12}{c +}{hline 68}
+{col 0}.1{col 13}{c |}{col 16}{res} .081642{col 28} .012441{col 40} .057259{col 51} .106025{col 63} .047985{col 73} .115298
+{txt}{col 0}.25{col 13}{c |}{col 16}{res}  .08727{col 28} .008502{col 40} .070606{col 51} .103934{col 63} .064268{col 73} .110271
+{txt}{col 0}.5{col 13}{c |}{col 16}{res} .073885{col 28} .007728{col 40} .058738{col 51} .089031{col 63} .052978{col 73} .094791
+{txt}{col 0}.75{col 13}{c |}{col 16}{res} .016292{col 28} .008749{col 40}-.000856{col 51} .033439{col 63}-.007378{col 73} .039961
+{txt}{col 0}.9{col 13}{c |}{col 16}{res}-.065324{col 28} .010333{col 40}-.085576{col 51}-.045073{col 63}-.093278{col 73}-.037371
+{txt}{hline 12}{c BT}{hline 68}
+
+
+Bootstrap inference on the counterfactual quantile processes
+{hline 51}{c TT}{hline 29}
+{col 52}{c |}{col 62} P-values 
+{col 0}Null-hypothesis{col 52}{c |}{col 54}KS-statistic{col 69}CMS-statistic
+{hline 51}{c +}{hline 29}
+{col 0}Correct specification of the parametric model 0{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 0}Correct specification of the parametric model 1{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 0}Differences between the observable distributions{col 52}{c |}
+{col 5}No effect: QE(tau)=0 for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 5}Constant effect: QE(tau)=QE(0.5) for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 5}Stochastic dominance: QE(tau)>0 for all taus{col 52}{c |}{col 54}{res} .846154{col 69} .846154
+{txt}{col 5}Stochastic dominance: QE(tau)<0 for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 0}Effects of characteristics{col 52}{c |}
+{col 5}No effect: QTE(tau)=0 for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 5}Constant effect: QE(tau)=QE(0.5) for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 5}Stochastic dominance: QE(tau)>0 for all taus{col 52}{c |}{col 54}{res} .641026{col 69} .641026
+{txt}{col 5}Stochastic dominance: QE(tau)<0 for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 0}Effects of coefficients{col 52}{c |}
+{col 5}No effect: QE(tau)=0 for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 5}Constant effect: QE(tau)=QE(0.5) for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 5}Stochastic dominance: QE(tau)>0 for all taus{col 52}{c |}{col 54}{res}       0{col 69} .384615
+{txt}{col 5}Stochastic dominance: QE(tau)<0 for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{hline 51}{c BT}{hline 29}
+
+{com}. eststo qrd_men_oc
+{txt}
+{com}. 
+. // Men short
+. cdeco log_real_wage experience experience_sq edu_uni edu_diploma children_0 health_poor birth_eng birth_neng married_yes married_sep urban_no parttime casual tenure wave wave_sq if sex_male == 1 [pw=hhwtrp], group(sector_private) quantile(0.1, 0.25, 0.5, 0.75, 0.9) reps(50)
+{res}{txt}(bootstrapping {res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.)
+{res}
+{txt}{col 0}Conditional model{res}{col 43}linear quantile regression
+{txt}{col 0}Number of regressions estimated{res}{col 43}100     
+
+{txt}The variance has been estimated by bootstraping the results {res}50{txt} times.
+
+{col 0}No. of obs. in the reference group{res}{col 43}10083   
+{txt}{col 0}No. of obs. in the counterfactual group{res}{col 43}39515   
+
+
+{txt}Differences between the observable distributions (based on the conditional model)
+{hline 12}{c TT}{hline 68}
+{col 13}{c |}{col 15} Quantile {col 28}Pointwise {col 46}Pointwise{col 62}     Functional      
+{col 0}Quantile{col 13}{c |}{col 15}  effect  {col 28}Std. Err. {col 41}[95% Conf. Interval]{col 62}[95% Conf. Interval] 
+{hline 12}{c +}{hline 68}
+{col 0}.1{col 13}{c |}{col 16}{res} .266989{col 28} .007658{col 40} .251979{col 51} .281998{col 63} .248894{col 73} .285084
+{txt}{col 0}.25{col 13}{c |}{col 16}{res} .256666{col 28}  .00578{col 40} .245338{col 51} .267994{col 63} .243009{col 73} .270322
+{txt}{col 0}.5{col 13}{c |}{col 16}{res} .220374{col 28} .006239{col 40} .208145{col 51} .232603{col 63} .205631{col 73} .235117
+{txt}{col 0}.75{col 13}{c |}{col 16}{res} .133359{col 28} .006411{col 40} .120793{col 51} .145926{col 63}  .11821{col 73} .148509
+{txt}{col 0}.9{col 13}{c |}{col 16}{res} .017767{col 28}  .00719{col 40} .003675{col 51}  .03186{col 63} .000778{col 73} .034757
+{txt}{hline 12}{c BT}{hline 68}
+
+
+Effects of characteristics
+{hline 12}{c TT}{hline 68}
+{col 13}{c |}{col 15} Quantile {col 28}Pointwise {col 46}Pointwise{col 62}     Functional      
+{col 0}Quantile{col 13}{c |}{col 15}  effect  {col 28}Std. Err. {col 41}[95% Conf. Interval]{col 62}[95% Conf. Interval] 
+{hline 12}{c +}{hline 68}
+{col 0}.1{col 13}{c |}{col 16}{res} .117688{col 28} .007958{col 40} .102091{col 51} .133284{col 63} .096913{col 73} .138462
+{txt}{col 0}.25{col 13}{c |}{col 16}{res} .110728{col 28} .005708{col 40}  .09954{col 51} .121915{col 63} .095826{col 73} .125629
+{txt}{col 0}.5{col 13}{c |}{col 16}{res} .109082{col 28} .004786{col 40} .099701{col 51} .118463{col 63} .096586{col 73} .121578
+{txt}{col 0}.75{col 13}{c |}{col 16}{res} .099529{col 28} .005096{col 40} .089541{col 51} .109516{col 63} .086225{col 73} .112832
+{txt}{col 0}.9{col 13}{c |}{col 16}{res} .087528{col 28} .006799{col 40} .074202{col 51} .100854{col 63} .069777{col 73} .105278
+{txt}{hline 12}{c BT}{hline 68}
+
+
+Effects of coefficients
+{hline 12}{c TT}{hline 68}
+{col 13}{c |}{col 15} Quantile {col 28}Pointwise {col 46}Pointwise{col 62}     Functional      
+{col 0}Quantile{col 13}{c |}{col 15}  effect  {col 28}Std. Err. {col 41}[95% Conf. Interval]{col 62}[95% Conf. Interval] 
+{hline 12}{c +}{hline 68}
+{col 0}.1{col 13}{c |}{col 16}{res} .149301{col 28} .011312{col 40}  .12713{col 51} .171472{col 63} .122403{col 73} .176199
+{txt}{col 0}.25{col 13}{c |}{col 16}{res} .145938{col 28} .006533{col 40} .133133{col 51} .158743{col 63} .130403{col 73} .161473
+{txt}{col 0}.5{col 13}{c |}{col 16}{res} .111292{col 28} .006094{col 40} .099349{col 51} .123236{col 63} .096803{col 73} .125782
+{txt}{col 0}.75{col 13}{c |}{col 16}{res} .033831{col 28} .006547{col 40} .020998{col 51} .046663{col 63} .018262{col 73} .049399
+{txt}{col 0}.9{col 13}{c |}{col 16}{res} -.06976{col 28}  .00838{col 40}-.086185{col 51}-.053336{col 63}-.089688{col 73}-.049833
+{txt}{hline 12}{c BT}{hline 68}
+
+
+Bootstrap inference on the counterfactual quantile processes
+{hline 51}{c TT}{hline 29}
+{col 52}{c |}{col 62} P-values 
+{col 0}Null-hypothesis{col 52}{c |}{col 54}KS-statistic{col 69}CMS-statistic
+{hline 51}{c +}{hline 29}
+{col 0}Correct specification of the parametric model 0{col 52}{c |}{col 54}{res}     .58{col 69}     .54
+{txt}{col 0}Correct specification of the parametric model 1{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 0}Differences between the observable distributions{col 52}{c |}
+{col 5}No effect: QE(tau)=0 for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 5}Constant effect: QE(tau)=QE(0.5) for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 5}Stochastic dominance: QE(tau)>0 for all taus{col 52}{c |}{col 54}{res}     .88{col 69}     .88
+{txt}{col 5}Stochastic dominance: QE(tau)<0 for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 0}Effects of characteristics{col 52}{c |}
+{col 5}No effect: QTE(tau)=0 for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 5}Constant effect: QE(tau)=QE(0.5) for all taus{col 52}{c |}{col 54}{res}     .02{col 69}       0
+{txt}{col 5}Stochastic dominance: QE(tau)>0 for all taus{col 52}{c |}{col 54}{res}      .7{col 69}      .7
+{txt}{col 5}Stochastic dominance: QE(tau)<0 for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 0}Effects of coefficients{col 52}{c |}
+{col 5}No effect: QE(tau)=0 for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 5}Constant effect: QE(tau)=QE(0.5) for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 5}Stochastic dominance: QE(tau)>0 for all taus{col 52}{c |}{col 54}{res}       0{col 69}     .42
+{txt}{col 5}Stochastic dominance: QE(tau)<0 for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{hline 51}{c BT}{hline 29}
+
+{com}. eststo qrd_men_short
+{txt}
+{com}. 
+. // Women without occupation
+. cdeco log_real_wage experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT shiftwork_yes parttime long_hours casual tenure i.wave if sex_male == 0 [pw=hhwtrp], group(sector_private) quantile(0.1, 0.25, 0.5, 0.75, 0.9) reps(50)
+{res}{txt}(bootstrapping {res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.)
+{res}
+{txt}{col 0}Conditional model{res}{col 43}linear quantile regression
+{txt}{col 0}Number of regressions estimated{res}{col 43}100     
+
+{txt}The variance has been estimated by bootstraping the results {res}50{txt} times.
+
+{col 0}No. of obs. in the reference group{res}{col 43}15092   
+{txt}{col 0}No. of obs. in the counterfactual group{res}{col 43}31801   
+
+
+{txt}Differences between the observable distributions (based on the conditional model)
+{hline 12}{c TT}{hline 68}
+{col 13}{c |}{col 15} Quantile {col 28}Pointwise {col 46}Pointwise{col 62}     Functional      
+{col 0}Quantile{col 13}{c |}{col 15}  effect  {col 28}Std. Err. {col 41}[95% Conf. Interval]{col 62}[95% Conf. Interval] 
+{hline 12}{c +}{hline 68}
+{col 0}.1{col 13}{c |}{col 16}{res} .244188{col 28} .006768{col 40} .230922{col 51} .257454{col 63} .224811{col 73} .263565
+{txt}{col 0}.25{col 13}{c |}{col 16}{res} .271859{col 28} .003875{col 40} .264264{col 51} .279454{col 63} .260765{col 73} .282953
+{txt}{col 0}.5{col 13}{c |}{col 16}{res} .301304{col 28} .004437{col 40} .292609{col 51}     .31{col 63} .288603{col 73} .314006
+{txt}{col 0}.75{col 13}{c |}{col 16}{res} .272055{col 28} .005668{col 40} .260946{col 51} .283164{col 63} .255829{col 73} .288281
+{txt}{col 0}.9{col 13}{c |}{col 16}{res} .173323{col 28} .008949{col 40} .155783{col 51} .190863{col 63} .147703{col 73} .198944
+{txt}{hline 12}{c BT}{hline 68}
+
+
+Effects of characteristics
+{hline 12}{c TT}{hline 68}
+{col 13}{c |}{col 15} Quantile {col 28}Pointwise {col 46}Pointwise{col 62}     Functional      
+{col 0}Quantile{col 13}{c |}{col 15}  effect  {col 28}Std. Err. {col 41}[95% Conf. Interval]{col 62}[95% Conf. Interval] 
+{hline 12}{c +}{hline 68}
+{col 0}.1{col 13}{c |}{col 16}{res} .146084{col 28}  .00769{col 40} .131013{col 51} .161155{col 63} .126061{col 73} .166107
+{txt}{col 0}.25{col 13}{c |}{col 16}{res} .138038{col 28} .003961{col 40} .130275{col 51} .145801{col 63} .127724{col 73} .148352
+{txt}{col 0}.5{col 13}{c |}{col 16}{res} .137412{col 28} .003454{col 40} .130642{col 51} .144182{col 63} .128418{col 73} .146407
+{txt}{col 0}.75{col 13}{c |}{col 16}{res} .121782{col 28} .004133{col 40} .113681{col 51} .129883{col 63} .111019{col 73} .132544
+{txt}{col 0}.9{col 13}{c |}{col 16}{res} .094868{col 28} .006275{col 40}  .08257{col 51} .107166{col 63} .078529{col 73} .111207
+{txt}{hline 12}{c BT}{hline 68}
+
+
+Effects of coefficients
+{hline 12}{c TT}{hline 68}
+{col 13}{c |}{col 15} Quantile {col 28}Pointwise {col 46}Pointwise{col 62}     Functional      
+{col 0}Quantile{col 13}{c |}{col 15}  effect  {col 28}Std. Err. {col 41}[95% Conf. Interval]{col 62}[95% Conf. Interval] 
+{hline 12}{c +}{hline 68}
+{col 0}.1{col 13}{c |}{col 16}{res} .098104{col 28} .011373{col 40} .075814{col 51} .120395{col 63} .067053{col 73} .129156
+{txt}{col 0}.25{col 13}{c |}{col 16}{res} .133821{col 28} .005028{col 40} .123966{col 51} .143676{col 63} .120093{col 73}  .14755
+{txt}{col 0}.5{col 13}{c |}{col 16}{res} .163892{col 28} .004933{col 40} .154224{col 51}  .17356{col 63} .150424{col 73} .177361
+{txt}{col 0}.75{col 13}{c |}{col 16}{res} .150273{col 28} .006054{col 40} .138407{col 51} .162139{col 63} .133743{col 73} .166803
+{txt}{col 0}.9{col 13}{c |}{col 16}{res} .078456{col 28} .009252{col 40} .060323{col 51} .096588{col 63} .053196{col 73} .103715
+{txt}{hline 12}{c BT}{hline 68}
+
+
+Bootstrap inference on the counterfactual quantile processes
+{hline 51}{c TT}{hline 29}
+{col 52}{c |}{col 62} P-values 
+{col 0}Null-hypothesis{col 52}{c |}{col 54}KS-statistic{col 69}CMS-statistic
+{hline 51}{c +}{hline 29}
+{col 0}Correct specification of the parametric model 0{col 52}{c |}{col 54}{res}     .02{col 69}       0
+{txt}{col 0}Correct specification of the parametric model 1{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 0}Differences between the observable distributions{col 52}{c |}
+{col 5}No effect: QE(tau)=0 for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 5}Constant effect: QE(tau)=QE(0.5) for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 5}Stochastic dominance: QE(tau)>0 for all taus{col 52}{c |}{col 54}{res}     .74{col 69}     .74
+{txt}{col 5}Stochastic dominance: QE(tau)<0 for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 0}Effects of characteristics{col 52}{c |}
+{col 5}No effect: QTE(tau)=0 for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 5}Constant effect: QE(tau)=QE(0.5) for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 5}Stochastic dominance: QE(tau)>0 for all taus{col 52}{c |}{col 54}{res}     .86{col 69}     .86
+{txt}{col 5}Stochastic dominance: QE(tau)<0 for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 0}Effects of coefficients{col 52}{c |}
+{col 5}No effect: QE(tau)=0 for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 5}Constant effect: QE(tau)=QE(0.5) for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 5}Stochastic dominance: QE(tau)>0 for all taus{col 52}{c |}{col 54}{res}     .82{col 69}     .82
+{txt}{col 5}Stochastic dominance: QE(tau)<0 for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{hline 51}{c BT}{hline 29}
+
+{com}. eststo qrd_women_noc
+{txt}
+{com}. 
+. // Women with occupation
+. cdeco log_real_wage experience experience_sq edu_uni edu_diploma children_1 children_2 children_3 children_4_plus health_poor birth_eng birth_neng married_yes married_sep urban_no state_VIC state_WA state_QLD state_SA state_NT state_TAS state_ACT shiftwork_yes parttime long_hours casual tenure i.wave occ_tech_trade occ_clerical_admin occ_machinery occ_prof occ_community_personal_service occ_sales occ_labourer if sex_male == 0 [pw=hhwtrp], group(sector_private) quantile(0.1, 0.25, 0.5, 0.75, 0.9) reps(50)
+{res}{txt}(bootstrapping {res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.)
+{res}
+{txt}{col 0}Conditional model{res}{col 43}linear quantile regression
+{txt}{col 0}Number of regressions estimated{res}{col 43}100     
+
+{txt}The variance has been estimated by bootstraping the results {res}50{txt} times.
+
+{col 0}No. of obs. in the reference group{res}{col 43}15092   
+{txt}{col 0}No. of obs. in the counterfactual group{res}{col 43}31801   
+
+
+{txt}Differences between the observable distributions (based on the conditional model)
+{hline 12}{c TT}{hline 68}
+{col 13}{c |}{col 15} Quantile {col 28}Pointwise {col 46}Pointwise{col 62}     Functional      
+{col 0}Quantile{col 13}{c |}{col 15}  effect  {col 28}Std. Err. {col 41}[95% Conf. Interval]{col 62}[95% Conf. Interval] 
+{hline 12}{c +}{hline 68}
+{col 0}.1{col 13}{c |}{col 16}{res} .246435{col 28}  .00697{col 40} .232774{col 51} .260096{col 63} .229108{col 73} .263762
+{txt}{col 0}.25{col 13}{c |}{col 16}{res} .271609{col 28} .004607{col 40}  .26258{col 51} .280637{col 63} .260157{col 73} .283061
+{txt}{col 0}.5{col 13}{c |}{col 16}{res}      .3{col 28} .004178{col 40} .291812{col 51} .308188{col 63} .289614{col 73} .310385
+{txt}{col 0}.75{col 13}{c |}{col 16}{res} .268495{col 28} .005415{col 40} .257881{col 51} .279108{col 63} .255033{col 73} .281957
+{txt}{col 0}.9{col 13}{c |}{col 16}{res} .175342{col 28} .008598{col 40}  .15849{col 51} .192193{col 63} .153967{col 73} .196716
+{txt}{hline 12}{c BT}{hline 68}
+
+
+Effects of characteristics
+{hline 12}{c TT}{hline 68}
+{col 13}{c |}{col 15} Quantile {col 28}Pointwise {col 46}Pointwise{col 62}     Functional      
+{col 0}Quantile{col 13}{c |}{col 15}  effect  {col 28}Std. Err. {col 41}[95% Conf. Interval]{col 62}[95% Conf. Interval] 
+{hline 12}{c +}{hline 68}
+{col 0}.1{col 13}{c |}{col 16}{res} .156122{col 28} .009863{col 40} .136792{col 51} .175453{col 63} .131317{col 73} .180927
+{txt}{col 0}.25{col 13}{c |}{col 16}{res} .148164{col 28} .006749{col 40} .134936{col 51} .161393{col 63}  .13119{col 73} .165139
+{txt}{col 0}.5{col 13}{c |}{col 16}{res} .156956{col 28} .005565{col 40}  .14605{col 51} .167863{col 63} .142962{col 73} .170951
+{txt}{col 0}.75{col 13}{c |}{col 16}{res}  .14285{col 28} .005007{col 40} .133037{col 51} .152664{col 63} .130258{col 73} .155442
+{txt}{col 0}.9{col 13}{c |}{col 16}{res} .109638{col 28} .005564{col 40} .098733{col 51} .120544{col 63} .095644{col 73} .123632
+{txt}{hline 12}{c BT}{hline 68}
+
+
+Effects of coefficients
+{hline 12}{c TT}{hline 68}
+{col 13}{c |}{col 15} Quantile {col 28}Pointwise {col 46}Pointwise{col 62}     Functional      
+{col 0}Quantile{col 13}{c |}{col 15}  effect  {col 28}Std. Err. {col 41}[95% Conf. Interval]{col 62}[95% Conf. Interval] 
+{hline 12}{c +}{hline 68}
+{col 0}.1{col 13}{c |}{col 16}{res} .090313{col 28} .013204{col 40} .064433{col 51} .116192{col 63} .056008{col 73} .124617
+{txt}{col 0}.25{col 13}{c |}{col 16}{res} .123444{col 28} .008052{col 40} .107662{col 51} .139227{col 63} .102524{col 73} .144364
+{txt}{col 0}.5{col 13}{c |}{col 16}{res} .143043{col 28}  .00581{col 40} .131655{col 51} .154431{col 63} .127948{col 73} .158138
+{txt}{col 0}.75{col 13}{c |}{col 16}{res} .125644{col 28} .005382{col 40} .115096{col 51} .136192{col 63} .111662{col 73} .139626
+{txt}{col 0}.9{col 13}{c |}{col 16}{res} .065703{col 28} .007906{col 40} .050209{col 51} .081198{col 63} .045164{col 73} .086243
+{txt}{hline 12}{c BT}{hline 68}
+
+
+Bootstrap inference on the counterfactual quantile processes
+{hline 51}{c TT}{hline 29}
+{col 52}{c |}{col 62} P-values 
+{col 0}Null-hypothesis{col 52}{c |}{col 54}KS-statistic{col 69}CMS-statistic
+{hline 51}{c +}{hline 29}
+{col 0}Correct specification of the parametric model 0{col 52}{c |}{col 54}{res}     .02{col 69}       0
+{txt}{col 0}Correct specification of the parametric model 1{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 0}Differences between the observable distributions{col 52}{c |}
+{col 5}No effect: QE(tau)=0 for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 5}Constant effect: QE(tau)=QE(0.5) for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 5}Stochastic dominance: QE(tau)>0 for all taus{col 52}{c |}{col 54}{res}     .82{col 69}     .82
+{txt}{col 5}Stochastic dominance: QE(tau)<0 for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 0}Effects of characteristics{col 52}{c |}
+{col 5}No effect: QTE(tau)=0 for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 5}Constant effect: QE(tau)=QE(0.5) for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 5}Stochastic dominance: QE(tau)>0 for all taus{col 52}{c |}{col 54}{res}      .8{col 69}      .8
+{txt}{col 5}Stochastic dominance: QE(tau)<0 for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 0}Effects of coefficients{col 52}{c |}
+{col 5}No effect: QE(tau)=0 for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 5}Constant effect: QE(tau)=QE(0.5) for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 5}Stochastic dominance: QE(tau)>0 for all taus{col 52}{c |}{col 54}{res}     .82{col 69}     .82
+{txt}{col 5}Stochastic dominance: QE(tau)<0 for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{hline 51}{c BT}{hline 29}
+
+{com}. eststo qrd_women_oc
+{txt}
+{com}. 
+. // Women short
+. cdeco log_real_wage experience experience_sq edu_uni edu_diploma children_0 health_poor birth_eng birth_neng married_yes married_sep urban_no parttime casual tenure wave wave_sq if sex_male == 0 [pw=hhwtrp], group(sector_private) quantile(0.1, 0.25, 0.5, 0.75, 0.9) reps(50)
+{res}{txt}(bootstrapping {res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.{res}{txt}.)
+{res}
+{txt}{col 0}Conditional model{res}{col 43}linear quantile regression
+{txt}{col 0}Number of regressions estimated{res}{col 43}100     
+
+{txt}The variance has been estimated by bootstraping the results {res}50{txt} times.
+
+{col 0}No. of obs. in the reference group{res}{col 43}15092   
+{txt}{col 0}No. of obs. in the counterfactual group{res}{col 43}31801   
+
+
+{txt}Differences between the observable distributions (based on the conditional model)
+{hline 12}{c TT}{hline 68}
+{col 13}{c |}{col 15} Quantile {col 28}Pointwise {col 46}Pointwise{col 62}     Functional      
+{col 0}Quantile{col 13}{c |}{col 15}  effect  {col 28}Std. Err. {col 41}[95% Conf. Interval]{col 62}[95% Conf. Interval] 
+{hline 12}{c +}{hline 68}
+{col 0}.1{col 13}{c |}{col 16}{res} .242104{col 28} .006382{col 40} .229596{col 51} .254612{col 63}  .22467{col 73} .259539
+{txt}{col 0}.25{col 13}{c |}{col 16}{res} .270148{col 28} .004304{col 40} .261712{col 51} .278584{col 63}  .25839{col 73} .281906
+{txt}{col 0}.5{col 13}{c |}{col 16}{res} .301499{col 28}  .00445{col 40} .292778{col 51}  .31022{col 63} .289344{col 73} .313655
+{txt}{col 0}.75{col 13}{c |}{col 16}{res} .273848{col 28} .005709{col 40} .262658{col 51} .285039{col 63} .258251{col 73} .289446
+{txt}{col 0}.9{col 13}{c |}{col 16}{res} .171497{col 28} .007705{col 40} .156395{col 51}   .1866{col 63} .150448{col 73} .192547
+{txt}{hline 12}{c BT}{hline 68}
+
+
+Effects of characteristics
+{hline 12}{c TT}{hline 68}
+{col 13}{c |}{col 15} Quantile {col 28}Pointwise {col 46}Pointwise{col 62}     Functional      
+{col 0}Quantile{col 13}{c |}{col 15}  effect  {col 28}Std. Err. {col 41}[95% Conf. Interval]{col 62}[95% Conf. Interval] 
+{hline 12}{c +}{hline 68}
+{col 0}.1{col 13}{c |}{col 16}{res} .129059{col 28} .005994{col 40} .117311{col 51} .140806{col 63} .113188{col 73}  .14493
+{txt}{col 0}.25{col 13}{c |}{col 16}{res} .121559{col 28} .003811{col 40}  .11409{col 51} .129029{col 63} .111468{col 73} .131651
+{txt}{col 0}.5{col 13}{c |}{col 16}{res}    .125{col 28} .003838{col 40} .117477{col 51} .132523{col 63} .114837{col 73} .135164
+{txt}{col 0}.75{col 13}{c |}{col 16}{res} .110274{col 28} .004708{col 40} .101046{col 51} .119502{col 63} .097807{col 73} .122742
+{txt}{col 0}.9{col 13}{c |}{col 16}{res} .083286{col 28} .006133{col 40} .071265{col 51} .095306{col 63} .067046{col 73} .099526
+{txt}{hline 12}{c BT}{hline 68}
+
+
+Effects of coefficients
+{hline 12}{c TT}{hline 68}
+{col 13}{c |}{col 15} Quantile {col 28}Pointwise {col 46}Pointwise{col 62}     Functional      
+{col 0}Quantile{col 13}{c |}{col 15}  effect  {col 28}Std. Err. {col 41}[95% Conf. Interval]{col 62}[95% Conf. Interval] 
+{hline 12}{c +}{hline 68}
+{col 0}.1{col 13}{c |}{col 16}{res} .113045{col 28} .009909{col 40} .093625{col 51} .132466{col 63} .088368{col 73} .137723
+{txt}{col 0}.25{col 13}{c |}{col 16}{res} .148589{col 28} .005599{col 40} .137615{col 51} .159562{col 63} .134644{col 73} .162533
+{txt}{col 0}.5{col 13}{c |}{col 16}{res} .176499{col 28}  .00529{col 40} .166131{col 51} .186867{col 63} .163324{col 73} .189674
+{txt}{col 0}.75{col 13}{c |}{col 16}{res} .163574{col 28} .006294{col 40} .151239{col 51} .175909{col 63}   .1479{col 73} .179248
+{txt}{col 0}.9{col 13}{c |}{col 16}{res} .088211{col 28} .007675{col 40} .073169{col 51} .103254{col 63} .069096{col 73} .107327
+{txt}{hline 12}{c BT}{hline 68}
+
+
+Bootstrap inference on the counterfactual quantile processes
+{hline 51}{c TT}{hline 29}
+{col 52}{c |}{col 62} P-values 
+{col 0}Null-hypothesis{col 52}{c |}{col 54}KS-statistic{col 69}CMS-statistic
+{hline 51}{c +}{hline 29}
+{col 0}Correct specification of the parametric model 0{col 52}{c |}{col 54}{res}     .04{col 69}     .02
+{txt}{col 0}Correct specification of the parametric model 1{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 0}Differences between the observable distributions{col 52}{c |}
+{col 5}No effect: QE(tau)=0 for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 5}Constant effect: QE(tau)=QE(0.5) for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 5}Stochastic dominance: QE(tau)>0 for all taus{col 52}{c |}{col 54}{res}      .8{col 69}      .8
+{txt}{col 5}Stochastic dominance: QE(tau)<0 for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 0}Effects of characteristics{col 52}{c |}
+{col 5}No effect: QTE(tau)=0 for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 5}Constant effect: QE(tau)=QE(0.5) for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 5}Stochastic dominance: QE(tau)>0 for all taus{col 52}{c |}{col 54}{res}     .84{col 69}     .84
+{txt}{col 5}Stochastic dominance: QE(tau)<0 for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 0}Effects of coefficients{col 52}{c |}
+{col 5}No effect: QE(tau)=0 for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 5}Constant effect: QE(tau)=QE(0.5) for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{col 5}Stochastic dominance: QE(tau)>0 for all taus{col 52}{c |}{col 54}{res}     .84{col 69}     .84
+{txt}{col 5}Stochastic dominance: QE(tau)<0 for all taus{col 52}{c |}{col 54}{res}       0{col 69}       0
+{txt}{hline 51}{c BT}{hline 29}
+
+{com}. eststo qrd_women_short
+{txt}
+{com}. 
+. //esttab
+. esttab qrd_men_noc qrd_men_oc qrd_men_short qrd_women_noc qrd_women_oc qrd_women_short using "/home/sean/Code/honours/hons-project/output_tables/qr_decomp.csv", cells(b se) replace
+{res}{txt}{p 0 4 2}
+(file {bf}
+/home/sean/Code/honours/hons-project/output_tables/qr_decomp.csv{rm}
+not found)
+{p_end}
+(output written to {browse  `"/home/sean/Code/honours/hons-project/output_tables/qr_decomp.csv"'})
+
+{com}. 
+. esttab qrd_men_noc qrd_men_oc qrd_men_short qrd_women_noc qrd_women_oc qrd_women_short using "/home/sean/Code/honours/hons-project/output_tables/detail/qr_decomp.csv", cells(b se) replace
+{res}{txt}{p 0 4 2}
+(file {bf}
+/home/sean/Code/honours/hons-project/output_tables/detail/qr_decomp.csv{rm}
+not found)
+{p_end}
+(output written to {browse  `"/home/sean/Code/honours/hons-project/output_tables/detail/qr_decomp.csv"'})
+
+{com}. 
+{txt}end of do-file
+
+{com}. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/home/sean/Code/honours/hons-project/logs/clean_runs/50_run_qr_decomp.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res}17 Sep 2023, 23:53:29
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

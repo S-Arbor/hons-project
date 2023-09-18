@@ -6,7 +6,9 @@
 
 // For oaxaca replace i.wave with w2 w3 w4 w5 w6 w7 w8 w9 w10 w11 w12 w13 w14 w15 w16 w17 w18 w19 since it does not accept factors
 
-use "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v4/basic_cleaned.dta", clear
+// use "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v4/basic_cleaned.dta", clear
+use "/home/sean/Code/honours/hons-project/cleaned_data/v4/basic_cleaned.dta", clear
+
 eststo clear
 
 // 1. Basic OLS
