@@ -358,12 +358,19 @@ bysort xwaveid (wave): gen leading_real_wage = real_wage[_n+1]
 bysort xwaveid (wave): gen leading_log_real_wage = log_real_wage[_n+1]
 bysort xwaveid (wave): gen leading_changed_emp_1_year = changed_employer[_n+1] if wave[_n+1] == wave + 1
 
+
+
+
 gen leading_real_wage_change = leading_real_wage - real_wage
 gen leading_log_real_wage_change = leading_log_real_wage - log_real_wage
 gen leading_moved_public_1_year = sector_public == 0 & leading_sector_change_1_year == 1 if leading_sector_change_1_year < .
 gen leading_moved_private_1_year = sector_public == 1 & leading_sector_change_1_year == 1 if leading_sector_change_1_year < .
 
+bysort xwaveid (wave): egen times_moved_pub = total(leading_moved_public_1_year)
+gen mover_to_pub = times_moved_pub > 0
 
+bysort xwaveid (wave): egen times_moved_priv = total(leading_moved_private_1_year)
+gen mover_to_priv = times_moved_priv > 0
 ///////////////////////////////////////////
 // 6. Summarize & Save ////////////////////
 ///////////////////////////////////////////
