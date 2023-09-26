@@ -8,7 +8,7 @@ library(plm)
 ## CLEANING
 
 dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
-setwd(paste(dir, "../../cleaned_data/v3", sep="/"))
+setwd(paste(dir, "../../cleaned_data/v4", sep="/"))
 
 income.raw <- read_dta("basic_cleaned.dta")
 

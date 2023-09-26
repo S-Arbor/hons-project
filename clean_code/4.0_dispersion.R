@@ -70,13 +70,19 @@ ggplot(data=males.to_pub) +
   geom_density(aes(x=leading_log_real_wage), colour="red", label="public") +
   theme(legend.position = "right")
 ggplot(data=males.to_priv) +
-  geom_density(aes(x=log_real_wage), colour="red", label="public") +
-  geom_density(aes(x=leading_log_real_wage), colour="blue", label="private") +
-  theme(legend.position = "right")
+  geom_density(aes(x=log_real_wage), colour="red") +
+  geom_density(aes(x=leading_log_real_wage), colour="blue") +
+  theme(legend.position = "right") +
+  ggtitle("Male Public Leavers") +
+  theme_bw() +
+  xlim(2, 5)
 ggplot(data=females.to_pub) +
   geom_density(aes(x=log_real_wage), colour="blue") +
   geom_density(aes(x=leading_log_real_wage), colour="red") +
-  theme(legend.position = "right")
+  theme(legend.position = "right") +
+  ggtitle("Female Public Joiners") +
+  theme_bw() +
+  xlim(1.8, 4.2)
 ggplot(data=females.to_priv) +
   geom_density(aes(x=log_real_wage), colour="red", label="public") +
   geom_density(aes(x=leading_log_real_wage), colour="blue", label="private") +
