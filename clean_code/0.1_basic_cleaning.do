@@ -87,7 +87,10 @@ bysort xwaveid (wave): egen tot_sector_misreport_risk = total(sector_misreport_r
 bysort xwaveid (wave): egen tot_sector_dont_know = total(sector_dont_know)
 
 keep if tot_sector_misreport_risk < 1
+// unique xwaveid if sector_dont_know == 1
 keep if tot_sector_dont_know < 1
+
+// under 20 observations in the sample with refused / not stated for sector, not a large enough group that I am worried about misreporting being missed (possible 1-2 didn't report sector at time of job change and were a misreporter before / after but unlikely is any more)
 
 drop jbmmpl jbmmplr jbmmply
 drop tot_sector_dont_know tot_sector_misreport_risk changed_sector sector_dont_know
