@@ -16,8 +16,8 @@
 // 1. Loading and Renaming ////////////////
 ///////////////////////////////////////////
 
-use "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v4/base_longfile.dta", clear
-// use "/home/sean/Code/honours/hons-project/cleaned_data/v4/base_longfile.dta", clear
+// use "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v4/base_longfile.dta", clear
+use "/home/sean/Code/honours/hons-project/cleaned_data/v4/base_longfile.dta", clear
 
 rename (jbmhruc wscmei hgage ehtjb tcr tcr04 jbempt jbmi61 jbmo61) (main_hours main_income age experience n_resident_children n_children_under_5 tenure industry occupation)
 rename (jbhruc wscei hgsex hhtup) (all_hours all_wages sex top_up)
@@ -134,6 +134,7 @@ generate children_1 = n_resident_children == 1
 generate children_2 = n_resident_children == 2
 generate children_3 = n_resident_children == 3
 generate children_4_plus = n_resident_children >= 4
+generate children_yes = n_resident_children > 0
 
 drop if n_resident_children < 0
 
@@ -375,10 +376,55 @@ gen mover_to_pub = times_moved_pub > 0
 bysort xwaveid (wave): egen times_moved_priv = total(leading_moved_private_1_year)
 gen mover_to_priv = times_moved_priv > 0
 ///////////////////////////////////////////
-// 6. Summarize & Save ////////////////////
+// 6. Label & Save ////////////////////
 ///////////////////////////////////////////
+
+// Add labels
+label variable log_real_wage "Ln real wage"
+label variable sector_public "Public Sector"
+label variable experience "Experience"
+label variable experience_sq "Experience^{2}"
+label variable edu_y12_or_less "Year 12 or less"
+label variable edu_diploma_cert "Diploma / Cert"
+label variable edu_uni "University"
+label variable children_1 "1 child"
+label variable children_2 "2 children"
+label variable children_3 "3 children"
+label variable children_4_plus "4+ children"
+label variable children_yes "Children"
+label variable health_poor "Poor health"
+label variable birth_aus "Born - Aus"
+label variable birth_eng "Born - Eng speaking"
+label variable birth_neng "Born - Non-Eng speaking"
+label variable married_yes "Married / De Facto"
+label variable married_sep "Seperated / Widowed"
+label variable urban_no "Rural"
+label variable state_NSW "NSW"
+label variable state_ACT "ACT"
+label variable state_NT "NT"
+label variable state_QLD "QLD"
+label variable state_SA "SA"
+label variable state_TAS "TAS"
+label variable state_VIC "VIC"
+label variable state_WA "WA"
+label variable shiftwork_yes "Shiftwork"
+label variable parttime "Part Time"
+label variable long_hours "41+ hours"
+label variable casual "Casual"
+label variable tenure "Tenure"
+label variable wave "Wave"
+label variable occ_manage "Manager"
+label variable occ_prof "Professional"
+label variable occ_tech_trade "Technician / Trades"
+label variable occ_community_personal_service "Community / Service"
+label variable occ_clerical_admin "Administration"
+label variable occ_sales "Sales"
+label variable occ_machinery "Machinery"
+label variable occ_labourer "Labourer"
+
+// Summarize
 
 summarize
 
-// save "/home/sean/Code/honours/hons-project/cleaned_data/v4/basic_cleaned.dta", replace
-save "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v4/basic_cleaned.dta", replace
+save "/home/sean/Code/honours/hons-project/cleaned_data/v4/basic_cleaned.dta", replace
+// save "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v4/basic_cleaned.dta", replace
