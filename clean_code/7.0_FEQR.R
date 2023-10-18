@@ -71,23 +71,20 @@ v.males.0.5 <- c()
 formula.main <- formula(log_real_wage ~ sector_public + experience + experience_sq + married_yes + married_sep +
                           urban_no + state + shiftwork_yes + parttime + long_hours + casual + tenure + occupation)
 t = rep(8:19, 5)
-for (i in 0:4) {
-  sampling_ids = sample(1:19,size=19)
-  for (waves in 8:19) {
-    test_df <- income.males[income.males$sampling_id %in% sampling_ids[1:waves] & income.males$n_obs > 3,]
-    
-    m.fe_qr <- fe_qr(test_df, formula.main, tau=0.5)
-    v.males.0.5[waves-7+i*12] <- m.fe_qr$coefficients[2]
-    print(waves)
-  }
+for (i in 1:length(t)) {
+  sampling_ids <- sample(1:19,t[i])
+  test_df <- income.males[income.males$sampling_id %in% sampling_ids & income.males$n_obs > 3,]
+  
+  m.fe_qr <- fe_qr(test_df, formula.main, tau=0.5)
+  v.males.0.5[i] <- m.fe_qr$coefficients[2]
+  print(paste("Fitted:", i))
 }
-plot(t, v.males.0.5)
-length(v.males.0.5)
-series=c(rep(1,12),rep(2,12),rep(3,12),rep(4,12),rep(5,12))
 
-df.1 <- data.frame(t, v.males.0.5, series)
+plot(t, v.males.0.5)
+
+df.1 <- data.frame(t, v.males.0.5)
 df.1$t_inv <- 1 / df.1$t
-ggplot(df.1, aes(t_inv, v.males.0.5, colour=factor(series))) +
+ggplot(df.1, aes(t_inv, v.males.0.5)) +
   geom_point() +
   geom_smooth(method="lm") +
   ggtitle("FE-QR Convergence for Quantile 0.5") +
@@ -100,54 +97,48 @@ ggplot(df.1, aes(t_inv, v.males.0.5, colour=factor(series))) +
 ## 0.9 quantile
 v.males.0.9 <- c()
 formula.main <- formula(log_real_wage ~ sector_public + experience + experience_sq + married_yes + married_sep +
-                         urban_no + state + shiftwork_yes + parttime + long_hours + casual + tenure + occupation)
+                          urban_no + state + shiftwork_yes + parttime + long_hours + casual + tenure + occupation)
 t = rep(8:19, 5)
-for (i in 0:4) {
-  sampling_ids = sample(1:19,size=19)
-  for (waves in 8:19) {
-    test_df <- income.males[income.males$sampling_id %in% sampling_ids[1:waves] & income.males$n_obs > 3,]
-    
-    m.fe_qr <- fe_qr(test_df, formula.main, tau=0.9)
-    v.males.0.9[waves-7+i*12] <- m.fe_qr$coefficients[2]
-    print(waves)
-  }
+for (i in 1:length(t)) {
+  sampling_ids <- sample(1:19,t[i])
+  test_df <- income.males[income.males$sampling_id %in% sampling_ids & income.males$n_obs > 3,]
+  
+  m.fe_qr <- fe_qr(test_df, formula.main, tau=0.9)
+  v.males.0.9[i] <- m.fe_qr$coefficients[2]
+  print(paste("Fitted:", i))
 }
-plot(t, v.males.0.9)
-length(v.males.0.9)
-series=c(rep(1,12),rep(2,12),rep(3,12),rep(4,12),rep(5,12))
 
-df.1 <- data.frame(t, v.males.0.9, series)
+plot(t, v.males.0.9)
+
+df.1 <- data.frame(t, v.males.0.9)
 df.1$t_inv <- 1 / df.1$t
-ggplot(df.1, aes(t_inv, v.males.0.9, colour=factor(series))) +
+ggplot(df.1, aes(t_inv, v.males.0.9)) +
   geom_point() +
-  geom_smooth(method="lm")  +
+  geom_smooth(method="lm") +
   ggtitle("FE-QR Convergence for Quantile 0.9") +
   xlab("1/t") +
   ylab("Public Sector Wage Differential") +
   theme(legend.position="none")
 
-## Women 0.5 quantile
+## Females, 0.5 quantile
 v.females.0.5 <- c()
 formula.main <- formula(log_real_wage ~ sector_public + experience + experience_sq + married_yes + married_sep +
                           urban_no + state + shiftwork_yes + parttime + long_hours + casual + tenure + occupation)
 t = rep(8:19, 5)
-for (i in 0:4) {
-  sampling_ids = sample(1:19,size=19)
-  for (waves in 8:19) {
-    test_df <- income.females[income.females$sampling_id %in% sampling_ids[1:waves] & income.females$n_obs > 3,]
-    
-    m.fe_qr <- fe_qr(test_df, formula.main, tau=0.5)
-    v.females.0.5[waves-7+i*12] <- m.fe_qr$coefficients[2]
-    print(waves)
-  }
+for (i in 1:length(t)) {
+  sampling_ids <- sample(1:19,t[i])
+  test_df <- income.females[income.females$sampling_id %in% sampling_ids & income.females$n_obs > 3,]
+  
+  m.fe_qr <- fe_qr(test_df, formula.main, tau=0.5)
+  v.females.0.5[i] <- m.fe_qr$coefficients[2]
+  print(paste("Fitted:", i))
 }
-plot(t, v.females.0.5)
-length(v.females.0.5)
-series=c(rep(1,12),rep(2,12),rep(3,12),rep(4,12),rep(5,12))
 
-df.1 <- data.frame(t, v.females.0.5, series)
+plot(t, v.females.0.5)
+
+df.1 <- data.frame(t, v.females.0.5)
 df.1$t_inv <- 1 / df.1$t
-ggplot(df.1, aes(t_inv, v.females.0.5, colour=factor(series))) +
+ggplot(df.1, aes(t_inv, v.females.0.5)) +
   geom_point() +
   geom_smooth(method="lm") +
   ggtitle("FE-QR Convergence for Quantile 0.5") +
@@ -162,27 +153,23 @@ v.females.0.9 <- c()
 formula.main <- formula(log_real_wage ~ sector_public + experience + experience_sq + married_yes + married_sep +
                           urban_no + state + shiftwork_yes + parttime + long_hours + casual + tenure + occupation)
 t = rep(8:19, 5)
-for (i in 0:4) {
-  sampling_ids = sample(1:19,size=19)
-  for (waves in 8:19) {
-    test_df <- income.females[income.females$sampling_id %in% sampling_ids[1:waves] & income.females$n_obs > 3,]
-    
-    m.fe_qr <- fe_qr(test_df, formula.main, tau=0.9)
-    v.females.0.9[waves-7+i*12] <- m.fe_qr$coefficients[2]
-    print(waves)
-  }
+for (i in 1:length(t)) {
+  sampling_ids <- sample(1:19,t[i])
+  test_df <- income.females[income.females$sampling_id %in% sampling_ids & income.females$n_obs > 3,]
+  
+  m.fe_qr <- fe_qr(test_df, formula.main, tau=0.9)
+  v.females.0.9[i] <- m.fe_qr$coefficients[2]
+  print(paste("Fitted:", i))
 }
-plot(t, v.females.0.9)
-length(v.females.0.9)
-series=c(rep(1,12),rep(2,12),rep(3,12),rep(4,12),rep(5,12))
 
-df.1 <- data.frame(t, v.females.0.9, series)
+plot(t, v.females.0.9)
+
+df.1 <- data.frame(t, v.females.0.9)
 df.1$t_inv <- 1 / df.1$t
-ggplot(df.1, aes(t_inv, v.females.0.9, colour=factor(series))) +
+ggplot(df.1, aes(t_inv, v.females.0.9)) +
   geom_point() +
-  geom_smooth(method="lm")  +
-  ggtitle("FE-QR Convergence for Quantile 0.9") +
+  geom_smooth(method="lm") +
+  ggtitle("FE-QR Convergence for Quantile 0.5") +
   xlab("1/t") +
   ylab("Public Sector Wage Differential") +
   theme(legend.position="none")
-  

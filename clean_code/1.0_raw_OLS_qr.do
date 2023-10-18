@@ -34,7 +34,7 @@ regress log_real_wage sector_public experience experience_sq edu_uni edu_diploma
 eststo ols_women_oc
 
 // Women short
-regress log_real_wage sector_public experience experience_sq edu_uni edu_diploma children_yes health_poor birth_eng birth_neng married_yes married_sep urban_no parttime casual tenure i.wave if sex_male == 1 [pw=hhwtrp], vce(cluster xwaveid)
+regress log_real_wage sector_public experience experience_sq edu_uni edu_diploma children_yes health_poor birth_eng birth_neng married_yes married_sep urban_no parttime casual tenure i.wave if sex_male == 0 [pw=hhwtrp], vce(cluster xwaveid)
 eststo ols_women_simple
 
 // "/Users/arbor/Documents/github repos/hons-project/output_tables/cross_sect_no_decomp.csv"
