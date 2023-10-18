@@ -30,4 +30,4 @@ cdeco log_real_wage experience experience_sq edu_uni edu_diploma children_yes he
 eststo qrd_women_short
 
 //esttab
-esttab qrd_men_oc qrd_men_short qrd_women_oc qrd_women_short using "/home/sean/Code/honours/hons-project/output_tables_v2/dummy_var/qrd_full.csv", replace label se
+esttab qrd_men_oc qrd_men_short qrd_women_oc qrd_women_short using "/home/sean/Code/honours/hons-project/output_tables_v2/decomp/qrd_full.csv", replace label se
