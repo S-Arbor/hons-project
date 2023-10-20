@@ -6,35 +6,42 @@ dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
 setwd(paste(dir, "../cleaned_data/v4", sep="/"))
 
 income <- read_dta("basic_cleaned.dta")
+income$leading_changed_emp_1_year[is.na(income$leading_changed_emp_1_year)] = 0
 
 bootstrap_var_diff <- function(series_1, series_2, reps, noisy=TRUE) {
-  series_1.sd <- vector(length=reps)
-  series_2.sd <- vector(length=reps)
+  series_1.var <- vector(length=reps)
+  series_2.var <- vector(length=reps)
   nobs <- length(series_1)
   individuals <- 1:nobs
   for (i in 1:reps) {
     individuals.boot <- sample(individuals, size=nobs, replace=TRUE)
-    series_1.sd[i] <- sd(series_1[individuals.boot])
-    series_2.sd[i] <- sd(series_2[individuals.boot])
+    series_1.var[i] <- var(series_1[individuals.boot])
+    series_2.var[i] <- var(series_2[individuals.boot])
   }
-  diff_in_var <- series_1.sd / series_2.sd
+  diff_in_var <- series_1.var / series_2.var
   
-  print("SD_1")
-  print(sd(series_1))
-  print(sd(series_1.sd))
-  print(quantile(series_1.sd, probs=c(0.005, 0.025, 0.05, 0.95, 0.975, 0.995)))
+  print("Var_1")
+  print(var(series_1))
+  print(sd(series_1.var))
+  print(quantile(series_1.var, probs=c(0.005, 0.025, 0.05, 0.95, 0.975, 0.995)))
   
-  print("SD_2")
-  print(sd(series_2))
-  print(sd(series_2.sd))
-  print(quantile(series_2.sd, probs=c(0.005, 0.025, 0.05, 0.95, 0.975, 0.995)))
+  print("Var_2")
+  print(var(series_2))
+  print(sd(series_2.var))
+  print(quantile(series_2.var, probs=c(0.005, 0.025, 0.05, 0.95, 0.975, 0.995)))
   
-  print("SD_1 / SD_2")
-  print(sd(series_1) / sd(series_2))
+  print("Var_1 / Var_2")
+  print(var(series_1) / var(series_2))
   print(sd(diff_in_var))
   print(quantile(diff_in_var, probs=c(0.005, 0.025, 0.05, 0.95, 0.975, 0.995)))
   return(diff_in_var)
 }
+
+
+
+# males.mover
+males.mover <- income[income$sex_male == 1 & income$leading_changed_emp_1_year == 1 & !(is.na(income$leading_log_real_wage)),]
+males.mover.bs <- bootstrap_var_diff(males.mover$leading_log_real_wage, males.mover$log_real_wage, 10000)
 
 # Males
 males.to_pub <- income[income$leading_moved_public_1_year == 1 & income$sex_male == 1 & !(is.na(income$leading_moved_public_1_year)),]
