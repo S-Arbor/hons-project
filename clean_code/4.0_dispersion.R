@@ -43,6 +43,9 @@ bootstrap_var_diff <- function(series_1, series_2, reps, noisy=TRUE) {
 males.mover <- income[income$sex_male == 1 & income$leading_changed_emp_1_year == 1 & !(is.na(income$leading_log_real_wage)),]
 males.mover.bs <- bootstrap_var_diff(males.mover$leading_log_real_wage, males.mover$log_real_wage, 10000)
 
+females.mover <- income[income$sex_female == 1 & income$leading_changed_emp_1_year == 1 & !(is.na(income$leading_log_real_wage)),]
+females.mover.bs <- bootstrap_var_diff(females.mover$leading_log_real_wage, females.mover$log_real_wage, 10000)
+
 # Males
 males.to_pub <- income[income$leading_moved_public_1_year == 1 & income$sex_male == 1 & !(is.na(income$leading_moved_public_1_year)),]
 
