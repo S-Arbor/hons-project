@@ -107,3 +107,14 @@ ggplot(data=males.to_pub[males.to_pub$edu_uni == 1,]) +
   geom_density(aes(x=log_real_wage), colour="blue", label="private") +
   geom_density(aes(x=leading_log_real_wage), colour="red", label="public") +
   theme(legend.position = "right")
+
+## moves by wave
+ggplot(data=males.to_priv,aes(x=wave)) +
+  geom_density(colour="blue") +
+  geom_density(colour="red", data=males.to_pub) +
+  ggtitle("Men")
+
+ggplot(data=females.to_priv,aes(x=wave)) +
+  geom_density(colour="blue") +
+  geom_density(colour="red", data=females.to_pub) +
+  ggtitle("Women")
