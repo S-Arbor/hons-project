@@ -40,3 +40,19 @@ ggplot(gap, aes(x=year,y=male_gap)) +
   ylab("Raw Gap") +
   xlab("Year") +
   theme_bw()
+
+## Number of movers
+males.mean_sec <- income[income$sex_male == 1,] %>%
+  group_by(xwaveid) %>%
+  summarise(mean_sec = mean(sector_public), nobs=n())
+
+sum(males.mean_sec$mean_sec > 0 & males.mean_sec$mean_sec < 1)
+mean(males.mean_sec$nobs[males.mean_sec$mean_sec > 0 & males.mean_sec$mean_sec < 1])
+
+
+females.mean_sec <- income[income$sex_female == 1,] %>%
+  group_by(xwaveid) %>%
+  summarise(mean_sec = mean(sector_public), nobs=n())
+
+sum(females.mean_sec$mean_sec > 0 & females.mean_sec$mean_sec < 1)
+mean(females.mean_sec$nobs[females.mean_sec$mean_sec > 0 & females.mean_sec$mean_sec < 1])
