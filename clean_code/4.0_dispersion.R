@@ -8,6 +8,8 @@ setwd(paste(dir, "../cleaned_data/v4", sep="/"))
 income <- read_dta("basic_cleaned.dta")
 income$leading_changed_emp_1_year[is.na(income$leading_changed_emp_1_year)] = 0
 
+income.no_health_ed = income[!(income$industry %in% c(16, 17)) & !(is.na(income$industry)) & !(income$leading_industry %in% c(16,17)) & !(is.na(income$leading_industry)),]
+
 bootstrap_var_diff <- function(series_1, series_2, reps, noisy=TRUE) {
   series_1.var <- vector(length=reps)
   series_2.var <- vector(length=reps)
@@ -72,6 +74,32 @@ females.to_priv <- income[income$leading_moved_private_1_year == 1 & income$sex_
 d.4 <- bootstrap_var_diff(females.to_priv$leading_log_real_wage, females.to_priv$log_real_wage, reps=10000)
 plot(density(d.4))
 
+females.to_pub.no_health_ed <- females.to_pub[females.to_pub$industry != 16 & females.to_pub$industry != 17 & !(is.na(females.to_pub$industry)),]
+
+
+############################ SAME THING BUT NO HEALTH ED
+# Males
+males.to_pub.no_health_ed <- income.no_health_ed[income.no_health_ed$leading_moved_public_1_year == 1 & income.no_health_ed$sex_male == 1 & !(is.na(income.no_health_ed$leading_moved_public_1_year)),]
+
+d.11 <- bootstrap_var_diff(males.to_pub.no_health_ed$log_real_wage, males.to_pub.no_health_ed$leading_log_real_wage, reps=10000)
+plot(density(d.11))
+
+males.to_priv.no_health_ed <- income.no_health_ed[income.no_health_ed$leading_moved_private_1_year == 1 & income.no_health_ed$sex_male == 1 & !(is.na(income.no_health_ed$leading_moved_private_1_year)),]
+
+d.12 <- bootstrap_var_diff(males.to_priv.no_health_ed$log_real_wage, males.to_priv.no_health_ed$leading_log_real_wage, reps=10000)
+plot(density(d.12))
+# Females
+females.to_pub.no_health_ed <- income.no_health_ed[income.no_health_ed$leading_moved_public_1_year == 1 & income.no_health_ed$sex_female == 1 & !(is.na(income.no_health_ed$leading_moved_public_1_year)),]
+
+
+d.13 <- bootstrap_var_diff(females.to_pub.no_health_ed$log_real_wage, females.to_pub.no_health_ed$leading_log_real_wage, reps=10000)
+plot(density(d.13))
+
+females.to_priv.no_health_ed <- income.no_health_ed[income.no_health_ed$leading_moved_private_1_year == 1 & income.no_health_ed$sex_female == 1 & !(is.na(income.no_health_ed$leading_moved_private_1_year)),]
+
+
+d.14 <- bootstrap_var_diff(females.to_priv.no_health_ed$leading_log_real_wage, females.to_priv.no_health_ed$log_real_wage, reps=10000)
+plot(density(d.14))
 
 
 ## Plots

@@ -362,6 +362,8 @@ bysort xwaveid (wave): gen leading_real_wage = real_wage[_n+1]
 bysort xwaveid (wave): gen leading_log_real_wage = log_real_wage[_n+1]
 bysort xwaveid (wave): gen leading_changed_emp_1_year = changed_employer[_n+1] if wave[_n+1] == wave + 1
 
+bysort xwaveid (wave): gen leading_industry = industry[_n+1] if wave[_n+1] == wave + 1
+
 
 
 
