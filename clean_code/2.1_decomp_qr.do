@@ -30,4 +30,6 @@ cdeco log_real_wage experience experience_sq edu_uni edu_diploma children_yes he
 eststo qrd_women_short
 
 //esttab
-esttab qrd_men_oc qrd_men_short qrd_women_oc qrd_women_short using "/home/sean/Code/honours/hons-project/output_tables_v2/decomp/qrd_full.csv", replace label se
+esttab qrd_men_oc qrd_men_short qrd_women_oc qrd_women_short using "/home/sean/Code/honours/hons-project/output_tables_v2/decomp/qrd_full_3dp.csv", replace label se(3) b(3) star(* 0.1 ** 0.05 *** 0.01) nogaps
+
+esttab qrd_men_oc qrd_men_short qrd_women_oc qrd_women_short using "/home/sean/Code/honours/hons-project/output_tables_v2/decomp/qrd_full.csv", replace label se star(* 0.1 ** 0.05 *** 0.01) nogaps
