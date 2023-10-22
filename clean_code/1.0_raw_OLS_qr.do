@@ -6,8 +6,8 @@
 
 // For oaxaca replace i.wave with w2 w3 w4 w5 w6 w7 w8 w9 w10 w11 w12 w13 w14 w15 w16 w17 w18 w19 since it does not accept factors
 
-// use "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v4/basic_cleaned.dta", clear
-use "/home/sean/Code/honours/hons-project/cleaned_data/v4/basic_cleaned.dta", clear
+use "/Users/arbor/Documents/github repos/hons-project/cleaned_data/v4/basic_cleaned.dta", clear
+// use "/home/sean/Code/honours/hons-project/cleaned_data/v4/basic_cleaned.dta", clear
 
 eststo clear
 
@@ -38,6 +38,7 @@ regress log_real_wage sector_public experience experience_sq edu_uni edu_diploma
 eststo ols_women_simple
 
 // "/Users/arbor/Documents/github repos/hons-project/output_tables/cross_sect_no_decomp.csv"
+/*
 esttab ols_men_oc ols_men_simple ols_women_oc ols_women_simple using "/home/sean/Code/honours/hons-project/output_tables_v2/dummy_var/ols_sec_pub.csv", keep(sector_public) replace label se(3) b(3) star(* 0.1 ** 0.05 *** 0.01) nogaps
 
 esttab ols_men_oc ols_men_simple ols_women_oc ols_women_simple using "/home/sean/Code/honours/hons-project/output_tables_v2/dummy_var/ols_sec_pub.tex", keep(sector_public) replace label se(3) b(3) star(* 0.1 ** 0.05 *** 0.01) nogaps
@@ -49,7 +50,18 @@ esttab ols_men_oc ols_men_simple ols_women_oc ols_women_simple using "/home/sean
 esttab ols_men_oc ols_men_simple ols_women_oc ols_women_simple using "/home/sean/Code/honours/hons-project/output_tables_v2/dummy_var/ols_no_wave.csv", replace label drop(*.wave) se(3) b(3) star(* 0.1 ** 0.05 *** 0.01) nogaps
 
 esttab ols_men_oc ols_men_simple ols_women_oc ols_women_simple using "/home/sean/Code/honours/hons-project/output_tables_v2/dummy_var/ols_no_wave.tex", replace label drop(*.wave) se(3) b(3) star(* 0.1 ** 0.05 *** 0.01) nogaps
+*/
+esttab ols_men_oc ols_men_simple ols_women_oc ols_women_simple using "/Users/arbor/Documents/github repos/hons-project/output_tables_v2/dummy_var/ols_sec_pub.csv", keep(sector_public) replace label se(3) b(3) star(* 0.1 ** 0.05 *** 0.01) nogaps
 
+esttab ols_men_oc ols_men_simple ols_women_oc ols_women_simple using "/Users/arbor/Documents/github repos/hons-project/output_tables_v2/dummy_var/ols_sec_pub.tex", keep(sector_public) replace label se(3) b(3) star(* 0.1 ** 0.05 *** 0.01) nogaps
+
+esttab ols_men_oc ols_men_simple ols_women_oc ols_women_simple using "/Users/arbor/Documents/github repos/hons-project/output_tables_v2/dummy_var/ols_full.csv", replace label se(3) b(3) star(* 0.1 ** 0.05 *** 0.01) nogaps
+
+esttab ols_men_oc ols_men_simple ols_women_oc ols_women_simple using "/Users/arbor/Documents/github repos/hons-project/output_tables_v2/dummy_var/ols_full.tex", replace label se(3) b(3) star(* 0.1 ** 0.05 *** 0.01) nogaps
+
+esttab ols_men_oc ols_men_simple ols_women_oc ols_women_simple using "/Users/arbor/Documents/github repos/hons-project/output_tables_v2/dummy_var/ols_no_wave.csv", replace label drop(*.wave) se(3) b(3) star(* 0.1 ** 0.05 *** 0.01) nogaps
+
+esttab ols_men_oc ols_men_simple ols_women_oc ols_women_simple using "/Users/arbor/Documents/github repos/hons-project/output_tables_v2/dummy_var/ols_no_wave.tex", replace label drop(*.wave) se(3) b(3) star(* 0.1 ** 0.05 *** 0.01) nogaps
 
 // 2. Basic Quantile
 

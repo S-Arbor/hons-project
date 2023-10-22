@@ -50,14 +50,62 @@ fe_qr <- function(dataset, base_formula, tau, extended_formula = "none", fe_deta
   m.full <- rq(extended_formula, data=extended_df, tau=tau)
   return(m.full)
 }
+
+formula.main <- formula(log_real_wage ~ sector_public + experience + experience_sq + married_yes + married_sep +
+                          urban_no + state + shiftwork_yes + parttime + long_hours + casual + tenure + factor(occupation) + factor(wave))
+########################################################################################
+### Perform Bias Test for Males ########################################################
+########################################################################################
+## parameters
+columns <- 3
+ts <- 8:19
+reps = 3
+
 ## set sampling ids
-v.males.all <- c()
-income.males$sampling_id <- 1
 set.seed(2020202)
-sampling_ids = sample(1:19,size=19)
+
+sampling_ids <- matrix(nrow=nrow(income.males),ncol=columns)
+
 for (xwaveid in unique(income.males$xwaveid)) {
-  income.males$sampling_id[income.males$xwaveid == xwaveid] = sample(1:19, size=nrow(income.males[income.males$xwaveid == xwaveid,]), replace=FALSE)
+  row_mask = income.males$xwaveid == xwaveid
+  nobs = sum(row_mask)
+  for (i in 1:columns) {
+    sampling_ids[row_mask,i] = sample(1:19,size=nobs,replace=FALSE) 
+  }
 }
+
+## Males, 0.5 quantile
+v.males.0.5 <- c()
+v.males.0.5.n_t <- c()
+t = rep(ts, reps * columns)
+colset <- rep(1:columns,each=length(ts)*reps)
+for (i in 1:length(t)) {
+  sampling_ids_to_include <- sample(1:19,t[i])
+  df_mask = sampling_ids[,colset[i]] %in% sampling_ids_to_include
+  test_df <- income.males[df_mask & income.males$n_obs > 2,]
+  
+  m.fe_qr <- fe_qr(test_df, formula.main, tau=0.5)
+  v.males.0.5[i] <- m.fe_qr$coefficients[2]
+  v.males.0.5.n_t[i] <- sum(df_mask) / t[i]
+  
+  print(paste("Fitted:", i))
+}
+
+plot(t, v.males.0.5)
+
+df.1 <- data.frame(t, v.males.0.5)
+df.1$t_inv <- 1 / df.1$t
+ggplot(df.1, aes(t_inv, v.males.0.5)) +
+  geom_point() +
+  geom_smooth(method="lm") +
+  ggtitle("FE-QR Convergence for Quantile 0.5") +
+  xlab("1/t") +
+  ylab("Public Sector Wage Differential") +
+  theme(legend.position="none")
+
+# for (xwaveid in unique(income.males$xwaveid)) {
+#   income.males$sampling_id[income.males$xwaveid == xwaveid] = sample(1:19, size=nrow(income.males[income.males$xwaveid == xwaveid,]), replace=FALSE)
+# }
 
 income.females$sampling_id <- 1
 set.seed(2020202)
