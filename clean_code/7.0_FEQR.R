@@ -59,18 +59,32 @@ test <- fe_qr(income.males, formula.main, tau=0.5)
 ## bootstrap function
 
 clustered_sample <- function(dataset) {
+  individuals <- unique(dataset$xwaveid)
+  selected_individuals <- sample(individuals, size=length(individuals),replace=TRUE)
   
+  selected_rows <- c()
+  for (individual in selected_individuals) {
+    row_mask <- dataset$xwaveid == individual
+    rows <- (1:nrow(dataset))[row_mask]
+    selected_rows <- c(selected_rows, rows)
+  }
+  return(selected_rows)
 }
+
+xwaveid <- c(1,1,2,2,2,2,2,2,3,3,3,4,4,5,6,7,8)
+df <- data.frame(xwaveid)
 
 bootstrap_feqr <- function(dataset, base_formula, reps, tau) {
   
-  
-  bootstrap_samples <- sample(dataset$xwaveid, size)
-  
   bootstrap_results <- matrix(ncol=45,nrow=reps)
   for (i in 1:reps) {
-    feqr_res <- feqr()
+    print(paste("Rep:", i))
+    sample_rows <- clustered_sample(dataset)
+    feqr_res <- fe_qr(dataset[sample_rows,], base_formula, tau)
+    bootstrap_results[i,] <- feqr_res$coefficients
   }
-    
+  return(bootstrap_results) 
 }
 
+main_res <- fe_qr(income.males[income.males$n_obs>2,],tau=0.5, base_formula=formula.main)
+errors <- bootstrap_feqr(income.males[income.males$n_obs>2,], formula.main, reps=100, tau=0.5)
