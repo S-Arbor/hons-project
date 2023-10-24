@@ -51,7 +51,7 @@ fe_qr <- function(dataset, base_formula, tau, extended_formula = "none", fe_deta
   return(m.full)
 }
 
-perform_test <- function(df, fig_name, tau=0.5, ts=8:19, columns=4,reps=5) {
+perform_test <- function(df, fig_name, tau=0.5, ts=8:19, columns=2,reps=2) {
   formula.main <- formula(log_real_wage ~ sector_public + experience + experience_sq + married_yes + married_sep +
                             urban_no + state + shiftwork_yes + parttime + long_hours + casual + tenure + factor(occupation) + factor(wave))
   
@@ -74,7 +74,7 @@ perform_test <- function(df, fig_name, tau=0.5, ts=8:19, columns=4,reps=5) {
     df_mask = sampling_ids[,colset[i]] %in% sampling_ids_to_include
     test_df <- df[df_mask,]
     
-    m.fe_qr <- fe_qr(test_df, formula.main, tau=0.5)
+    m.fe_qr <- fe_qr(test_df, formula.main, tau=tau)
     v.results[i] <- m.fe_qr$coefficients[2]
     v.n_t[i] <- sum(df_mask) / t[i]
     
@@ -94,17 +94,17 @@ perform_test <- function(df, fig_name, tau=0.5, ts=8:19, columns=4,reps=5) {
 }
 
 set.seed(2020)
-perform_test(income.males, fig_name = "feqr_men_75", tau=0.75, ts=8:19, columns=5,reps=5)
-perform_test(income.males, fig_name = "feqr_men_25", tau=0.25, ts=8:19, columns=5,reps=5)
-perform_test(income.males, fig_name = "feqr_men_50", tau=0.5, ts=8:19, columns=5,reps=5)
-perform_test(income.males, fig_name = "feqr_men_10", tau=0.10, ts=8:19, columns=5,reps=5)
-perform_test(income.males, fig_name = "feqr_men_90", tau=0.9, ts=8:19, columns=5,reps=5)
+perform_test(income.males, fig_name = "feqr_men_75", tau=0.75, ts=8:19, columns=2,reps=2)
+perform_test(income.males, fig_name = "feqr_men_25", tau=0.25, ts=8:19, columns=2,reps=2)
+perform_test(income.males, fig_name = "feqr_men_50", tau=0.5, ts=8:19, columns=2,reps=2)
+perform_test(income.males, fig_name = "feqr_men_10", tau=0.10, ts=8:19, columns=2,reps=2)
+perform_test(income.males, fig_name = "feqr_men_90", tau=0.9, ts=8:19, columns=2,reps=2)
 
-perform_test(income.females, fig_name = "feqr_women_50", tau=0.5, ts=8:19, columns=5,reps=5)
-perform_test(income.females, fig_name = "feqr_women_75", tau=0.75, ts=8:19, columns=5,reps=5)
-perform_test(income.females, fig_name = "feqr_women_25", tau=0.25, ts=8:19, columns=5,reps=5)
-perform_test(income.females, fig_name = "feqr_women_10", tau=0.1, ts=8:19, columns=5,reps=5)
-perform_test(income.females, fig_name = "feqr_women_90", tau=0.9, ts=8:19, columns=5,reps=5)
+perform_test(income.females, fig_name = "feqr_women_50", tau=0.5, ts=8:19, columns=2,reps=2)
+perform_test(income.females, fig_name = "feqr_women_75", tau=0.75, ts=8:19, columns=2,reps=2)
+perform_test(income.females, fig_name = "feqr_women_25", tau=0.25, ts=8:19, columns=2,reps=2)
+perform_test(income.females, fig_name = "feqr_women_10", tau=0.1, ts=8:19, columns=2,reps=2)
+perform_test(income.females, fig_name = "feqr_women_90", tau=0.9, ts=8:19, columns=2,reps=2)
 
 
 ########################################################################################
