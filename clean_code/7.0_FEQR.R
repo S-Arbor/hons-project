@@ -88,3 +88,14 @@ bootstrap_feqr <- function(dataset, base_formula, reps, tau) {
 
 main_res <- fe_qr(income.males[income.males$n_obs>2,],tau=0.5, base_formula=formula.main)
 errors <- bootstrap_feqr(income.males[income.males$n_obs>2,], formula.main, reps=100, tau=0.5)
+
+for (tau in c(0.1,0.25,0.5,0.75,0.9)) {
+  print(tau)
+  print(fe_qr(income.males[income.males$n_obs>2,],tau=tau, base_formula=formula.main)$coefficients[2])
+}
+
+for (tau in c(0.1,0.25,0.5,0.75,0.9)) {
+  print(tau)
+  print(fe_qr(income.females[income.females$n_obs>2,],tau=tau, base_formula=formula.main)$coefficients[2])
+}
+
