@@ -89,13 +89,27 @@ bootstrap_feqr <- function(dataset, base_formula, reps, tau) {
 main_res <- fe_qr(income.males[income.males$n_obs>2,],tau=0.5, base_formula=formula.main)
 errors <- bootstrap_feqr(income.males[income.males$n_obs>2,], formula.main, reps=100, tau=0.5)
 
+setwd(paste(dir, "../output_tables_v2/feqr", sep="/"))
+
+print("males")
 for (tau in c(0.1,0.25,0.5,0.75,0.9)) {
+  errors <- bootstrap_feqr(income.males[income.males$n_obs>2,], formula.main, reps=500, tau=tau)
+  sink(file=paste("Men_",toString(tau),".txt",sep=""))
   print(tau)
   print(fe_qr(income.males[income.males$n_obs>2,],tau=tau, base_formula=formula.main)$coefficients[2])
+  print(sd(errors))
+  print(quantile(errors,c(0.005,0.025,0.05,0.95,0.975,0.995)))
+  sink(file=NULL)
 }
 
+print("females")
 for (tau in c(0.1,0.25,0.5,0.75,0.9)) {
+  errors <- bootstrap_feqr(income.females[income.females$n_obs>2,], formula.main, reps=500, tau=tau)
+  sink(file=paste("Women_",toString(tau),".txt",sep=""))
   print(tau)
   print(fe_qr(income.females[income.females$n_obs>2,],tau=tau, base_formula=formula.main)$coefficients[2])
+  print(sd(errors))
+  print(quantile(errors,c(0.005,0.025,0.05,0.95,0.975,0.995)))
+  sink(file=NULL)
 }
 
