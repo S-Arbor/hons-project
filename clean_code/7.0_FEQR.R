@@ -12,11 +12,13 @@ setwd(paste(dir, "../cleaned_data/v4", sep="/"))
 
 income.raw <- read_dta("basic_cleaned.dta")
 
-n_obs <- income.raw %>%
+indis <- income.raw %>%
   group_by(xwaveid) %>%
-  summarise(n_obs = n())
-income <- merge(income.raw, n_obs, by="xwaveid") %>%
+  summarise(n_obs = n(),mean_sec=mean(sector_public))
+income <- merge(income.raw, indis, by="xwaveid") %>%
   mutate_at(c("edu", "xwaveid", "state", "occupation"), as.factor)
+
+income$sec_switcher = income$mean_sec > 0 & income$mean_sec < 1
 
 income.males <- income[income$sex_male == 1 & income$n_obs > 1,]
 income.females <- income[income$sex_female == 1 & income$n_obs > 1,]
@@ -54,7 +56,7 @@ fe_qr <- function(dataset, base_formula, tau, extended_formula = "none", fe_deta
 formula.main <- formula(log_real_wage ~ sector_public + experience + experience_sq + married_yes + married_sep +
                           urban_no + state + shiftwork_yes + parttime + long_hours + casual + tenure + factor(occupation) + factor(wave))
 
-test <- fe_qr(income.males, formula.main, tau=0.5)
+test <- fe_qr(income.males[income.males$sec_switcher == 1,], formula.main, tau=0.5)
 
 ## bootstrap function
 
@@ -71,8 +73,6 @@ clustered_sample <- function(dataset) {
   return(selected_rows)
 }
 
-xwaveid <- c(1,1,2,2,2,2,2,2,3,3,3,4,4,5,6,7,8)
-df <- data.frame(xwaveid)
 
 bootstrap_feqr <- function(dataset, base_formula, reps, tau) {
   
