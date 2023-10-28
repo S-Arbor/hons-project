@@ -86,16 +86,45 @@ bootstrap_feqr <- function(dataset, base_formula, reps, tau) {
   return(bootstrap_results) 
 }
 
-main_res <- fe_qr(income.males[income.males$n_obs>2,],tau=0.5, base_formula=formula.main)
-errors <- bootstrap_feqr(income.males[income.males$n_obs>2,], formula.main, reps=100, tau=0.5)
+main_res <- fe_qr(income.males[income.males$n_obs>2 & income.males$sec_switcher == 1,],tau=0.5, base_formula=formula.main)
+errors <- bootstrap_feqr(income.males[income.males$n_obs>2 & income.males$sec_switcher == 1,], formula.main, reps=100, tau=0.5)
 
-for (tau in c(0.1,0.25,0.5,0.75,0.9)) {
+setwd(paste(dir, "../output_tables_v2/feqr", sep="/"))
+
+print("males")
+for (tau in c(0.25,0.5,0.75,0.9)) { ####### TAU 0.1 MISSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSIIIIIIIIINNNNNNGG
+  errors <- bootstrap_feqr(income.males[income.males$n_obs>2,], formula.main, reps=500, tau=tau)[,2]
+  sink(file=paste("Men_",toString(tau),".txt",sep=""))
+  print(paste("reps was:", toString(length(errors))))
   print(tau)
   print(fe_qr(income.males[income.males$n_obs>2,],tau=tau, base_formula=formula.main)$coefficients[2])
+  print(sd(errors))
+  print(quantile(errors,c(0.005,0.025,0.05,0.95,0.975,0.995)))
+  sink(file=NULL)
+}
+
+print("females")
+for (tau in c(0.1,0.25,0.5,0.75,0.9)) {
+  errors <- bootstrap_feqr(income.females[income.females$n_obs>2,], formula.main, reps=500, tau=tau)[,2]
+  print(paste("reps was:", toString(length(errors))))
+  sink(file=paste("Women_",toString(tau),".txt",sep=""))
+  print(tau)
+  print(fe_qr(income.females[income.females$n_obs>2,],tau=tau, base_formula=formula.main)$coefficients[2])
+  print(sd(errors))
+  print(quantile(errors,c(0.005,0.025,0.05,0.95,0.975,0.995)))
+  sink(file=NULL)
 }
 
 for (tau in c(0.1,0.25,0.5,0.75,0.9)) {
   print(tau)
-  print(fe_qr(income.females[income.females$n_obs>2,],tau=tau, base_formula=formula.main)$coefficients[2])
+  print("men")
+  print(fe_qr(income.males[income.males$n_obs>2,],tau=tau, base_formula=formula.main)$coefficients)
+  print("women")
+  print(fe_qr(income.females[income.females$n_obs>2,],tau=tau, base_formula=formula.main)$coefficients)
 }
+
+
+
+
+
 
