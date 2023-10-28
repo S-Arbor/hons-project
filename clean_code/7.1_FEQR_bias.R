@@ -3,6 +3,7 @@ library(tidyverse)
 library(ggplot2)
 library(quantreg)
 library(plm)
+library(scales)
 
 
 ## CLEANING
@@ -51,7 +52,7 @@ fe_qr <- function(dataset, base_formula, tau, extended_formula = "none", fe_deta
   return(m.full)
 }
 
-perform_test <- function(df, fig_name, tau=0.5, ts=8:19, columns=2,reps=2) {
+perform_test <- function(df, fig_name, tau=0.5, ts=8:19, columns=4,reps=2) {
   formula.main <- formula(log_real_wage ~ sector_public + experience + experience_sq + married_yes + married_sep +
                             urban_no + state + shiftwork_yes + parttime + long_hours + casual + tenure + factor(occupation) + factor(wave))
   
@@ -81,84 +82,47 @@ perform_test <- function(df, fig_name, tau=0.5, ts=8:19, columns=2,reps=2) {
     print(paste("Fitted:", i))
   }
   
-  df.1 <- data.frame(v.n_t, v.results)
-  df.1$t_n <- 1 / df.1$v.n_t
-  out_fig <- ggplot(df.1, aes(t_n, v.results)) +
+  df.1 <- data.frame(v.n_t, v.results, t)
+  df.1$t_inv <- 1 / df.1$t
+  df.1$s_group <- as.factor(colset)
+  out_fig <- ggplot(df.1, aes(t_inv, v.results)) +
     geom_point() +
+    theme_bw() +
+    scale_x_continuous(labels = label_number(accuracy = 0.001)) +
     geom_smooth(method="lm") +
-    xlab("n/t") +
+    xlab("1/t") +
     ylab("Estimated Differential") +
-    theme(legend.position="none")
+    theme(legend.position="none") +
+    theme(axis.text=element_text(size=18),
+          axis.title=element_text(size=20,face="bold"))
   
-  ggsave(paste("../../output_figures/qrfe_bias/",fig_name,".png",sep=""), out_fig)
+  colour_fig <- ggplot(df.1, aes(t_inv, v.results,colour=s_group)) +
+    geom_point() +
+    theme_bw() +
+    scale_x_continuous(labels = label_number(accuracy = 0.001)) +
+    geom_smooth(method="lm") +
+    xlab("1/t") +
+    ylab("Estimated Differential") +
+    theme(legend.position="none") +
+    theme(axis.text=element_text(size=18),
+          axis.title=element_text(size=20,face="bold"))
+  
+  write.csv(df.1, file=paste("../../output_figures/qrfe_bias_2/",fig_name,".csv",sep=""),row.names = FALSE)
+  ggsave(paste("../../output_figures/qrfe_bias_2/",fig_name,".png",sep=""), out_fig)
+  ggsave(paste("../../output_figures/qrfe_bias_2/colourful/",fig_name,".png",sep=""), colour_fig)
 }
 
 set.seed(2020)
-perform_test(income.males, fig_name = "feqr_men_75", tau=0.75, ts=8:19, columns=2,reps=2)
-perform_test(income.males, fig_name = "feqr_men_25", tau=0.25, ts=8:19, columns=2,reps=2)
-perform_test(income.males, fig_name = "feqr_men_50", tau=0.5, ts=8:19, columns=2,reps=2)
-perform_test(income.males, fig_name = "feqr_men_10", tau=0.10, ts=8:19, columns=2,reps=2)
-perform_test(income.males, fig_name = "feqr_men_90", tau=0.9, ts=8:19, columns=2,reps=2)
+perform_test(income.males, fig_name = "feqr_men_75", tau=0.75, ts=8:19)
+perform_test(income.males, fig_name = "feqr_men_25", tau=0.25, ts=8:19)
+perform_test(income.males, fig_name = "feqr_men_50", tau=0.5, ts=8:19)
+perform_test(income.males, fig_name = "feqr_men_10", tau=0.10, ts=8:19)
+perform_test(income.males, fig_name = "feqr_men_90", tau=0.9, ts=8:19)
 
-perform_test(income.females, fig_name = "feqr_women_50", tau=0.5, ts=8:19, columns=2,reps=2)
-perform_test(income.females, fig_name = "feqr_women_75", tau=0.75, ts=8:19, columns=2,reps=2)
-perform_test(income.females, fig_name = "feqr_women_25", tau=0.25, ts=8:19, columns=2,reps=2)
-perform_test(income.females, fig_name = "feqr_women_10", tau=0.1, ts=8:19, columns=2,reps=2)
-perform_test(income.females, fig_name = "feqr_women_90", tau=0.9, ts=8:19, columns=2,reps=2)
+perform_test(income.females, fig_name = "feqr_women_50", tau=0.5, ts=8:19)
+perform_test(income.females, fig_name = "feqr_women_75", tau=0.75, ts=8:19)
+perform_test(income.females, fig_name = "feqr_women_25", tau=0.25, ts=8:19)
+perform_test(income.females, fig_name = "feqr_women_10", tau=0.1, ts=8:19)
+perform_test(income.females, fig_name = "feqr_women_90", tau=0.9, ts=8:19)
 
-
-########################################################################################
-### Perform Bias Test for Males ########################################################
-########################################################################################
-
-## set sampling ids
-set.seed(2020202)
-
-sampling_ids <- matrix(nrow=nrow(income.males),ncol=columns)
-
-for (xwaveid in unique(income.males$xwaveid)) {
-  row_mask = income.males$xwaveid == xwaveid
-  nobs = sum(row_mask)
-  for (i in 1:columns) {
-    sampling_ids[row_mask,i] = sample(1:19,size=nobs,replace=FALSE) 
-  }
-}
-
-## New Test
-
-
-## Dated Test
-v.males.0.5 <- c()
-v.males.0.5.n_t <- c()
-t = rep(ts, reps * columns)
-colset <- rep(1:columns,each=length(ts)*reps)
-for (i in 1:length(t)) {
-  sampling_ids_to_include <- sample(1:19,t[i])
-  df_mask = sampling_ids[,colset[i]] %in% sampling_ids_to_include
-  test_df <- income.males[df_mask & income.males$n_obs > 2,]
-  
-  m.fe_qr <- fe_qr(test_df, formula.main, tau=0.5)
-  v.males.0.5[i] <- m.fe_qr$coefficients[2]
-  v.males.0.5.n_t[i] <- sum(df_mask) / t[i]
-  
-  print(paste("Fitted:", i))
-}
-
-plot(t, v.males.0.5)
-
-df.1 <- data.frame(t, v.males.0.5)
-df.1$t_inv <- 1 / df.1$t
-males.50 <- ggplot(df.1, aes(t_inv, v.males.0.5)) +
-  geom_point() +
-  geom_smooth(method="lm") +
-  ggtitle("FE-QR Convergence for Quantile 0.5") +
-  xlab("n/t") +
-  ylab("Public Sector Wage Differential") +
-  theme(legend.position="none")
-
-ggsave("../../output_figures/qrfe_bias/qrfe_male_q50.png", males.50)
-
-## Men Q90
-
-## Men Q10
 

@@ -81,7 +81,11 @@ eststo qr_women_16
 
 // esttab
 
-esttab oax_men_1 oax_men_6 oax_men_11 oax_men_16 oax_women_1 oax_women_6 oax_women_11 oax_women_16 using "/home/sean/Code/honours/hons-project/output_tables_v2/over_time/oax_full.csv", replace label se
+esttab oax_men_1 oax_men_6 oax_men_11 oax_men_16 oax_women_1 oax_women_6 oax_women_11 oax_women_16 using "/home/sean/Code/honours/hons-project/output_tables_v2/over_time/oax_full_3dp.csv", replace label se(3) b(3) star(* 0.1 ** 0.05 *** 0.01) nogaps
 
-esttab qr_men_1 qr_men_6 qr_men_11 qr_men_16 qr_women_1 qr_women_6 qr_women_11 qr_women_16 using "/home/sean/Code/honours/hons-project/output_tables_v2/over_time/qrd_full.csv", replace label se
+esttab oax_men_1 oax_men_6 oax_men_11 oax_men_16 oax_women_1 oax_women_6 oax_women_11 oax_women_16 using "/home/sean/Code/honours/hons-project/output_tables_v2/over_time/oax_full.csv", replace label se star(* 0.1 ** 0.05 *** 0.01) nogaps
+
+esttab qr_men_1 qr_men_6 qr_men_11 qr_men_16 qr_women_1 qr_women_6 qr_women_11 qr_women_16 using "/home/sean/Code/honours/hons-project/output_tables_v2/over_time/qrd_full_3dp.csv", replace label se(3) b(3) star(* 0.1 ** 0.05 *** 0.01) nogaps
+
+esttab qr_men_1 qr_men_6 qr_men_11 qr_men_16 qr_women_1 qr_women_6 qr_women_11 qr_women_16 using "/home/sean/Code/honours/hons-project/output_tables_v2/over_time/qrd_full.csv", replace label se b star(* 0.1 ** 0.05 *** 0.01) nogaps
 

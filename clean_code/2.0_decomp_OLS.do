@@ -31,4 +31,4 @@ oaxaca log_real_wage experience experience_sq edu_uni edu_diploma children_yes h
 eststo oax_women_short
 
 //esttab
-esttab oax_men_oc oax_men_short oax_women_oc oax_women_short using "/home/sean/Code/honours/hons-project/output_tables_v2/decomp/oax_full.csv", replace label se
+esttab oax_men_oc oax_men_short oax_women_oc oax_women_short using "/home/sean/Code/honours/hons-project/output_tables_v2/decomp/oax_full.csv", replace label se star(* 0.1 ** 0.05 *** 0.01) nogaps
