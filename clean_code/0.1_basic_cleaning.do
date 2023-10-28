@@ -86,6 +86,9 @@ gen sector_dont_know = jbmmpl == -3 | jbmmplr == -3 | jbmmply == -3
 bysort xwaveid (wave): egen tot_sector_misreport_risk = total(sector_misreport_risk)
 bysort xwaveid (wave): egen tot_sector_dont_know = total(sector_dont_know)
 
+// gen any_sector_misreport_risk = tot_sector_misreport_risk > 0
+// tab any_sector_misreport_risk changed_sector
+
 keep if tot_sector_misreport_risk < 1
 // unique xwaveid if sector_dont_know == 1
 keep if tot_sector_dont_know < 1
