@@ -1,6 +1,7 @@
 library(haven)
 library(tidyverse)
 library(ggplot2)
+library(svglite)
 
 dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
 setwd(paste(dir, "../cleaned_data/v4", sep="/"))
@@ -12,6 +13,8 @@ income$Sector[income$sector_private == 1] <- "Private"
 c_pub = "#FC0E07"
 c_priv = "#00AFBB"
 
+setwd(paste(dir,"../output_figures/raw_diff",sep="/"))
+
 men_raw <- ggplot(income[income$sex_male == 1,], aes(x=log_real_wage, colour=Sector)) +
   geom_density() +
   scale_color_manual(values=c(c_priv, c_pub)) +
@@ -19,50 +22,49 @@ men_raw <- ggplot(income[income$sex_male == 1,], aes(x=log_real_wage, colour=Sec
   xlim(1.8,5.0) +
   theme(axis.text=element_text(size=18),
         axis.title=element_text(size=20,face="bold"),
-        )
+        legend.text = element_text(size=18),
+        legend.title = element_text(size=18)) +
+  xlab("Ln Wage")
 
-men_raw
-
-ggplot(income[income$sex_female == 1,], aes(x=log_real_wage, colour=factor(sector_public))) +
+women_raw <- ggplot(income[income$sex_female == 1,], aes(x=log_real_wage, colour=Sector)) +
   geom_density() +
   scale_color_manual(values=c(c_priv, c_pub)) +
   theme_bw() +
   xlim(1.8,5.0) +
-  ggtitle("Raw Distribution - Females")
+  theme(axis.text=element_text(size=18),
+        axis.title=element_text(size=20,face="bold"),
+        legend.text = element_text(size=18),
+        legend.title = element_text(size=18)) +
+  xlab("Ln Wage")
+
+# Smaller text
+men_raw <- ggplot(income[income$sex_male == 1,], aes(x=log_real_wage, colour=Sector)) +
+  geom_density() +
+  scale_color_manual(values=c(c_priv, c_pub)) +
+  theme_bw() +
+  xlim(1.8,5.0) +
+  theme(axis.text=element_text(size=14),
+        axis.title=element_text(size=16,face="bold"),
+        legend.text = element_text(size=14),
+        legend.title = element_text(size=14)) +
+  xlab("Ln Wage")
+
+women_raw <- ggplot(income[income$sex_female == 1,], aes(x=log_real_wage, colour=Sector)) +
+  geom_density() +
+  scale_color_manual(values=c(c_priv, c_pub)) +
+  theme_bw() +
+  xlim(1.8,5.0) +
+  theme(axis.text=element_text(size=14),
+        axis.title=element_text(size=16,face="bold"),
+        legend.text = element_text(size=14),
+        legend.title = element_text(size=14)) +
+  xlab("Ln Wage")
 
 
+ggsave("raw_women.pdf", women_raw,dpi=1000)
+ggsave("raw_men.pdf", men_raw, dpi=1000)
 
 
+ggsave("raw_men.svg", height=150,width=350, plot=men_raw,units="mm")
+ggsave("raw_women.svg", height=150,width=350, plot=women_raw,units="mm")
 
-by_year <- income %>%
-  group_by(wave,sex_male,sector_public) %>%
-  summarise(mean_lrw=mean(log_real_wage))
-
-male_gap = by_year$mean_lrw[by_year$sex_male == 1 & by_year$sector_public==1] - by_year$mean_lrw[by_year$sex_male == 1 & by_year$sector_public==0]
-female_gap = by_year$mean_lrw[by_year$sex_male == 0 & by_year$sector_public==1] - by_year$mean_lrw[by_year$sex_male == 0 & by_year$sector_public==0]
-gap = data.frame(male_gap = male_gap, female_gap=female_gap, year=2001:2019)
-
-ggplot(gap, aes(x=year,y=male_gap)) +
-  geom_line(colour="green") +
-  geom_point(colour="green") +
-  geom_line(aes(y=female_gap), colour="purple") +
-  geom_point(aes(y=female_gap), colour="purple") +
-  ylab("Raw Gap") +
-  xlab("Year") +
-  theme_bw()
-
-## Number of movers
-males.mean_sec <- income[income$sex_male == 1,] %>%
-  group_by(xwaveid) %>%
-  summarise(mean_sec = mean(sector_public), nobs=n())
-
-sum(males.mean_sec$mean_sec > 0 & males.mean_sec$mean_sec < 1)
-mean(males.mean_sec$nobs[males.mean_sec$mean_sec > 0 & males.mean_sec$mean_sec < 1])
-
-
-females.mean_sec <- income[income$sex_female == 1,] %>%
-  group_by(xwaveid) %>%
-  summarise(mean_sec = mean(sector_public), nobs=n())
-
-sum(females.mean_sec$mean_sec > 0 & females.mean_sec$mean_sec < 1)
-mean(females.mean_sec$nobs[females.mean_sec$mean_sec > 0 & females.mean_sec$mean_sec < 1])
