@@ -6,16 +6,22 @@ dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
 setwd(paste(dir, "../cleaned_data/v4", sep="/"))
 
 income <- read_dta("basic_cleaned.dta")
+income$Sector <- "Public"
+income$Sector[income$sector_private == 1] <- "Private"
 
 c_pub = "#FC0E07"
 c_priv = "#00AFBB"
 
-ggplot(income[income$sex_male == 1,], aes(x=log_real_wage, colour=factor(sector_public))) +
+men_raw <- ggplot(income[income$sex_male == 1,], aes(x=log_real_wage, colour=Sector)) +
   geom_density() +
   scale_color_manual(values=c(c_priv, c_pub)) +
   theme_bw() +
   xlim(1.8,5.0) +
-  ggtitle("Raw Distribution - Males")
+  theme(axis.text=element_text(size=18),
+        axis.title=element_text(size=20,face="bold"),
+        )
+
+men_raw
 
 ggplot(income[income$sex_female == 1,], aes(x=log_real_wage, colour=factor(sector_public))) +
   geom_density() +
@@ -23,6 +29,10 @@ ggplot(income[income$sex_female == 1,], aes(x=log_real_wage, colour=factor(secto
   theme_bw() +
   xlim(1.8,5.0) +
   ggtitle("Raw Distribution - Females")
+
+
+
+
 
 by_year <- income %>%
   group_by(wave,sex_male,sector_public) %>%

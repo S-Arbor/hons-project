@@ -1,0 +1,12 @@
+sysuse auto, clear
+
+eststo domestic: quietly estpost summarize ///
+    price mpg weight headroom trunk if foreign == 0
+eststo foreign: quietly estpost summarize ///
+    price mpg weight headroom trunk if foreign == 1
+eststo diff: quietly estpost ttest ///
+    price mpg weight headroom trunk, by(foreign) unequal
+
+esttab domestic foreign diff, ///
+cells("mean(pattern(1 1 0) fmt(2)) sd(pattern(1 1 0)) b(star pattern(0 0 1) fmt(2)) t(pattern(0 0 1) par fmt(2))") ///
+label

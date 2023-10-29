@@ -101,15 +101,15 @@ perform_test <- function(df, fig_name, tau=0.5, ts=8:19, columns=4,reps=2) {
     theme_bw() +
     scale_x_continuous(labels = label_number(accuracy = 0.001)) +
     geom_smooth(method="lm") +
-    xlab("1/t") +
+    xlab("1/T") +
     ylab("Estimated Differential") +
     theme(legend.position="none") +
     theme(axis.text=element_text(size=18),
           axis.title=element_text(size=20,face="bold"))
   
-  write.csv(df.1, file=paste("../../output_figures/qrfe_bias_2/",fig_name,".csv",sep=""),row.names = FALSE)
-  ggsave(paste("../../output_figures/qrfe_bias_2/",fig_name,".png",sep=""), out_fig)
-  ggsave(paste("../../output_figures/qrfe_bias_2/colourful/",fig_name,".png",sep=""), colour_fig)
+  write.csv(df.1, file=paste("../../output_figures/qrfe_bias_3/",fig_name,".csv",sep=""),row.names = FALSE)
+  ggsave(paste("../../output_figures/qrfe_bias_3/",fig_name,".png",sep=""), out_fig)
+  ggsave(paste("../../output_figures/qrfe_bias_3/colourful/",fig_name,".png",sep=""), colour_fig)
 }
 
 set.seed(2020)
